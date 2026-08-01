@@ -1,0 +1,16 @@
+PIANO & VINO MANAGER
+
+Primera versión del sistema.
+
+Módulos iniciales:
+- Pantalla principal
+- Control de entradas
+- Diseño móvil
+- Base preparada para QR
+
+Próximas mejoras:
+- Generación de códigos QR
+- Escaneo con cámara
+- Base de datos online
+- Gestión de compradores
+- Estadísticas en tiempo real

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Piano & Vino Manager</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎹 Piano & Vino</h1>
+<h2>Manager</h2>
+
+<div class="card">
+<h3>Evento activo</h3>
+<p>Piano & Vino</p>
+</div>
+
+<div class="card">
+<h3>Control de Entradas</h3>
+
+<p>🎟️ Total: 100</p>
+<p>🟢 Vendidas: 0</p>
+<p>🚪 Ingresadas: 0</p>
+<p>⚪ Disponibles: 100</p>
+
+</div>
+
+<button>🎟️ Entradas</button>
+<button>📷 Escanear QR</button>
+<button>👥 Asistentes</button>
+<button>📊 Estadísticas</button>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
