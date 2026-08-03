@@ -1,16 +1,20 @@
-PIANO & VINO MANAGER
+// Piano & Vino Manager
+// Primera versión
 
-Primera versión del sistema.
+let entradasTotales = 100;
+let vendidas = 0;
+let ingresadas = 0;
 
-Módulos iniciales:
-- Pantalla principal
-- Control de entradas
-- Diseño móvil
-- Base preparada para QR
+function estadoEntradas() {
 
-Próximas mejoras:
-- Generación de códigos QR
-- Escaneo con cámara
-- Base de datos online
-- Gestión de compradores
-- Estadísticas en tiempo real
+    let disponibles = entradasTotales - vendidas;
+
+    console.log("Piano & Vino Manager");
+    console.log("Total:", entradasTotales);
+    console.log("Vendidas:", vendidas);
+    console.log("Ingresadas:", ingresadas);
+    console.log("Disponibles:", disponibles);
+
+}
+
+estadoEntradas();
