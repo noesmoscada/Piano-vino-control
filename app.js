@@ -1,20 +1,20 @@
 import { db } from "./firebase.js";
 import {
-collection,
-getDocs
+doc,
+getDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 async function prueba() {
 console.log("Proyecto conectado:", db.app.options.projectId);
 
-const snapshot = await getDocs(collection(db, "entradas"));
+const ref = doc(db, "entradas", "PV-0001");
+const resultado = await getDoc(ref);
 
-console.log("Cantidad:", snapshot.size);
+console.log("Existe:", resultado.exists());
 
-snapshot.forEach((doc) => {
-console.log("DOCUMENTO:", doc.id);
-console.log(doc.data());
-});
+if (resultado.exists()) {
+console.log(resultado.data());
+}
 }
 
 prueba();
