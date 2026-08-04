@@ -1,20 +1,20 @@
-// Piano & Vino Manager
-// Primera versión
+import { db } from "./firebase.js";
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-let entradasTotales = 100;
-let vendidas = 0;
-let ingresadas = 0;
+async function probarConexion() {
+try {
+const snapshot = await getDocs(collection(db, "entradas"));
+console.log("✅ Firebase conectado.");
+console.log("Entradas encontradas:", snapshot.size);
 
-function estadoEntradas() {
-
-    let disponibles = entradasTotales - vendidas;
-
-    console.log("Piano & Vino Manager");
-    console.log("Total:", entradasTotales);
-    console.log("Vendidas:", vendidas);
-    console.log("Ingresadas:", ingresadas);
-    console.log("Disponibles:", disponibles);
-
+alert("✅ Firebase conectado correctamente");
+} catch (error) {
+console.error(error);
+alert("❌ Error al conectar Firebase");
+}
 }
 
-estadoEntradas();
+probarConexion();
