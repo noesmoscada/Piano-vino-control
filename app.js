@@ -6,16 +6,15 @@ getDocs
 
 async function prueba() {
 console.log("Proyecto conectado:", db.app.options.projectId);
-console.log("App.js actualizado correctamente");
+
 const snapshot = await getDocs(collection(db, "entradas"));
 
 console.log("Cantidad:", snapshot.size);
 
 snapshot.forEach((doc) => {
-console.log(doc.id, doc.data());
+console.log("DOCUMENTO:", doc.id);
+console.log(doc.data());
 });
-
-alert("Cantidad de documentos: " + snapshot.size);
 }
 
 prueba();
