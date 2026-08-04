@@ -6,7 +6,7 @@ getDocs
 
 async function prueba() {
 console.log("Proyecto conectado:", db.app.options.projectId);
-console.log("App.js actualizado correctamente"
+console.log("App.js actualizado correctamente");
 const snapshot = await getDocs(collection(db, "entradas"));
 
 console.log("Cantidad:", snapshot.size);
