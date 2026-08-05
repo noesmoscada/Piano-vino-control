@@ -108,4 +108,42 @@ await procesarCodigo(texto.trim());
 );
 
 });
+const btnAsistentes = document.getElementById("btnAsistentes");
+const listaAsistentes = document.getElementById("listaAsistentes");
 
+btnAsistentes.addEventListener("click", async () => {
+
+listaAsistentes.innerHTML = "<h3>👥 Asistentes ingresados</h3>";
+
+const snap = await getDocs(collection(db, "entradas"));
+
+let cantidad = 0;
+
+snap.forEach((d) => {
+
+const datos = d.data();
+
+if (datos.usado === true) {
+
+cantidad++;
+
+listaAsistentes.innerHTML += `
+<p>
+🎟️ ${datos.codigo} <br>
+📅 ${datos.fechaIngreso || "-"}
+⏰ ${datos.horaIngreso || "-"}
+</p>
+<hr>
+`;
+
+}
+
+});
+
+if (cantidad === 0) {
+
+listaAsistentes.innerHTML += "<p>No hay ingresos todavía</p>";
+
+}
+
+});
