@@ -1,20 +1,29 @@
 import { db } from "./firebase.js";
+
 import {
-doc,
-getDoc
+collection,
+getDocs,
+query,
+where
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-async function prueba() {
-console.log("Proyecto conectado:", db.app.options.projectId);
+async function actualizarContadores() {
 
-const ref = doc(db, "entradas", "PV-0001");
-const resultado = await getDoc(ref);
+const snap = await getDocs(collection(db, "entradas"));
 
-console.log("Existe:", resultado.exists());
+const total = snap.size;
 
-if (resultado.exists()) {
-console.log(resultado.data());
+let ingresadas = 0;
+
+snap.forEach((doc) => {
+const datos = doc.data();
+if (datos.usado) ingresadas++;
+});
+
+document.getElementById("total").textContent = total;
+document.getElementById("ingresadas").textContent = ingresadas;
+document.getElementById("disponibles").textContent = total - ingresadas;
+
 }
-}
 
-prueba();
+actualizarContadores();
