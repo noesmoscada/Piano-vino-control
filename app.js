@@ -147,3 +147,42 @@ listaAsistentes.innerHTML += "<p>No hay ingresos todavía</p>";
 }
 
 });
+const btnEstadisticas = document.getElementById("btnEstadisticas");
+const estadisticas = document.getElementById("estadisticas");
+
+btnEstadisticas.addEventListener("click", async () => {
+
+const snap = await getDocs(collection(db, "entradas"));
+
+let total = snap.size;
+let ingresadas = 0;
+
+snap.forEach((d) => {
+
+const datos = d.data();
+
+if (datos.usado === true) {
+ingresadas++;
+}
+
+});
+
+let disponibles = total - ingresadas;
+
+let porcentaje = ((ingresadas / total) * 100).toFixed(1);
+
+estadisticas.innerHTML = `
+
+<h3>📊 Estadísticas</h3>
+
+<p>🎟️ Total: ${total}</p>
+
+<p>🚪 Ingresadas: ${ingresadas}</p>
+
+<p>⚪ Disponibles: ${disponibles}</p>
+
+<p>📈 Ocupación: ${porcentaje}%</p>
+
+`;
+
+});
