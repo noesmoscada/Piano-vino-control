@@ -7,6 +7,8 @@
 <title>Piano & Vino Manager</title>
 
 <link rel="stylesheet" href="style.css">
+
+<script src="https://unpkg.com/html5-qrcode" defer></script>
 </head>
 
 <body>
@@ -17,28 +19,23 @@
 <h2>Manager</h2>
 
 <div class="card">
-<h3>Evento activo</h3>
-<p>Piano & Vino</p>
-</div>
-
-<div class="card">
 <h3>Control de Entradas</h3>
 
-<p>🎟️ Total: <span id="total">150</span></p>
+<p>🎟️ Total: <span id="total">0</span></p>
 <p>🟢 Vendidas: <span id="vendidas">0</span></p>
 <p>🚪 Ingresadas: <span id="ingresadas">0</span></p>
-<p>⚪ Disponibles: <span id="disponibles">150</span></p>
+<p>⚪ Disponibles: <span id="disponibles">0</span></p>
 </div>
 
-<button>🎟️ Entradas</button>
-<button>📷 Escanear QR</button>
-<button>👥 Asistentes</button>
-<button>📊 Estadísticas</button>
+<button id="btnEscanear">📷 Escanear QR</button>
+
+<div id="reader"></div>
+
+<h2 id="mensaje"></h2>
 
 </div>
 
 <script type="module" src="app.js"></script>
-<script type="module" src="./crearEntradas.js"></script>
 
 </body>
 </html>
