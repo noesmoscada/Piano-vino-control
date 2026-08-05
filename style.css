@@ -1,34 +1,76 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
+margin: 0;
+padding: 0;
+font-family: Arial, sans-serif;
+background: #111;
+color: white;
 }
 
 .container {
-    max-width: 400px;
-    margin: auto;
+max-width: 450px;
+margin: auto;
+padding: 20px;
+text-align: center;
 }
 
 h1 {
-    font-size: 32px;
+font-size: 36px;
+margin-bottom: 5px;
+}
+
+h2 {
+margin-top: 5px;
 }
 
 .card {
-    background: #222;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 20px 0;
+background: #222;
+padding: 20px;
+margin: 20px 0;
+border-radius: 15px;
+}
+
+.card p {
+font-size: 20px;
 }
 
 button {
-    width: 90%;
-    padding: 15px;
-    margin: 8px;
-    border-radius: 10px;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
+width: 90%;
+padding: 15px;
+margin: 10px;
+font-size: 18px;
+border: none;
+border-radius: 12px;
+cursor: pointer;
+}
+
+#btnEscanear {
+background: #0a8f3c;
+color: white;
+}
+
+#btnAsistentes {
+background: #2455d6;
+color: white;
+}
+
+#btnEstadisticas {
+background: #b8860b;
+color: white;
+}
+
+#reader {
+margin-top: 20px;
+}
+
+#mensaje {
+font-size: 25px;
+margin-top: 20px;
+}
+
+#listaAsistentes,
+#estadisticas {
+background: #222;
+margin-top: 20px;
+padding: 15px;
+border-radius: 15px;
 }
