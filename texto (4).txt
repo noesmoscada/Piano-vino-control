@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Generador QR Piano & Vino</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+body {
+font-family: Arial;
+text-align:center;
+}
+
+.qr {
+display:inline-block;
+margin:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🎹 Piano & Vino</h1>
+
+<h2>Generador de entradas QR</h2>
+
+<div id="contenedor"></div>
+
+
+<script>
+
+const contenedor = document.getElementById("contenedor");
+
+
+for(let i=1;i<=150;i++){
+
+let codigo="PV-"+String(i).padStart(4,"0");
+
+
+let caja=document.createElement("div");
+
+caja.className="qr";
+
+
+caja.innerHTML="<h3>"+codigo+"</h3>";
+
+
+let qr=document.createElement("div");
+
+
+caja.appendChild(qr);
+
+
+contenedor.appendChild(caja);
+
+
+new QRCode(qr,{
+text:codigo,
+width:180,
+height:180
+});
+
+
+}
+
+</script>
+
+
+</body>
+</html>
