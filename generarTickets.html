@@ -117,9 +117,6 @@ cursor:pointer;
 const contenedor = document.getElementById("tickets");
 
 
-console.log("Generador iniciado");
-
-
 
 for(let i = 1; i <= 150; i++){
 
@@ -127,15 +124,32 @@ for(let i = 1; i <= 150; i++){
 let codigo = "PV-" + String(i).padStart(4,"0");
 
 
-
 let ticket = document.createElement("div");
 
 
-ticket.className = "ticket";
+ticket.className="ticket";
 
 
 
 ticket.innerHTML = `
+
+<div class="titulo">
+🎹 Piano & Vino
+</div>
+
+
+<div class="subtitulo">
+ENTRADA
+</div>
+
+
+<div class="codigo">
+${codigo}
+</div>
+
+
+<div class="qr" id="qr-${codigo}"></div>
+
 
 <div class="info">
 
@@ -157,26 +171,6 @@ Código verificado en puerta
 
 </div>
 
-
-<div class="codigo">
-${codigo}
-</div>
-
-
-<div class="qr" id="${codigo}">
-</div>
-
-
-<div class="info">
-
-📅 12/08/2026
-
-<br>
-
-⏰ 20:30 hs
-
-</div>
-
 `;
 
 
@@ -185,11 +179,9 @@ contenedor.appendChild(ticket);
 
 
 
+new QRCode(document.getElementById("qr-"+codigo),{
 
-
-new QRCode(document.getElementById(codigo),{
-
-text: codigo,
+text:codigo,
 
 width:180,
 
@@ -199,35 +191,44 @@ height:180
 
 
 
-
-
-let boton = document.createElement("button");
-
+let boton=document.createElement("button");
 
 boton.innerHTML="📥 Descargar ticket";
 
 
 
-boton.onclick = () => {
+boton.onclick=()=>{
 
-setTimeout(() => {
 
-html2canvas(ticket).then(canvas => {
+setTimeout(()=>{
 
-let link = document.createElement("a");
 
-link.download = codigo + ".png";
+html2canvas(ticket,{
 
-link.href = canvas.toDataURL();
+scale:2,
+
+backgroundColor:"#222"
+
+}).then(canvas=>{
+
+
+let link=document.createElement("a");
+
+link.download=codigo+".png";
+
+link.href=canvas.toDataURL("image/png");
 
 link.click();
 
+
 });
 
-}, 500);
+
+},1000);
+
+
 
 };
-
 
 
 
@@ -238,11 +239,15 @@ ticket.appendChild(boton);
 }
 
 
-
 </script>
 
 
 </body>
 
-
 </html>
+
+
+
+
+
+
