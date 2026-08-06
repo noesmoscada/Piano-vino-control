@@ -90,3 +90,98 @@ font-size:16px;
 
 
 <script>
+const contenedor = document.getElementById("tickets");
+
+
+for(let i = 1; i <= 150; i++){
+
+let codigo = "PV-" + String(i).padStart(4,"0");
+
+
+let ticket = document.createElement("div");
+
+ticket.className = "ticket";
+
+
+ticket.innerHTML = `
+
+<div class="titulo">
+🎹 Piano & Vino
+</div>
+
+<div>
+ENTRADA
+</div>
+
+
+<div class="codigo">
+${codigo}
+</div>
+
+
+<div class="qr">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${codigo}">
+</div>
+
+
+<div class="info">
+
+📅 12/08/2026
+
+<br>
+
+⏰ 20:30 hs
+
+<br><br>
+
+<strong>
+Entrada válida por una sola vez
+</strong>
+
+<br>
+
+Código verificado en puerta
+
+</div>
+
+
+<button onclick="descargar('${codigo}')">
+📥 Descargar ticket
+</button>
+
+`;
+
+
+contenedor.appendChild(ticket);
+
+
+}
+function descargar(codigo){
+
+let ticket = [...document.querySelectorAll(".ticket")]
+.find(t => t.innerText.includes(codigo));
+
+
+html2canvas(ticket,{
+scale:2,
+useCORS:true
+}).then(canvas=>{
+
+let link=document.createElement("a");
+
+link.download=codigo+".png";
+
+link.href=canvas.toDataURL("image/png");
+
+link.click();
+
+});
+
+}
+
+</script>
+
+
+</body>
+
+</html>  
