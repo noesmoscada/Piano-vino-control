@@ -99,7 +99,28 @@ ${codigo}
 
 
 contenedor.appendChild(ticket);
+let boton = document.createElement("button");
 
+boton.innerHTML = "📥 Descargar ticket";
+
+boton.onclick = () => {
+
+html2canvas(ticket).then(canvas => {
+
+let link = document.createElement("a");
+
+link.download = codigo + ".png";
+
+link.href = canvas.toDataURL();
+
+link.click();
+
+});
+
+};
+
+
+ticket.appendChild(boton);
 
 
 new QRCode(document.getElementById(codigo),{
