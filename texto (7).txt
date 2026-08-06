@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Piano & Vino - Tickets WhatsApp</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+
+body {
+font-family: Arial, sans-serif;
+background:#111;
+color:white;
+text-align:center;
+}
+
+.ticket {
+
+width:340px;
+background:#222;
+border-radius:20px;
+padding:25px;
+margin:25px auto;
+box-shadow:0 0 20px rgba(0,0,0,.6);
+
+}
+
+.titulo {
+
+font-size:32px;
+color:#d4af37;
+font-weight:bold;
+
+}
+
+.codigo {
+
+font-size:30px;
+font-weight:bold;
+margin:15px;
+
+}
+
+.qr img {
+
+width:180px;
+height:180px;
+background:white;
+padding:10px;
+
+}
+
+.info {
+
+font-size:18px;
+line-height:1.5;
+
+}
+
+button {
+
+background:#d4af37;
+color:black;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+font-size:16px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>🎹 Piano & Vino</h1>
+
+<h2>Generador WhatsApp</h2>
+
+
+<div id="tickets"></div>
+
+
+<script>
