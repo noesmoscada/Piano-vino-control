@@ -2,61 +2,86 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Piano & Vino - Tickets</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
 <style>
+
 body {
 font-family: Arial, sans-serif;
-background: #111;
-color: white;
-text-align: center;
+background:#111;
+color:white;
+text-align:center;
 }
+
 
 .ticket {
-width: 340px;
-background: linear-gradient(145deg,#222,#111);
-border-radius: 20px;
-padding: 25px;
-margin: 25px auto;
-box-shadow: 0 0 20px rgba(0,0,0,0.6);
+
+width:340px;
+background:#222;
+border-radius:20px;
+padding:25px;
+margin:25px auto;
+box-shadow:0 0 20px rgba(0,0,0,0.6);
+
 }
+
 
 .titulo {
-font-size: 32px;
-color: #d4af37;
-font-weight: bold;
+
+font-size:32px;
+color:#d4af37;
+font-weight:bold;
+
 }
+
 
 .subtitulo {
-font-size: 20px;
-margin-bottom: 15px;
+
+font-size:20px;
+margin-bottom:15px;
+
 }
+
 
 .codigo {
-font-size: 28px;
-font-weight: bold;
-letter-spacing: 2px;
+
+font-size:28px;
+font-weight:bold;
+letter-spacing:2px;
+
 }
 
+
 .qr {
+
 background:white;
 padding:15px;
 display:inline-block;
 margin:20px;
 border-radius:10px;
+
 }
+
 
 .info {
+
 font-size:18px;
 line-height:1.5;
+
 }
 
+
 button {
+
 background:#d4af37;
 color:black;
 border:none;
@@ -64,9 +89,12 @@ padding:12px 20px;
 border-radius:10px;
 font-size:16px;
 cursor:pointer;
+
 }
 
+
 </style>
+
 
 </head>
 
@@ -89,75 +117,68 @@ cursor:pointer;
 const contenedor = document.getElementById("tickets");
 
 
-for(let i=1;i<=150;i++){
+console.log("Generador iniciado");
 
 
-let codigo="PV-"+String(i).padStart(4,"0");
+
+for(let i = 1; i <= 150; i++){
 
 
-let ticket=document.createElement("div");
-
-ticket.className="ticket";
+let codigo = "PV-" + String(i).padStart(4,"0");
 
 
-ticket.innerHTML=´
+
+let ticket = document.createElement("div");
+
+
+ticket.className = "ticket";
+
+
+
+ticket.innerHTML = `
 
 <div class="titulo">
 🎹 Piano & Vino
 </div>
 
+
 <div class="subtitulo">
 ENTRADA
 </div>
+
 
 <div class="codigo">
 ${codigo}
 </div>
 
+
 <div class="qr" id="${codigo}">
 </div>
+
 
 <div class="info">
-📅 12/08/2026<br>
+
+📅 12/08/2026
+
+<br>
+
 ⏰ 20:30 hs
+
 </div>
 
 `;
 
-<div class="qr" id="${codigo}">
-</div>
-
-`;
 
 
 contenedor.appendChild(ticket);
-let boton = document.createElement("button");
-
-boton.innerHTML = "📥 Descargar ticket";
-
-boton.onclick = () => {
-
-html2canvas(ticket).then(canvas => {
-
-let link = document.createElement("a");
-
-link.download = codigo + ".png";
-
-link.href = canvas.toDataURL();
-
-link.click();
-
-});
-
-};
 
 
-ticket.appendChild(boton);
+
 
 
 new QRCode(document.getElementById(codigo),{
 
-text:codigo,
+text: codigo,
 
 width:180,
 
@@ -166,12 +187,53 @@ height:180
 });
 
 
+
+
+
+let boton = document.createElement("button");
+
+
+boton.innerHTML="📥 Descargar ticket";
+
+
+
+boton.onclick = () => {
+
+
+html2canvas(ticket).then(canvas=>{
+
+
+let link=document.createElement("a");
+
+
+link.download = codigo + ".png";
+
+
+link.href = canvas.toDataURL();
+
+
+link.click();
+
+
+});
+
+
+};
+
+
+
+ticket.appendChild(boton);
+
+
+
 }
+
 
 
 </script>
 
 
 </body>
+
 
 </html>
