@@ -197,32 +197,64 @@ boton.innerHTML="📥 Descargar ticket";
 
 
 
-boton.onclick=()=>{
+boton.onclick = () => {
 
+const ventana = window.open("", "_blank");
+
+ventana.document.write(`
+<html>
+<head>
+<title>${codigo}</title>
+
+<style>
+
+body{
+background:#111;
+display:flex;
+justify-content:center;
+padding:30px;
+font-family:Arial;
+}
+
+.ticket{
+width:340px;
+background:#222;
+border-radius:20px;
+padding:25px;
+color:white;
+text-align:center;
+}
+
+.qr{
+background:white;
+display:inline-block;
+padding:15px;
+border-radius:10px;
+margin:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${ticket.outerHTML}
+
+</body>
+
+</html>
+`);
+
+ventana.document.close();
 
 setTimeout(()=>{
 
+ventana.print();
 
-html2canvas(ticket,{
+},500);
 
-scale:2,
-
-backgroundColor:"#222"
-
-}).then(canvas=>{
-
-
-let link=document.createElement("a");
-
-link.download=codigo+".png";
-
-link.href=canvas.toDataURL("image/png");
-
-link.click();
-
-
-});
-
+};
 
 },1000);
 
