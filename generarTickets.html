@@ -10,37 +10,60 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-
 body {
-font-family: Arial;
-background:#111;
-color:white;
-text-align:center;
+font-family: Arial, sans-serif;
+background: #111;
+color: white;
+text-align: center;
 }
 
 .ticket {
-
-width:320px;
-background:#222;
-border-radius:15px;
-padding:20px;
-margin:20px auto;
+width: 340px;
+background: linear-gradient(145deg,#222,#111);
+border-radius: 20px;
+padding: 25px;
+margin: 25px auto;
+box-shadow: 0 0 20px rgba(0,0,0,0.6);
 }
 
-h1 {
-color:#d4af37;
+.titulo {
+font-size: 32px;
+color: #d4af37;
+font-weight: bold;
+}
+
+.subtitulo {
+font-size: 20px;
+margin-bottom: 15px;
 }
 
 .codigo {
-font-size:24px;
-font-weight:bold;
+font-size: 28px;
+font-weight: bold;
+letter-spacing: 2px;
 }
 
 .qr {
 background:white;
-padding:10px;
+padding:15px;
 display:inline-block;
-margin-top:15px;
+margin:20px;
+border-radius:10px;
+}
+
+.info {
+font-size:18px;
+line-height:1.5;
+}
+
+button {
+background:#d4af37;
+color:black;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
 }
 
 </style>
