@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Piano & Vino - Administrador</title>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#111;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+h1{
+color:#d4af37;
+}
+
+.panel{
+
+background:#222;
+border-radius:20px;
+padding:25px;
+max-width:400px;
+margin:auto;
+box-shadow:0 0 20px rgba(0,0,0,.5);
+
+}
+
+button{
+
+background:#d4af37;
+color:black;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+font-size:16px;
+margin:10px;
+cursor:pointer;
+
+}
+
+input{
+
+padding:10px;
+border-radius:8px;
+border:none;
+font-size:16px;
+margin:5px;
+
+}
+
+.info{
+
+font-size:18px;
+line-height:1.8;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>🎹 Piano & Vino</h1>
+
+<h2>Panel Administrador</h2>
+
+
+<div class="panel">
+
+<div class="info">
+
+🎟️ Total entradas:
+<span id="total">150</span>
+
+<br>
+
+✅ Ingresadas:
+<span id="usadas">0</span>
+
+<br>
+
+🟢 Disponibles:
+<span id="disponibles">150</span>
+
+
+</div>
+
+
+<hr>
+
+
+<h3>Modificar evento</h3>
+
+
+<input id="fecha" placeholder="Nueva fecha">
+
+<br>
+
+<input id="hora" placeholder="Nueva hora">
+
+
+<br>
+
+<button>
+Guardar cambios
+</button>
+
+
+<br>
+
+<button>
+🔄 Reiniciar entradas
+</button>
+
+
+</div>
+
+
+</body>
+
+</html>
