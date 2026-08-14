@@ -1,14 +1,379 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
+
 <head>
-<title>Admin Piano & Vino</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Piano & Vino - Administrador</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#111;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+.panel{
+max-width:500px;
+margin:20px auto;
+background:#222;
+border-radius:20px;
+padding:25px;
+box-shadow:0 0 25px rgba(0,0,0,.6);
+}
+
+h1{
+color:#d4af37;
+margin-bottom:5px;
+}
+
+h2{
+margin-top:5px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin:25px 0;
+}
+
+.stat{
+background:#333;
+padding:18px 10px;
+border-radius:12px;
+}
+
+.numero{
+font-size:30px;
+font-weight:bold;
+color:#d4af37;
+display:block;
+}
+
+label{
+display:block;
+text-align:left;
+margin-top:15px;
+margin-bottom:5px;
+}
+
+input{
+width:100%;
+padding:13px;
+border-radius:10px;
+border:none;
+font-size:17px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+background:#d4af37;
+color:#111;
+}
+
+button:hover{
+opacity:.9;
+}
+
+.btn-danger{
+background:#b52b2b;
+color:white;
+}
+
+.mensaje{
+margin-top:18px;
+padding:12px;
+border-radius:10px;
+display:none;
+}
+
+.info{
+font-size:14px;
+color:#bbb;
+margin-top:20px;
+line-height:1.5;
+}
+
+</style>
+
 </head>
 
 <body>
 
+<div class="panel">
+
 <h1>🎹 Piano & Vino</h1>
 
-<h2>Panel Administrador funcionando</h2>
+<h2>Panel Administrador</h2>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<span class="numero" id="total">150</span>
+
+Total entradas
+
+</div>
+
+
+<div class="stat">
+
+<span class="numero" id="ingresadas">0</span>
+
+Ingresadas
+
+</div>
+
+
+<div class="stat">
+
+<span class="numero" id="disponibles">150</span>
+
+Disponibles
+
+</div>
+
+
+<div class="stat">
+
+<span class="numero" id="usadas">0</span>
+
+QR utilizados
+
+</div>
+
+</div>
+
+
+<h3>⚙️ Configuración del evento</h3>
+
+
+<label for="fecha">
+📅 Fecha del evento
+</label>
+
+<input
+type="date"
+id="fecha"
+>
+
+
+<label for="hora">
+⏰ Hora del evento
+</label>
+
+<input
+type="time"
+id="hora"
+>
+
+
+<button id="guardar">
+
+💾 Guardar cambios
+
+</button>
+
+
+<hr style="margin:30px 0;border-color:#444;">
+
+
+<h3>🔄 Reiniciar entradas</h3>
+
+<p class="info">
+
+Esta opción vuelve todas las entradas a estado
+<strong>NO UTILIZADA</strong>.
+
+Los códigos QR no cambian.
+
+</p>
+
+
+<button
+id="reiniciar"
+class="btn-danger"
+>
+
+🔄 Blanquear todos los QR
+
+</button>
+
+
+<div
+id="mensaje"
+class="mensaje"
+></div>
+
+
+<p class="info">
+
+Piano & Vino Manager<br>
+Panel de administración
+
+</p>
+
+</div>
+
+
+<script>
+
+const fechaInput =
+document.getElementById("fecha");
+
+const horaInput =
+document.getElementById("hora");
+
+const guardar =
+document.getElementById("guardar");
+
+const reiniciar =
+document.getElementById("reiniciar");
+
+const mensaje =
+document.getElementById("mensaje");
+
+
+function mostrarMensaje(texto){
+
+mensaje.textContent = texto;
+
+mensaje.style.display = "block";
+
+setTimeout(() => {
+
+mensaje.style.display = "none";
+
+},3000);
+
+}
+
+
+/* Cargar configuración guardada */
+
+const fechaGuardada =
+localStorage.getItem("eventoFecha");
+
+const horaGuardada =
+localStorage.getItem("eventoHora");
+
+
+if(fechaGuardada){
+
+fechaInput.value =
+fechaGuardada;
+
+}
+
+
+if(horaGuardada){
+
+horaInput.value =
+horaGuardada;
+
+}
+
+
+/* Guardar fecha y hora */
+
+guardar.addEventListener("click",function(){
+
+if(!fechaInput.value){
+
+alert("Seleccioná una fecha.");
+
+return;
+
+}
+
+
+if(!horaInput.value){
+
+alert("Seleccioná una hora.");
+
+return;
+
+}
+
+
+localStorage.setItem(
+"eventoFecha",
+fechaInput.value
+);
+
+
+localStorage.setItem(
+"eventoHora",
+horaInput.value
+);
+
+
+mostrarMensaje(
+"✅ Fecha y hora guardadas correctamente."
+);
+
+});
+
+
+/* Reiniciar entradas */
+
+reiniciar.addEventListener("click",function(){
+
+const confirmar =
+confirm(
+"¿Seguro que querés blanquear todas las entradas?\n\nTodos los QR volverán a quedar disponibles."
+);
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+/*
+Por ahora guardamos la orden
+de reinicio localmente.
+
+En el próximo paso conectaremos
+esta función directamente con Firebase.
+*/
+
+localStorage.setItem(
+"reiniciarEntradas",
+Date.now()
+);
+
+
+mostrarMensaje(
+"✅ Orden de reinicio registrada."
+);
+
+});
+
+
+</script>
 
 </body>
+
 </html>
