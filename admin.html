@@ -102,6 +102,7 @@ margin-top:18px;
 padding:12px;
 border-radius:10px;
 display:none;
+background:#333;
 }
 
 .info{
@@ -109,6 +110,24 @@ font-size:14px;
 color:#bbb;
 margin-top:20px;
 line-height:1.5;
+}
+
+.estado{
+margin-top:15px;
+font-size:14px;
+color:#bbb;
+}
+
+.cargando{
+color:#d4af37;
+}
+
+.exito{
+color:#4caf50;
+}
+
+.error{
+color:#ff5252;
 }
 
 </style>
@@ -128,7 +147,7 @@ line-height:1.5;
 
 <div class="stat">
 
-<span class="numero" id="total">150</span>
+<span class="numero" id="total">0</span>
 
 Total entradas
 
@@ -146,7 +165,7 @@ Ingresadas
 
 <div class="stat">
 
-<span class="numero" id="disponibles">150</span>
+<span class="numero" id="disponibles">0</span>
 
 Disponibles
 
@@ -162,6 +181,16 @@ QR utilizados
 </div>
 
 </div>
+
+
+<div id="estadoConexion" class="estado cargando">
+
+🔄 Conectando con Firebase...
+
+</div>
+
+
+<hr style="margin:30px 0;border-color:#444;">
 
 
 <h3>⚙️ Configuración del evento</h3>
@@ -235,7 +264,40 @@ Panel de administración
 </div>
 
 
-<script>
+<script type="module">
+
+/* ==========================================
+CONEXIÓN CON FIREBASE
+========================================== */
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs,
+doc,
+updateDoc,
+setDoc,
+getDoc,
+writeBatch
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+/* ==========================================
+ELEMENTOS HTML
+========================================== */
+
+const totalElement =
+document.getElementById("total");
+
+const ingresadasElement =
+document.getElementById("ingresadas");
+
+const disponiblesElement =
+document.getElementById("disponibles");
+
+const usadasElement =
+document.getElementById("usadas");
 
 const fechaInput =
 document.getElementById("fecha");
@@ -252,54 +314,295 @@ document.getElementById("reiniciar");
 const mensaje =
 document.getElementById("mensaje");
 
+const estadoConexion =
+document.getElementById("estadoConexion");
 
-function mostrarMensaje(texto){
+
+/* ==========================================
+MENSAJES
+========================================== */
+
+function mostrarMensaje(texto, tipo = ""){
 
 mensaje.textContent = texto;
 
 mensaje.style.display = "block";
 
+mensaje.className = "mensaje " + tipo;
+
 setTimeout(() => {
 
 mensaje.style.display = "none";
 
-},3000);
+},4000);
 
 }
 
 
-/* Cargar configuración guardada */
+/* ==========================================
+CARGAR ENTRADAS DESDE FIREBASE
+========================================== */
 
-const fechaGuardada =
-localStorage.getItem("eventoFecha");
+async function cargarEntradas(){
 
-const horaGuardada =
-localStorage.getItem("eventoHora");
+try{
+
+estadoConexion.textContent =
+"🔄 Cargando entradas desde Firebase...";
+
+estadoConexion.className =
+"estado cargando";
 
 
-if(fechaGuardada){
+const entradasRef =
+collection(db,"entradas");
+
+const snapshot =
+await getDocs(entradasRef);
+
+
+let total = 0;
+
+let usadas = 0;
+
+
+snapshot.forEach((documento) => {
+
+const datos = documento.data();
+
+total++;
+
+
+/*
+Firebase guarda usado como true/false.
+*/
+
+if(datos.usado === true){
+
+usadas++;
+
+}
+
+});
+
+
+const disponibles =
+total - usadas;
+
+
+/* Actualizar pantalla */
+
+totalElement.textContent =
+total;
+
+usadasElement.textContent =
+usadas;
+
+ingresadasElement.textContent =
+usadas;
+
+disponiblesElement.textContent =
+disponibles;
+
+
+estadoConexion.textContent =
+"🟢 Firebase conectado correctamente";
+
+estadoConexion.className =
+"estado exito";
+
+
+console.log(
+"Entradas encontradas:",
+total
+);
+
+console.log(
+"QR utilizados:",
+usadas
+);
+
+console.log(
+"Entradas disponibles:",
+disponibles
+);
+
+
+}catch(error){
+
+console.error(
+"Error conectando con Firebase:",
+error
+);
+
+
+estadoConexion.textContent =
+"🔴 Error conectando con Firebase";
+
+estadoConexion.className =
+"estado error";
+
+
+mostrarMensaje(
+"❌ No se pudieron cargar las entradas.",
+"error"
+);
+
+}
+
+}
+
+
+/* ==========================================
+CARGAR CONFIGURACIÓN DEL EVENTO
+========================================== */
+
+async function cargarConfiguracion(){
+
+try{
+
+const configRef =
+doc(db,"configuracion","evento");
+
+const configSnap =
+await getDoc(configRef);
+
+
+if(configSnap.exists()){
+
+const datos =
+configSnap.data();
+
+
+if(datos.fecha){
 
 fechaInput.value =
-fechaGuardada;
+datos.fecha;
 
 }
 
 
-if(horaGuardada){
+if(datos.hora){
 
 horaInput.value =
-horaGuardada;
+datos.hora;
+
+}
+
+}else{
+
+/*
+Si todavía no existe configuración,
+tomamos la fecha y hora de la
+primera entrada.
+*/
+
+const entradasRef =
+collection(db,"entradas");
+
+const snapshot =
+await getDocs(entradasRef);
+
+
+if(!snapshot.empty){
+
+const primeraEntrada =
+snapshot.docs[0].data();
+
+
+if(primeraEntrada.fecha){
+
+fechaInput.value =
+convertirFechaParaInput(
+primeraEntrada.fecha
+);
 
 }
 
 
-/* Guardar fecha y hora */
+if(primeraEntrada.hora){
 
-guardar.addEventListener("click",function(){
+horaInput.value =
+primeraEntrada.hora;
+
+}
+
+}
+
+}
+
+}catch(error){
+
+console.error(
+"Error cargando configuración:",
+error
+);
+
+}
+
+}
+
+
+/* ==========================================
+CONVERTIR FECHA
+========================================== */
+
+function convertirFechaParaInput(fecha){
+
+if(!fecha){
+
+return "";
+
+}
+
+
+/*
+Si Firebase tiene formato:
+12/08/2026
+*/
+
+if(fecha.includes("/")){
+
+const partes =
+fecha.split("/");
+
+
+if(partes.length === 3){
+
+return partes[2] +
+"-" +
+partes[1].padStart(2,"0") +
+"-" +
+partes[0].padStart(2,"0");
+
+}
+
+}
+
+
+/*
+Si ya está en formato:
+2026-08-12
+*/
+
+return fecha;
+
+}
+
+
+/* ==========================================
+GUARDAR CONFIGURACIÓN
+========================================== */
+
+guardar.addEventListener(
+"click",
+async function(){
 
 if(!fechaInput.value){
 
-alert("Seleccioná una fecha.");
+alert(
+"Seleccioná una fecha."
+);
 
 return;
 
@@ -308,39 +611,84 @@ return;
 
 if(!horaInput.value){
 
-alert("Seleccioná una hora.");
+alert(
+"Seleccioná una hora."
+);
 
 return;
 
 }
 
 
-localStorage.setItem(
-"eventoFecha",
-fechaInput.value
-);
+try{
+
+guardar.disabled = true;
+
+guardar.textContent =
+"💾 Guardando...";
 
 
-localStorage.setItem(
-"eventoHora",
-horaInput.value
+const configRef =
+doc(db,"configuracion","evento");
+
+
+await setDoc(
+configRef,
+{
+fecha: fechaInput.value,
+hora: horaInput.value
+},
+{
+merge:true
+}
 );
 
 
 mostrarMensaje(
-"✅ Fecha y hora guardadas correctamente."
+"✅ Fecha y hora guardadas en Firebase.",
+"exito"
 );
+
+
+}catch(error){
+
+console.error(
+"Error guardando configuración:",
+error
+);
+
+
+mostrarMensaje(
+"❌ No se pudieron guardar los cambios.",
+"error"
+);
+
+
+}finally{
+
+guardar.disabled = false;
+
+guardar.textContent =
+"💾 Guardar cambios";
+
+}
 
 });
 
 
-/* Reiniciar entradas */
+/* ==========================================
+BLANQUEAR TODOS LOS QR
+========================================== */
 
-reiniciar.addEventListener("click",function(){
+reiniciar.addEventListener(
+"click",
+async function(){
 
 const confirmar =
 confirm(
-"¿Seguro que querés blanquear todas las entradas?\n\nTodos los QR volverán a quedar disponibles."
+"¿SEGURO QUE QUERÉS BLANQUEAR TODAS LAS ENTRADAS?\n\n" +
+"Las 150 entradas volverán a quedar disponibles.\n\n" +
+"Los códigos QR NO cambiarán."
 );
 
 
@@ -351,26 +699,104 @@ return;
 }
 
 
-/*
-Por ahora guardamos la orden
-de reinicio localmente.
+try{
 
-En el próximo paso conectaremos
-esta función directamente con Firebase.
+reiniciar.disabled = true;
+
+reiniciar.textContent =
+"🔄 Blanqueando...";
+
+
+const entradasRef =
+collection(db,"entradas");
+
+const snapshot =
+await getDocs(entradasRef);
+
+
+/*
+Firestore permite hasta 500 operaciones
+por batch.
+
+Tenemos 150 entradas, por lo tanto
+podemos hacerlo en un solo batch.
 */
 
-localStorage.setItem(
-"reiniciarEntradas",
-Date.now()
+const batch =
+writeBatch(db);
+
+
+snapshot.forEach((documento) => {
+
+const entradaRef =
+doc(
+db,
+"entradas",
+documento.id
 );
 
 
-mostrarMensaje(
-"✅ Orden de reinicio registrada."
+batch.update(
+entradaRef,
+{
+usado:false,
+estado:"disponible",
+fechaIngreso:"",
+horaIngreso:""
+}
 );
 
 });
 
+
+await batch.commit();
+
+
+mostrarMensaje(
+"✅ Todas las entradas fueron blanqueadas correctamente.",
+"exito"
+);
+
+
+/*
+Actualizar los números inmediatamente.
+*/
+
+await cargarEntradas();
+
+
+}catch(error){
+
+console.error(
+"Error blanqueando entradas:",
+error
+);
+
+
+mostrarMensaje(
+"❌ No se pudieron blanquear las entradas.",
+"error"
+);
+
+}finally{
+
+reiniciar.disabled = false;
+
+reiniciar.textContent =
+"🔄 Blanquear todos los QR";
+
+}
+
+});
+
+
+/* ==========================================
+INICIAR ADMINISTRADOR
+========================================== */
+
+cargarEntradas();
+
+cargarConfiguracion();
 
 </script>
 
