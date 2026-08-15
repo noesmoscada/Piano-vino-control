@@ -1,73 +1,621 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
-<title>Generador QR Piano & Vino</title>
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Piano & Vino - Generador QR</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
-body {
-font-family: Arial;
+
+body{
+font-family:Arial,sans-serif;
+background:#111;
+color:white;
 text-align:center;
+margin:0;
+padding:20px;
 }
 
-.qr {
+h1{
+color:#d4af37;
+}
+
+.info{
+background:#222;
+border-radius:15px;
+padding:20px;
+max-width:500px;
+margin:20px auto;
+}
+
+button{
+width:100%;
+max-width:500px;
+padding:15px;
+border:none;
+border-radius:10px;
+background:#d4af37;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+margin:10px auto;
+}
+
+#contenedor{
+max-width:1000px;
+margin:auto;
+}
+
+.qr{
 display:inline-block;
+background:white;
+color:#111;
+margin:10px;
+padding:15px;
+border-radius:10px;
+page-break-inside:avoid;
+}
+
+.qr h3{
+margin-top:0;
+}
+
+.estado{
 margin:20px;
+font-size:18px;
+}
+
+.error{
+color:#ff5252;
+}
+
+.exito{
+color:#4caf50;
+}
+
+@media print{
+
+body{
+background:white;
+color:black;
+}
+
+button{
+display:none;
+}
+
+.info{
+display:none;
+}
+
+.qr{
+margin:8px;
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <h1>🎹 Piano & Vino</h1>
 
 <h2>Generador de entradas QR</h2>
 
-<div id="contenedor"></div>
+
+<div
+id="estado"
+class="estado"
+>
+
+🔄 Cargando evento...
+
+</div>
 
 
-<script>
+<div
+id="info"
+class="info"
+>
 
-const contenedor = document.getElementById("contenedor");
-
-
-for(let i=1;i<=150;i++){
-
-let codigo="PV-"+String(i).padStart(4,"0");
+</div>
 
 
-let caja=document.createElement("div");
+<button
+id="generar"
+style="display:none;"
+>
 
-caja.className="qr";
+📱 Generar QR
 
-
-caja.innerHTML="<h3>"+codigo+"</h3>";
-
-
-let qr=document.createElement("div");
-
-
-caja.appendChild(qr);
+</button>
 
 
-contenedor.appendChild(caja);
+<div
+id="contenedor"
+></div>
 
 
-new QRCode(qr,{
-text:codigo,
+<script type="module">
+
+
+/* ==========================================
+FIREBASE
+========================================== */
+
+import { db } from "./firebase.js";
+
+import {
+
+doc,
+getDoc,
+collection,
+getDocs,
+query,
+where
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+/* ==========================================
+ELEMENTOS
+========================================== */
+
+const estado =
+document.getElementById("estado");
+
+const info =
+document.getElementById("info");
+
+const boton =
+document.getElementById("generar");
+
+const contenedor =
+document.getElementById("contenedor");
+
+
+/* ==========================================
+EVENTO ACTIVO
+========================================== */
+
+let eventoActivo =
+null;
+
+
+/* ==========================================
+CARGAR EVENTO
+========================================== */
+
+async function cargarEvento(){
+
+try{
+
+
+/*
+Buscamos el evento activo
+guardado por admin.html.
+*/
+
+const configRef =
+doc(
+db,
+"configuracion",
+"evento"
+);
+
+
+const configSnap =
+await getDoc(
+configRef
+);
+
+
+if(
+!configSnap.exists()
+){
+
+estado.textContent =
+"❌ No hay evento activo.";
+
+estado.className =
+"estado error";
+
+return;
+
+}
+
+
+const config =
+configSnap.data();
+
+
+if(
+!config.eventoId
+){
+
+estado.textContent =
+"❌ No hay evento seleccionado.";
+
+estado.className =
+"estado error";
+
+return;
+
+}
+
+
+/*
+Cargamos los datos completos
+del evento.
+*/
+
+const eventoRef =
+doc(
+db,
+"eventos",
+config.eventoId
+);
+
+
+const eventoSnap =
+await getDoc(
+eventoRef
+);
+
+
+if(
+!eventoSnap.exists()
+){
+
+estado.textContent =
+"❌ El evento no existe.";
+
+estado.className =
+"estado error";
+
+return;
+
+}
+
+
+eventoActivo = {
+
+id:
+config.eventoId,
+
+...eventoSnap.data()
+
+};
+
+
+estado.textContent =
+"🟢 Evento cargado correctamente";
+
+estado.className =
+"estado exito";
+
+
+info.innerHTML = `
+
+<strong>
+${eventoActivo.nombre}
+</strong>
+
+<br><br>
+
+📅 ${formatearFecha(eventoActivo.fecha)}
+
+<br>
+
+⏰ ${eventoActivo.hora}
+
+<br>
+
+📍 ${eventoActivo.lugar || "-"}
+
+<br><br>
+
+🎟️ Cantidad:
+${eventoActivo.cantidad}
+
+`;
+
+
+boton.style.display =
+"block";
+
+
+}catch(error){
+
+console.error(error);
+
+estado.textContent =
+"❌ Error conectando con Firebase.";
+
+estado.className =
+"estado error";
+
+}
+
+}
+
+
+/* ==========================================
+FORMATEAR FECHA
+========================================== */
+
+function formatearFecha(fecha){
+
+if(!fecha){
+
+return "-";
+
+}
+
+
+if(
+fecha.includes("-")
+){
+
+const partes =
+fecha.split("-");
+
+
+return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+
+return fecha;
+
+}
+
+
+/* ==========================================
+GENERAR QR
+========================================== */
+
+boton.addEventListener(
+"click",
+async()=>{
+
+
+if(!eventoActivo){
+
+return;
+
+}
+
+
+boton.disabled =
+true;
+
+boton.textContent =
+"🔄 Generando QR...";
+
+
+contenedor.innerHTML =
+"";
+
+
+try{
+
+
+/*
+Buscamos las entradas
+del evento actual.
+*/
+
+const entradasRef =
+collection(
+db,
+"entradas"
+);
+
+
+const consulta =
+query(
+
+entradasRef,
+
+where(
+"eventoId",
+"==",
+eventoActivo.id
+)
+
+);
+
+
+const snapshot =
+await getDocs(
+consulta
+);
+
+
+if(
+snapshot.empty
+){
+
+alert(
+"Este evento todavía no tiene entradas generadas."
+);
+
+return;
+
+}
+
+
+/*
+Ordenamos por código.
+*/
+
+const entradas =
+snapshot.docs
+.map(
+doc => doc.data()
+)
+.sort(
+(a,b)=>
+a.codigo.localeCompare(
+b.codigo,
+undefined,
+{
+numeric:true
+}
+)
+;
+
+
+/*
+Generamos cada QR.
+*/
+
+entradas.forEach(
+(datos)=>{
+
+
+const caja =
+document.createElement(
+"div"
+);
+
+
+caja.className =
+"qr";
+
+
+caja.innerHTML = `
+
+<h3>
+${datos.codigo}
+</h3>
+
+<p>
+${eventoActivo.nombre}
+</p>
+
+<p>
+${formatearFecha(eventoActivo.fecha)}
+</p>
+
+`;
+
+
+const qr =
+document.createElement(
+"div"
+);
+
+
+caja.appendChild(
+qr
+);
+
+
+contenedor.appendChild(
+caja
+);
+
+
+/*
+IMPORTANTE:
+
+El QR contiene solamente
+el código visible.
+
+Ejemplo:
+
+PV-0001
+
+El app.js lo busca dentro
+del evento activo.
+*/
+
+new QRCode(
+qr,
+{
+
+text:
+datos.codigo,
+
 width:180,
+
 height:180
+
+}
+);
+
 });
 
 
+boton.textContent =
+"🖨️ Imprimir QR";
+
+
+boton.disabled =
+false;
+
+
+/*
+Después de generar los QR,
+el botón imprime.
+*/
+
+boton.onclick =
+()=>{
+
+window.print();
+
+};
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"❌ Error generando los QR."
+);
+
+boton.disabled =
+false;
+
+boton.textContent =
+"📱 Generar QR";
+
 }
+
+});
+
+
+/* ==========================================
+INICIO
+========================================== */
+
+cargarEvento();
+
 
 </script>
 
 
 </body>
+
 </html>
