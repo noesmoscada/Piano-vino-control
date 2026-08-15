@@ -5,15 +5,25 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
-<title>Piano & Vino - QR</title>
+<title>Piano & Vino - Entradas QR</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
+margin:0;
 font-family:Arial,sans-serif;
 background:#111;
 color:white;
@@ -23,72 +33,116 @@ padding:20px;
 
 h1{
 color:#d4af37;
+margin-bottom:5px;
 }
 
-#info{
-background:#222;
-padding:20px;
-border-radius:15px;
-max-width:500px;
+.info{
+color:#bbb;
+margin-bottom:25px;
+}
+
+.estado{
 margin:20px auto;
+padding:15px;
+max-width:500px;
+background:#222;
+border-radius:12px;
 }
 
-button{
-background:#d4af37;
-border:0;
-border-radius:10px;
-padding:15px 25px;
-font-size:18px;
+.entrada{
+width:360px;
+max-width:95%;
+margin:25px auto;
+background:#000;
+border:2px solid #d4af37;
+border-radius:18px;
+padding:20px;
+box-shadow:0 0 20px rgba(0,0,0,.6);
+}
+
+.logo{
+width:150px;
+height:150px;
+object-fit:cover;
+border-radius:50%;
+margin-bottom:10px;
+}
+
+.nombre{
+font-size:25px;
 font-weight:bold;
-margin:10px;
-cursor:pointer;
+color:#f5e6c8;
 }
 
-#estado{
-margin:20px;
-font-size:18px;
+.evento{
+font-size:21px;
+color:#d4af37;
+margin:10px 0;
+font-weight:bold;
 }
 
-#contenedor{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:10px;
+.datos{
+font-size:16px;
+line-height:1.7;
+color:#ddd;
+}
+
+.codigo{
+font-size:25px;
+font-weight:bold;
+color:#d4af37;
+margin:15px 0;
 }
 
 .qr{
+display:flex;
+justify-content:center;
 background:white;
-color:#111;
-padding:12px;
+padding:10px;
+width:max-content;
+margin:15px auto;
+border-radius:8px;
+}
+
+button{
+border:none;
 border-radius:10px;
-width:210px;
-page-break-inside:avoid;
+padding:12px 18px;
+margin:6px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
 }
 
-.qr h3{
-margin:5px;
+.descargar{
+background:#4caf50;
+color:white;
 }
 
-.qr p{
-margin:5px;
-font-size:13px;
+.imprimir{
+background:#d4af37;
+color:#111;
+}
+
+#contenedor{
+margin-top:20px;
 }
 
 @media print{
 
 body{
 background:white;
-color:black;
+padding:0;
 }
 
-button,
-#estado,
-#info{
-display:none;
+.no-imprimir{
+display:none !important;
 }
 
-.qr{
-margin:5px;
+.entrada{
+page-break-after:always;
+box-shadow:none;
+margin:0 auto;
 }
 
 }
@@ -105,36 +159,31 @@ margin:5px;
 
 <h2>Generador de entradas QR</h2>
 
+<div
+id="estado"
+class="estado"
+>
 
-<div id="estado">
-
-🔄 Conectando con Firebase...
-
-</div>
-
-
-<div id="info">
+🔄 Cargando evento...
 
 </div>
 
 
-<button id="generar">
+<div class="no-imprimir">
 
-📱 Generar 150 QR
-
-</button>
-
-
-<button id="imprimir">
+<button
+class="imprimir"
+onclick="window.print()"
+>
 
 🖨️ Imprimir
 
 </button>
 
-
-<div id="contenedor">
-
 </div>
+
+
+<div id="contenedor"></div>
 
 
 <script type="module">
@@ -142,9 +191,14 @@ margin:5px;
 
 import { db } from "./firebase.js";
 
+
 import {
 
+doc,
+getDoc,
 collection,
+query,
+where,
 getDocs
 
 }
@@ -157,127 +211,89 @@ from
 const estado =
 document.getElementById("estado");
 
-const info =
-document.getElementById("info");
-
 const contenedor =
 document.getElementById("contenedor");
 
-const generar =
-document.getElementById("generar");
-
-const imprimir =
-document.getElementById("imprimir");
-
-
-let entradas = [];
-
 
 /* ==========================================
-CARGAR ENTRADAS
+CARGAR EVENTO ACTUAL
 ========================================== */
 
-async function cargarEntradas(){
+async function cargarEvento(){
 
 try{
 
 
-estado.innerHTML =
-"🔄 Buscando las entradas del evento...";
-
-
-const snapshot =
-await getDocs(
-collection(db,"entradas")
+const configRef =
+doc(
+db,
+"configuracion",
+"evento"
 );
 
 
-if(snapshot.empty){
+const configSnap =
+await getDoc(
+configRef
+);
+
+
+if(!configSnap.exists()){
 
 estado.innerHTML =
-"❌ No hay entradas en Firebase.";
+"❌ No hay un evento seleccionado.";
 
 return;
 
 }
 
 
-/*
-Tomamos las entradas que pertenecen
-al nuevo evento.
-
-Las entradas nuevas tienen eventoId.
-*/
-
-entradas =
-snapshot.docs
-.map(
-doc => ({
-id:doc.id,
-...doc.data()
-})
-)
-.filter(
-entrada =>
-entrada.eventoId
-);
+const config =
+configSnap.data();
 
 
-if(entradas.length === 0){
+if(!config.eventoId){
 
 estado.innerHTML =
-"❌ No se encontraron entradas con evento.";
+"❌ No hay un evento seleccionado.";
 
 return;
 
 }
 
 
-/*
-Ordenar PV-0001, PV-0002...
-*/
-
-entradas.sort(
-(a,b)=>
-a.codigo.localeCompare(
-b.codigo,
-undefined,
-{
-numeric:true
-}
-)
+const eventoRef =
+doc(
+db,
+"eventos",
+config.eventoId
 );
 
 
-/* ==========================================
-MOSTRAR INFORMACIÓN
-========================================== */
-
-const primera =
-entradas[0];
+const eventoSnap =
+await getDoc(
+eventoRef
+);
 
 
-info.innerHTML = `
-
-<strong>🎹 ${primera.evento || "Piano & Vino"}</strong>
-
-<br><br>
-
-📅 ${formatearFecha(primera.fecha)}
-
-<br>
-
-⏰ ${primera.hora}
-
-<br>
-
-🎟️ ${entradas.length} entradas
-
-`;
-
+if(!eventoSnap.exists()){
 
 estado.innerHTML =
-`🟢 ${entradas.length} entradas encontradas correctamente`;
+"❌ El evento no existe.";
+
+return;
+
+}
+
+
+const evento =
+eventoSnap.data();
+
+
+await cargarEntradas(
+config.eventoId,
+evento
+);
 
 
 }catch(error){
@@ -285,7 +301,360 @@ estado.innerHTML =
 console.error(error);
 
 estado.innerHTML =
-"❌ Error conectando con Firebase.";
+"❌ Error cargando el evento.";
+
+}
+
+}
+
+
+/* ==========================================
+CARGAR ENTRADAS
+========================================== */
+
+async function cargarEntradas(
+eventoId,
+evento
+){
+
+try{
+
+
+estado.innerHTML =
+"🔄 Buscando entradas del evento...";
+
+
+const entradasRef =
+collection(
+db,
+"entradas"
+);
+
+
+const consulta =
+query(
+
+entradasRef,
+
+where(
+"eventoId",
+"==",
+eventoId
+)
+
+);
+
+
+const snapshot =
+await getDocs(
+consulta
+);
+
+
+if(snapshot.empty){
+
+estado.innerHTML =
+"❌ Este evento no tiene entradas generadas.";
+
+return;
+
+}
+
+
+/*
+Ordenar por código
+*/
+
+const entradas =
+snapshot.docs.map(
+documento => ({
+id:documento.id,
+...documento.data()
+})
+);
+
+
+entradas.sort(
+(a,b)=>
+a.codigo.localeCompare(
+b.codigo
+)
+);
+
+
+/*
+SEGURIDAD:
+mostrar solamente 150.
+*/
+
+const entradasMostrar =
+entradas.slice(0,150);
+
+
+estado.innerHTML = `
+
+🟢 Evento cargado
+
+<br>
+
+<strong>
+${evento.nombre || "Piano & Vino"}
+</strong>
+
+<br>
+
+📅 ${formatearFecha(evento.fecha)}
+
+<br>
+
+⏰ ${evento.hora || "-"}
+
+<br>
+
+🎟️ ${entradasMostrar.length} entradas
+
+`;
+
+
+contenedor.innerHTML = "";
+
+
+entradasMostrar.forEach(
+entrada => {
+
+crearEntrada(
+entrada,
+evento
+);
+
+});
+
+
+}catch(error){
+
+console.error(error);
+
+estado.innerHTML =
+"❌ Error cargando las entradas.";
+
+}
+
+}
+
+
+/* ==========================================
+CREAR ENTRADA
+========================================== */
+
+function crearEntrada(
+entrada,
+evento
+){
+
+
+const caja =
+document.createElement("div");
+
+
+caja.className =
+"entrada";
+
+
+caja.id =
+"entrada-" +
+entrada.codigo;
+
+
+caja.innerHTML = `
+
+<img
+src="logo-piano-vino.jpg"
+class="logo"
+alt="Piano & Vino"
+>
+
+
+<div class="nombre">
+
+Piano & Vino
+
+</div>
+
+
+<div class="evento">
+
+${evento.nombre || "Evento"}
+
+</div>
+
+
+<div class="datos">
+
+📅 ${formatearFecha(evento.fecha)}
+
+<br>
+
+⏰ ${evento.hora || "-"}
+
+<br>
+
+📍 ${evento.lugar || "-"}
+
+</div>
+
+
+<div class="codigo">
+
+${entrada.codigo}
+
+</div>
+
+
+<div
+class="qr"
+id="qr-${entrada.codigo}"
+></div>
+
+
+<div class="no-imprimir">
+
+<button
+class="descargar"
+>
+
+📱 Descargar entrada
+
+</button>
+
+</div>
+
+`;
+
+
+contenedor.appendChild(
+caja
+);
+
+
+/*
+Crear QR
+*/
+
+new QRCode(
+
+document.getElementById(
+"qr-" + entrada.codigo
+),
+
+{
+
+text:entrada.codigo,
+
+width:180,
+
+height:180,
+
+correctLevel:
+QRCode.CorrectLevel.H
+
+}
+
+);
+
+
+/*
+Botón descargar
+*/
+
+const boton =
+caja.querySelector(
+".descargar"
+);
+
+
+boton.addEventListener(
+"click",
+async()=>{
+
+await descargarEntrada(
+caja,
+entrada.codigo
+);
+
+}
+
+);
+
+}
+
+
+/* ==========================================
+DESCARGAR INDIVIDUAL
+========================================== */
+
+async function descargarEntrada(
+elemento,
+codigo
+){
+
+try{
+
+
+const boton =
+elemento.querySelector(
+".descargar"
+);
+
+
+boton.textContent =
+"⏳ Preparando...";
+
+
+const canvas =
+await html2canvas(
+elemento,
+{
+
+backgroundColor:"#000",
+
+scale:2,
+
+useCORS:true
+
+}
+);
+
+
+const enlace =
+document.createElement("a");
+
+
+enlace.download =
+"Piano-Vino-" +
+codigo +
+".png";
+
+
+enlace.href =
+canvas.toDataURL(
+"image/png"
+);
+
+
+enlace.click();
+
+
+boton.textContent =
+"📱 Descargar entrada";
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"No se pudo descargar la entrada."
+);
 
 }
 
@@ -296,7 +665,9 @@ estado.innerHTML =
 FECHA
 ========================================== */
 
-function formatearFecha(fecha){
+function formatearFecha(
+fecha
+){
 
 if(!fecha){
 
@@ -304,14 +675,21 @@ return "-";
 
 }
 
+
 if(fecha.includes("-")){
 
-const p =
+const partes =
 fecha.split("-");
 
-return `${p[2]}/${p[1]}/${p[0]}`;
+
+if(partes.length === 3){
+
+return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
 }
+
+}
+
 
 return fecha;
 
@@ -319,142 +697,13 @@ return fecha;
 
 
 /* ==========================================
-GENERAR QR
-========================================== */
-
-generar.addEventListener(
-"click",
-()=>{
-
-
-if(!entradas.length){
-
-alert(
-"No hay entradas para generar."
-);
-
-return;
-
-}
-
-
-contenedor.innerHTML =
-"";
-
-
-entradas.forEach(
-entrada => {
-
-
-const caja =
-document.createElement("div");
-
-
-caja.className =
-"qr";
-
-
-caja.innerHTML = `
-
-<h3>${entrada.codigo}</h3>
-
-<p>${entrada.evento || "Piano & Vino"}</p>
-
-<p>${formatearFecha(entrada.fecha)}</p>
-
-`;
-
-
-const qr =
-document.createElement("div");
-
-
-caja.appendChild(qr);
-
-
-contenedor.appendChild(caja);
-
-
-/*
-El QR contiene el código.
-
-Ejemplo:
-PV-0001
-*/
-
-new QRCode(
-qr,
-{
-
-text:entrada.codigo,
-
-width:180,
-
-height:180
-
-}
-);
-
-});
-
-
-estado.innerHTML =
-`✅ ${entradas.length} QR generados correctamente`;
-
-
-generar.style.display =
-"none";
-
-
-}
-);
-
-
-/* ==========================================
-IMPRIMIR
-========================================== */
-
-imprimir.addEventListener(
-"click",
-()=>{
-
-if(!entradas.length){
-
-alert(
-"Primero cargá las entradas."
-);
-
-return;
-
-}
-
-if(
-!contenedor.innerHTML
-){
-
-alert(
-"Primero tocá Generar 150 QR."
-);
-
-return;
-
-}
-
-window.print();
-
-}
-);
-
-
-/* ==========================================
 INICIAR
 ========================================== */
 
-cargarEntradas();
+cargarEvento();
 
 
 </script>
-
 
 </body>
 
