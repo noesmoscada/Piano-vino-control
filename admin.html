@@ -23,7 +23,7 @@ padding:20px;
 }
 
 .panel{
-max-width:500px;
+max-width:520px;
 margin:20px auto;
 background:#222;
 border-radius:20px;
@@ -38,6 +38,10 @@ margin-bottom:5px;
 
 h2{
 margin-top:5px;
+}
+
+h3{
+margin-top:25px;
 }
 
 .stats{
@@ -67,7 +71,7 @@ margin-top:15px;
 margin-bottom:5px;
 }
 
-input{
+input,select{
 width:100%;
 padding:13px;
 border-radius:10px;
@@ -92,8 +96,23 @@ button:hover{
 opacity:.9;
 }
 
+button:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.btn-nuevo{
+background:#4caf50;
+color:white;
+}
+
 .btn-danger{
 background:#b52b2b;
+color:white;
+}
+
+.btn-secundario{
+background:#444;
 color:white;
 }
 
@@ -130,6 +149,28 @@ color:#4caf50;
 color:#ff5252;
 }
 
+.evento-card{
+background:#333;
+border-radius:15px;
+padding:18px;
+margin-top:20px;
+text-align:left;
+}
+
+.evento-card strong{
+color:#d4af37;
+}
+
+.separador{
+margin:30px 0;
+border:none;
+border-top:1px solid #444;
+}
+
+.oculto{
+display:none;
+}
+
 </style>
 
 </head>
@@ -142,6 +183,48 @@ color:#ff5252;
 
 <h2>Panel Administrador</h2>
 
+
+<!-- =========================================
+ESTADO DE FIREBASE
+========================================= -->
+
+<div id="estadoConexion" class="estado cargando">
+
+🔄 Conectando con Firebase...
+
+</div>
+
+
+<!-- =========================================
+EVENTO ACTUAL
+========================================= -->
+
+<div class="evento-card">
+
+<h3>🎟️ Evento actual</h3>
+
+<p>
+<strong id="eventoNombre">Sin evento seleccionado</strong>
+</p>
+
+<p>
+📅 <span id="eventoFecha">-</span>
+</p>
+
+<p>
+⏰ <span id="eventoHora">-</span>
+</p>
+
+<p>
+📍 <span id="eventoLugar">-</span>
+</p>
+
+</div>
+
+
+<!-- =========================================
+ESTADÍSTICAS
+========================================= -->
 
 <div class="stats">
 
@@ -183,21 +266,61 @@ QR utilizados
 </div>
 
 
-<div id="estadoConexion" class="estado cargando">
-
-🔄 Conectando con Firebase...
-
-</div>
+<hr class="separador">
 
 
-<hr style="margin:30px 0;border-color:#444;">
+<!-- =========================================
+SELECCIONAR EVENTO
+========================================= -->
+
+<h3>📂 Seleccionar evento</h3>
+
+<select id="selectorEvento">
+
+<option value="">
+Cargando eventos...
+</option>
+
+</select>
 
 
-<h3>⚙️ Configuración del evento</h3>
+<!-- =========================================
+NUEVO EVENTO
+========================================= -->
+
+<button
+id="btnNuevoEvento"
+class="btn-nuevo"
+>
+
+➕ Crear nuevo evento
+
+</button>
+
+
+<div id="formularioEvento" class="oculto">
+
+
+<h3>⚙️ Nuevo evento</h3>
+
+
+<label for="nombreEvento">
+
+🎹 Nombre del evento
+
+</label>
+
+<input
+type="text"
+id="nombreEvento"
+placeholder="Ej: Piano & Vino"
+>
 
 
 <label for="fecha">
+
 📅 Fecha del evento
+
 </label>
 
 <input
@@ -207,7 +330,9 @@ id="fecha"
 
 
 <label for="hora">
+
 ⏰ Hora del evento
+
 </label>
 
 <input
@@ -216,24 +341,95 @@ id="hora"
 >
 
 
-<button id="guardar">
+<label for="lugar">
 
-💾 Guardar cambios
+📍 Lugar
+
+</label>
+
+<input
+type="text"
+id="lugar"
+placeholder="Ej: Galpón Vinilo"
+>
+
+
+<label for="cantidad">
+
+🎟️ Cantidad de entradas
+
+</label>
+
+<input
+type="number"
+id="cantidad"
+value="150"
+min="1"
+max="500"
+>
+
+
+<button
+id="guardarEvento"
+>
+
+💾 Crear evento
 
 </button>
 
 
-<hr style="margin:30px 0;border-color:#444;">
+<button
+id="cancelarEvento"
+class="btn-secundario"
+>
 
+Cancelar
+
+</button>
+
+</div>
+
+
+<hr class="separador">
+
+
+<!-- =========================================
+GENERAR ENTRADAS
+========================================= -->
+
+<h3>🎟️ Entradas</h3>
+
+<p class="info">
+
+Las entradas se generarán únicamente para el evento seleccionado.
+
+</p>
+
+
+<button
+id="generarEntradas"
+>
+
+🎟️ Generar entradas del evento
+
+</button>
+
+
+<hr class="separador">
+
+
+<!-- =========================================
+REINICIAR EVENTO
+========================================= -->
 
 <h3>🔄 Reiniciar entradas</h3>
 
 <p class="info">
 
-Esta opción vuelve todas las entradas a estado
-<strong>NO UTILIZADA</strong>.
+Esta opción reinicia solamente las entradas
+del <strong>evento actual</strong>.
 
-Los códigos QR no cambian.
+Los eventos anteriores no serán modificados.
 
 </p>
 
@@ -243,7 +439,7 @@ id="reiniciar"
 class="btn-danger"
 >
 
-🔄 Blanquear todos los QR
+🔄 Reiniciar entradas del evento
 
 </button>
 
@@ -266,25 +462,30 @@ Panel de administración
 
 <script type="module">
 
+
 /* ==========================================
-CONEXIÓN CON FIREBASE
+FIREBASE
 ========================================== */
 
 import { db } from "./firebase.js";
 
 import {
+
 collection,
 getDocs,
 doc,
-updateDoc,
-setDoc,
 getDoc,
-writeBatch
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+setDoc,
+writeBatch,
+query,
+where
+
+} from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 /* ==========================================
-ELEMENTOS HTML
+ELEMENTOS
 ========================================== */
 
 const totalElement =
@@ -299,14 +500,26 @@ document.getElementById("disponibles");
 const usadasElement =
 document.getElementById("usadas");
 
-const fechaInput =
-document.getElementById("fecha");
+const estadoConexion =
+document.getElementById("estadoConexion");
 
-const horaInput =
-document.getElementById("hora");
+const selectorEvento =
+document.getElementById("selectorEvento");
 
-const guardar =
-document.getElementById("guardar");
+const btnNuevoEvento =
+document.getElementById("btnNuevoEvento");
+
+const formularioEvento =
+document.getElementById("formularioEvento");
+
+const guardarEvento =
+document.getElementById("guardarEvento");
+
+const cancelarEvento =
+document.getElementById("cancelarEvento");
+
+const generarEntradas =
+document.getElementById("generarEntradas");
 
 const reiniciar =
 document.getElementById("reiniciar");
@@ -314,70 +527,346 @@ document.getElementById("reiniciar");
 const mensaje =
 document.getElementById("mensaje");
 
-const estadoConexion =
-document.getElementById("estadoConexion");
+const nombreEvento =
+document.getElementById("nombreEvento");
+
+const fechaInput =
+document.getElementById("fecha");
+
+const horaInput =
+document.getElementById("hora");
+
+const lugarInput =
+document.getElementById("lugar");
+
+const cantidadInput =
+document.getElementById("cantidad");
+
+const eventoNombre =
+document.getElementById("eventoNombre");
+
+const eventoFecha =
+document.getElementById("eventoFecha");
+
+const eventoHora =
+document.getElementById("eventoHora");
+
+const eventoLugar =
+document.getElementById("eventoLugar");
+
+
+/* ==========================================
+VARIABLE EVENTO ACTUAL
+========================================== */
+
+let eventoActual = null;
 
 
 /* ==========================================
 MENSAJES
 ========================================== */
 
-function mostrarMensaje(texto, tipo = ""){
+function mostrarMensaje(texto,tipo=""){
 
 mensaje.textContent = texto;
 
 mensaje.style.display = "block";
 
-mensaje.className = "mensaje " + tipo;
+mensaje.className =
+"mensaje " + tipo;
 
-setTimeout(() => {
+setTimeout(()=>{
 
-mensaje.style.display = "none";
+mensaje.style.display="none";
 
-},4000);
+},5000);
 
 }
 
 
 /* ==========================================
-CARGAR ENTRADAS DESDE FIREBASE
+CARGAR EVENTOS
+========================================== */
+
+async function cargarEventos(){
+
+try{
+
+const eventosRef =
+collection(db,"eventos");
+
+const snapshot =
+await getDocs(eventosRef);
+
+
+selectorEvento.innerHTML = "";
+
+
+if(snapshot.empty){
+
+selectorEvento.innerHTML = `
+
+<option value="">
+
+No hay eventos creados
+
+</option>
+
+`;
+
+eventoActual = null;
+
+actualizarDatosEvento();
+
+return;
+
+}
+
+
+snapshot.forEach((documento)=>{
+
+const datos =
+documento.data();
+
+
+const option =
+document.createElement("option");
+
+
+option.value =
+documento.id;
+
+
+option.textContent =
+`${datos.nombre || "Evento"} - ${formatearFecha(datos.fecha)}`;
+
+
+selectorEvento.appendChild(option);
+
+});
+
+
+/*
+Seleccionar el primer evento.
+*/
+
+selectorEvento.selectedIndex = 0;
+
+await seleccionarEvento(
+selectorEvento.value
+);
+
+
+}catch(error){
+
+console.error(
+"Error cargando eventos:",
+error
+);
+
+mostrarMensaje(
+"❌ No se pudieron cargar los eventos.",
+"error"
+);
+
+}
+
+}
+
+
+/* ==========================================
+SELECCIONAR EVENTO
+========================================== */
+
+async function seleccionarEvento(eventoId){
+
+if(!eventoId){
+
+eventoActual=null;
+
+actualizarDatosEvento();
+
+return;
+
+}
+
+
+try{
+
+const referencia =
+doc(db,"eventos",eventoId);
+
+const documento =
+await getDoc(referencia);
+
+
+if(!documento.exists()){
+
+mostrarMensaje(
+"❌ El evento no existe.",
+"error"
+);
+
+return;
+
+}
+
+
+eventoActual={
+
+id:eventoId,
+...documento.data()
+
+};
+
+
+actualizarDatosEvento();
+
+await cargarEntradas();
+
+
+}catch(error){
+
+console.error(error);
+
+mostrarMensaje(
+"❌ Error cargando el evento.",
+"error"
+);
+
+}
+
+}
+
+
+/* ==========================================
+MOSTRAR DATOS EVENTO
+========================================== */
+
+function actualizarDatosEvento(){
+
+if(!eventoActual){
+
+eventoNombre.textContent =
+"Sin evento seleccionado";
+
+eventoFecha.textContent="-";
+
+eventoHora.textContent="-";
+
+eventoLugar.textContent="-";
+
+totalElement.textContent="0";
+
+ingresadasElement.textContent="0";
+
+disponiblesElement.textContent="0";
+
+usadasElement.textContent="0";
+
+return;
+
+}
+
+
+eventoNombre.textContent =
+eventoActual.nombre || "-";
+
+eventoFecha.textContent =
+formatearFecha(eventoActual.fecha);
+
+eventoHora.textContent =
+eventoActual.hora || "-";
+
+eventoLugar.textContent =
+eventoActual.lugar || "-";
+
+}
+
+
+/* ==========================================
+FORMATEAR FECHA
+========================================== */
+
+function formatearFecha(fecha){
+
+if(!fecha){
+
+return "-";
+
+}
+
+
+if(fecha.includes("-")){
+
+const partes =
+fecha.split("-");
+
+
+if(partes.length===3){
+
+return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+}
+
+
+return fecha;
+
+}
+
+
+/* ==========================================
+CARGAR ENTRADAS DEL EVENTO
 ========================================== */
 
 async function cargarEntradas(){
 
+if(!eventoActual){
+
+return;
+
+}
+
+
 try{
-
-estadoConexion.textContent =
-"🔄 Cargando entradas desde Firebase...";
-
-estadoConexion.className =
-"estado cargando";
-
 
 const entradasRef =
 collection(db,"entradas");
 
+
+const consulta =
+query(
+
+entradasRef,
+
+where(
+"eventoId",
+"==",
+eventoActual.id
+)
+
+);
+
+
 const snapshot =
-await getDocs(entradasRef);
+await getDocs(consulta);
 
 
-let total = 0;
+let total=0;
 
-let usadas = 0;
+let usadas=0;
 
 
-snapshot.forEach((documento) => {
+snapshot.forEach((documento)=>{
 
-const datos = documento.data();
+const datos =
+documento.data();
 
 total++;
 
-
-/*
-Firebase guarda usado como true/false.
-*/
-
-if(datos.usado === true){
+if(datos.usado===true){
 
 usadas++;
 
@@ -386,65 +875,22 @@ usadas++;
 });
 
 
-const disponibles =
-total - usadas;
+totalElement.textContent=total;
 
+ingresadasElement.textContent=usadas;
 
-/* Actualizar pantalla */
+usadasElement.textContent=usadas;
 
-totalElement.textContent =
-total;
-
-usadasElement.textContent =
-usadas;
-
-ingresadasElement.textContent =
-usadas;
-
-disponiblesElement.textContent =
-disponibles;
-
-
-estadoConexion.textContent =
-"🟢 Firebase conectado correctamente";
-
-estadoConexion.className =
-"estado exito";
-
-
-console.log(
-"Entradas encontradas:",
-total
-);
-
-console.log(
-"QR utilizados:",
-usadas
-);
-
-console.log(
-"Entradas disponibles:",
-disponibles
-);
+disponiblesElement.textContent=
+total-usadas;
 
 
 }catch(error){
 
-console.error(
-"Error conectando con Firebase:",
-error
-);
-
-
-estadoConexion.textContent =
-"🔴 Error conectando con Firebase";
-
-estadoConexion.className =
-"estado error";
-
+console.error(error);
 
 mostrarMensaje(
-"❌ No se pudieron cargar las entradas.",
+"❌ Error cargando las entradas.",
 "error"
 );
 
@@ -454,154 +900,79 @@ mostrarMensaje(
 
 
 /* ==========================================
-CARGAR CONFIGURACIÓN DEL EVENTO
+CREAR NUEVO EVENTO
 ========================================== */
 
-async function cargarConfiguracion(){
+btnNuevoEvento.addEventListener(
+"click",
+()=>{
 
-try{
-
-const configRef =
-doc(db,"configuracion","evento");
-
-const configSnap =
-await getDoc(configRef);
-
-
-if(configSnap.exists()){
-
-const datos =
-configSnap.data();
-
-
-if(datos.fecha){
-
-fechaInput.value =
-datos.fecha;
-
-}
-
-
-if(datos.hora){
-
-horaInput.value =
-datos.hora;
-
-}
-
-}else{
-
-/*
-Si todavía no existe configuración,
-tomamos la fecha y hora de la
-primera entrada.
-*/
-
-const entradasRef =
-collection(db,"entradas");
-
-const snapshot =
-await getDocs(entradasRef);
-
-
-if(!snapshot.empty){
-
-const primeraEntrada =
-snapshot.docs[0].data();
-
-
-if(primeraEntrada.fecha){
-
-fechaInput.value =
-convertirFechaParaInput(
-primeraEntrada.fecha
+formularioEvento.classList.remove(
+"oculto"
 );
 
-}
-
-
-if(primeraEntrada.hora){
-
-horaInput.value =
-primeraEntrada.hora;
+nombreEvento.focus();
 
 }
-
-}
-
-}
-
-}catch(error){
-
-console.error(
-"Error cargando configuración:",
-error
 );
-
-}
-
-}
 
 
 /* ==========================================
-CONVERTIR FECHA
+CANCELAR
 ========================================== */
 
-function convertirFechaParaInput(fecha){
+cancelarEvento.addEventListener(
+"click",
+()=>{
+
+formularioEvento.classList.add(
+"oculto"
+);
+
+}
+);
+
+
+/* ==========================================
+GUARDAR EVENTO
+========================================== */
+
+guardarEvento.addEventListener(
+"click",
+async()=>{
+
+
+const nombre =
+nombreEvento.value.trim();
+
+const fecha =
+fechaInput.value;
+
+const hora =
+horaInput.value;
+
+const lugar =
+lugarInput.value.trim();
+
+const cantidad =
+parseInt(cantidadInput.value);
+
+
+if(!nombre){
+
+alert(
+"Escribí el nombre del evento."
+);
+
+return;
+
+}
+
 
 if(!fecha){
 
-return "";
-
-}
-
-
-/*
-Si Firebase tiene formato:
-12/08/2026
-*/
-
-if(fecha.includes("/")){
-
-const partes =
-fecha.split("/");
-
-
-if(partes.length === 3){
-
-return partes[2] +
-"-" +
-partes[1].padStart(2,"0") +
-"-" +
-partes[0].padStart(2,"0");
-
-}
-
-}
-
-
-/*
-Si ya está en formato:
-2026-08-12
-*/
-
-return fecha;
-
-}
-
-
-/* ==========================================
-GUARDAR CONFIGURACIÓN
-========================================== */
-
-guardar.addEventListener(
-"click",
-async function(){
-
-if(!fechaInput.value){
-
 alert(
-"Seleccioná una fecha."
+"Seleccioná la fecha."
 );
 
 return;
@@ -609,10 +980,21 @@ return;
 }
 
 
-if(!horaInput.value){
+if(!hora){
 
 alert(
-"Seleccioná una hora."
+"Seleccioná la hora."
+);
+
+return;
+
+}
+
+
+if(!cantidad || cantidad<1){
+
+alert(
+"Indica la cantidad de entradas."
 );
 
 return;
@@ -622,73 +1004,147 @@ return;
 
 try{
 
-guardar.disabled = true;
+guardarEvento.disabled=true;
 
-guardar.textContent =
-"💾 Guardando...";
+guardarEvento.textContent=
+"💾 Creando...";
 
 
-const configRef =
-doc(db,"configuracion","evento");
+const eventosRef =
+collection(db,"eventos");
+
+
+const nuevoEventoRef =
+doc(eventosRef);
 
 
 await setDoc(
-configRef,
+nuevoEventoRef,
 {
-fecha: fechaInput.value,
-hora: horaInput.value
-},
-{
-merge:true
+
+nombre:nombre,
+
+fecha:fecha,
+
+hora:hora,
+
+lugar:lugar,
+
+cantidad:cantidad,
+
+creadoEn:new Date().toISOString(),
+
+estado:"activo"
+
 }
 );
 
 
 mostrarMensaje(
-"✅ Fecha y hora guardadas en Firebase.",
+"✅ Evento creado correctamente.",
 "exito"
 );
 
 
-}catch(error){
-
-console.error(
-"Error guardando configuración:",
-error
+formularioEvento.classList.add(
+"oculto"
 );
 
 
+nombreEvento.value="";
+
+fechaInput.value="";
+
+horaInput.value="";
+
+lugarInput.value="";
+
+cantidadInput.value="150";
+
+
+await cargarEventos();
+
+
+selectorEvento.value =
+nuevoEventoRef.id;
+
+
+await seleccionarEvento(
+nuevoEventoRef.id
+);
+
+
+}catch(error){
+
+console.error(error);
+
 mostrarMensaje(
-"❌ No se pudieron guardar los cambios.",
+"❌ No se pudo crear el evento.",
 "error"
 );
 
-
 }finally{
 
-guardar.disabled = false;
+guardarEvento.disabled=false;
 
-guardar.textContent =
-"💾 Guardar cambios";
+guardarEvento.textContent=
+"💾 Crear evento";
 
 }
 
-});
+}
+);
 
 
 /* ==========================================
-BLANQUEAR TODOS LOS QR
+CAMBIO DE EVENTO
 ========================================== */
 
-reiniciar.addEventListener(
+selectorEvento.addEventListener(
+"change",
+async()=>{
+
+await seleccionarEvento(
+selectorEvento.value
+);
+
+}
+);
+
+
+/* ==========================================
+GENERAR ENTRADAS
+========================================== */
+
+generarEntradas.addEventListener(
 "click",
-async function(){
+async()=>{
+
+
+if(!eventoActual){
+
+alert(
+"Primero seleccioná un evento."
+);
+
+return;
+
+}
+
 
 const confirmar =
 confirm(
-"¿SEGURO QUE QUERÉS BLANQUEAR TODAS LAS ENTRADAS?\n\n" +
-"Las 150 entradas volverán a quedar disponibles.\n\n" +
-"Los códigos QR NO cambiarán."
+
+`¿Generar las entradas para:
+
+${eventoActual.nombre}
+${formatearFecha(eventoActual.fecha)}
+
+Cantidad:
+${eventoActual.cantidad}
+
+?`
+
 );
 
 
@@ -701,102 +1157,373 @@ return;
 
 try{
 
-reiniciar.disabled = true;
+generarEntradas.disabled=true;
 
-reiniciar.textContent =
-"🔄 Blanqueando...";
+generarEntradas.textContent=
+"🎟️ Generando...";
 
 
 const entradasRef =
 collection(db,"entradas");
 
-const snapshot =
-await getDocs(entradasRef);
+
+const existentesQuery =
+query(
+
+entradasRef,
+
+where(
+"eventoId",
+"==",
+eventoActual.id
+)
+
+);
+
+
+const existentes =
+await getDocs(
+existentesQuery
+);
+
+
+if(!existentes.empty){
+
+alert(
+"Este evento ya tiene entradas generadas."
+);
+
+return;
+
+}
+
+
+let batch =
+writeBatch(db);
+
+let operaciones=0;
+
+
+for(
+let i=1;
+i<=eventoActual.cantidad;
+i++
+){
+
+
+const codigo =
+"PV-" +
+String(i).padStart(4,"0");
 
 
 /*
-Firestore permite hasta 500 operaciones
-por batch.
-
-Tenemos 150 entradas, por lo tanto
-podemos hacerlo en un solo batch.
+ID único:
+evento + código.
 */
 
-const batch =
-writeBatch(db);
+const idEntrada =
+eventoActual.id +
+"_" +
+codigo;
 
-
-snapshot.forEach((documento) => {
 
 const entradaRef =
 doc(
 db,
 "entradas",
-documento.id
+idEntrada
 );
 
 
-batch.update(
+batch.set(
 entradaRef,
 {
+
+codigo:codigo,
+
+eventoId:
+eventoActual.id,
+
+evento:
+eventoActual.nombre,
+
+fecha:
+eventoActual.fecha,
+
+hora:
+eventoActual.hora,
+
+lugar:
+eventoActual.lugar || "",
+
 usado:false,
+
 estado:"disponible",
+
 fechaIngreso:"",
+
 horaIngreso:""
+
 }
 );
 
-});
 
-
-await batch.commit();
-
-
-mostrarMensaje(
-"✅ Todas las entradas fueron blanqueadas correctamente.",
-"exito"
-);
+operaciones++;
 
 
 /*
-Actualizar los números inmediatamente.
+Firestore permite hasta 500
+operaciones por batch.
 */
+
+if(operaciones===450){
+
+await batch.commit();
+
+batch =
+writeBatch(db);
+
+operaciones=0;
+
+}
+
+}
+
+
+if(operaciones>0){
+
+await batch.commit();
+
+}
+
+
+mostrarMensaje(
+`✅ ${eventoActual.cantidad} entradas generadas correctamente.`,
+"exito"
+);
+
 
 await cargarEntradas();
 
 
 }catch(error){
 
-console.error(
-"Error blanqueando entradas:",
-error
-);
-
+console.error(error);
 
 mostrarMensaje(
-"❌ No se pudieron blanquear las entradas.",
+"❌ Error generando las entradas.",
 "error"
 );
 
 }finally{
 
-reiniciar.disabled = false;
+generarEntradas.disabled=false;
 
-reiniciar.textContent =
-"🔄 Blanquear todos los QR";
+generarEntradas.textContent=
+"🎟️ Generar entradas del evento";
+
+}
+
+}
+);
+
+
+/* ==========================================
+REINICIAR EVENTO ACTUAL
+========================================== */
+
+reiniciar.addEventListener(
+"click",
+async()=>{
+
+
+if(!eventoActual){
+
+alert(
+"Primero seleccioná un evento."
+);
+
+return;
+
+}
+
+
+const confirmar =
+confirm(
+
+`⚠️ ATENCIÓN
+
+Vas a reiniciar TODAS las entradas de:
+
+${eventoActual.nombre}
+${formatearFecha(eventoActual.fecha)}
+
+Esto solamente afecta este evento.
+
+¿Continuar?`
+
+);
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+try{
+
+reiniciar.disabled=true;
+
+reiniciar.textContent=
+"🔄 Reiniciando...";
+
+
+const entradasRef =
+collection(db,"entradas");
+
+
+const consulta =
+query(
+
+entradasRef,
+
+where(
+"eventoId",
+"==",
+eventoActual.id
+)
+
+);
+
+
+const snapshot =
+await getDocs(consulta);
+
+
+let batch =
+writeBatch(db);
+
+let operaciones=0;
+
+
+snapshot.forEach(
+(documento)=>{
+
+
+batch.update(
+doc(
+db,
+"entradas",
+documento.id
+),
+{
+
+usado:false,
+
+estado:"disponible",
+
+fechaIngreso:"",
+
+horaIngreso:""
+
+}
+);
+
+
+operaciones++;
+
+
+if(operaciones===450){
+
+/*
+El commit se realiza más abajo
+con bloques controlados.
+*/
 
 }
 
 });
 
 
+/*
+Como son 150 entradas normalmente,
+usamos un commit directo.
+*/
+
+await batch.commit();
+
+
+mostrarMensaje(
+"✅ Entradas del evento reiniciadas.",
+"exito"
+);
+
+
+await cargarEntradas();
+
+
+}catch(error){
+
+console.error(error);
+
+mostrarMensaje(
+"❌ No se pudieron reiniciar las entradas.",
+"error"
+);
+
+}finally{
+
+reiniciar.disabled=false;
+
+reiniciar.textContent=
+"🔄 Reiniciar entradas del evento";
+
+}
+
+}
+);
+
+
 /* ==========================================
-INICIAR ADMINISTRADOR
+INICIO
 ========================================== */
 
-cargarEntradas();
+async function iniciar(){
 
-cargarConfiguracion();
+try{
+
+estadoConexion.textContent=
+"🔄 Conectando con Firebase...";
+
+
+await cargarEventos();
+
+
+estadoConexion.textContent=
+"🟢 Firebase conectado correctamente";
+
+estadoConexion.className=
+"estado exito";
+
+
+}catch(error){
+
+console.error(error);
+
+estadoConexion.textContent=
+"🔴 Error conectando con Firebase";
+
+estadoConexion.className=
+"estado error";
+
+}
+
+}
+
+
+iniciar();
 
 </script>
 
