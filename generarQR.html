@@ -5,16 +5,16 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Piano & Vino - Entradas QR</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 <style>
 
@@ -36,113 +36,226 @@ color:#d4af37;
 margin-bottom:5px;
 }
 
+h2{
+margin-top:5px;
+}
+
 .info{
 color:#bbb;
-margin-bottom:25px;
+line-height:1.6;
 }
 
 .estado{
+max-width:520px;
 margin:20px auto;
 padding:15px;
-max-width:500px;
 background:#222;
 border-radius:12px;
-}
-
-.entrada{
-width:360px;
-max-width:95%;
-margin:25px auto;
-background:#000;
-border:2px solid #d4af37;
-border-radius:18px;
-padding:20px;
-box-shadow:0 0 20px rgba(0,0,0,.6);
-}
-
-.logo{
-width:150px;
-height:150px;
-object-fit:cover;
-border-radius:50%;
-margin-bottom:10px;
-}
-
-.nombre{
-font-size:25px;
-font-weight:bold;
-color:#f5e6c8;
-}
-
-.evento{
-font-size:21px;
-color:#d4af37;
-margin:10px 0;
-font-weight:bold;
-}
-
-.datos{
-font-size:16px;
 line-height:1.7;
-color:#ddd;
 }
 
-.codigo{
-font-size:25px;
-font-weight:bold;
-color:#d4af37;
-margin:15px 0;
-}
-
-.qr{
-display:flex;
-justify-content:center;
-background:white;
-padding:10px;
-width:max-content;
-margin:15px auto;
-border-radius:8px;
+.botones{
+max-width:520px;
+margin:20px auto;
 }
 
 button{
 border:none;
 border-radius:10px;
-padding:12px 18px;
+padding:13px 18px;
 margin:6px;
 font-size:15px;
 font-weight:bold;
 cursor:pointer;
 }
 
-.descargar{
+button:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.btn-descargar{
 background:#4caf50;
 color:white;
 }
 
-.imprimir{
+.btn-todas{
 background:#d4af37;
 color:#111;
 }
 
-#contenedor{
-margin-top:20px;
+.btn-imprimir{
+background:#444;
+color:white;
 }
+
+#contenedor{
+margin-top:25px;
+}
+
+
+/* =====================================
+TICKET
+===================================== */
+
+.entrada{
+
+width:380px;
+max-width:95%;
+
+margin:25px auto;
+
+background:#050505;
+
+border:2px solid #d4af37;
+
+border-radius:20px;
+
+padding:22px;
+
+box-shadow:
+0 0 25px rgba(0,0,0,.7);
+
+}
+
+.logo{
+
+width:135px;
+height:135px;
+
+object-fit:cover;
+
+border-radius:50%;
+
+margin-bottom:10px;
+
+}
+
+.nombre{
+
+font-size:26px;
+font-weight:bold;
+
+color:#f5e6c8;
+
+}
+
+.evento{
+
+font-size:21px;
+font-weight:bold;
+
+color:#d4af37;
+
+margin:12px 0;
+
+}
+
+.datos{
+
+font-size:16px;
+
+line-height:1.8;
+
+color:#ddd;
+
+}
+
+.codigo{
+
+font-size:27px;
+
+font-weight:bold;
+
+color:#d4af37;
+
+margin:16px 0 10px;
+
+letter-spacing:1px;
+
+}
+
+.qr{
+
+display:flex;
+
+justify-content:center;
+
+background:white;
+
+padding:10px;
+
+width:max-content;
+
+margin:10px auto 15px;
+
+border-radius:8px;
+
+}
+
+.pie{
+
+font-size:13px;
+
+color:#aaa;
+
+margin-top:12px;
+
+}
+
+
+/* =====================================
+IMPRESIÓN
+===================================== */
 
 @media print{
 
 body{
+
 background:white;
+
 padding:0;
+
 }
 
 .no-imprimir{
+
 display:none !important;
+
 }
 
 .entrada{
+
 page-break-after:always;
+
 box-shadow:none;
+
 margin:0 auto;
+
+}
+
+}
+
+
+/* =====================================
+MÓVIL
+===================================== */
+
+@media(max-width:450px){
+
+.entrada{
+
+width:350px;
+
+padding:18px;
+
+}
+
+.logo{
+
+width:120px;
+height:120px;
+
 }
 
 }
@@ -159,6 +272,7 @@ margin:0 auto;
 
 <h2>Generador de entradas QR</h2>
 
+
 <div
 id="estado"
 class="estado"
@@ -169,14 +283,25 @@ class="estado"
 </div>
 
 
-<div class="no-imprimir">
+<div class="botones no-imprimir">
 
 <button
-class="imprimir"
+id="btnTodas"
+class="btn-todas"
+disabled
+>
+
+📦 Descargar las 150 entradas
+
+</button>
+
+
+<button
+class="btn-imprimir"
 onclick="window.print()"
 >
 
-🖨️ Imprimir
+🖨️ Imprimir entradas
 
 </button>
 
@@ -214,15 +339,22 @@ document.getElementById("estado");
 const contenedor =
 document.getElementById("contenedor");
 
+const btnTodas =
+document.getElementById("btnTodas");
 
-/* ==========================================
-CARGAR EVENTO ACTUAL
-========================================== */
+
+let eventoActual = null;
+
+let entradasActuales = [];
+
+
+/* =====================================
+CARGAR EVENTO
+===================================== */
 
 async function cargarEvento(){
 
 try{
-
 
 const configRef =
 doc(
@@ -230,7 +362,6 @@ db,
 "configuracion",
 "evento"
 );
-
 
 const configSnap =
 await getDoc(
@@ -269,7 +400,6 @@ db,
 config.eventoId
 );
 
-
 const eventoSnap =
 await getDoc(
 eventoRef
@@ -286,14 +416,17 @@ return;
 }
 
 
-const evento =
-eventoSnap.data();
+eventoActual =
+{
+
+id:config.eventoId,
+
+...eventoSnap.data()
+
+};
 
 
-await cargarEntradas(
-config.eventoId,
-evento
-);
+await cargarEntradas();
 
 
 }catch(error){
@@ -308,17 +441,13 @@ estado.innerHTML =
 }
 
 
-/* ==========================================
+/* =====================================
 CARGAR ENTRADAS
-========================================== */
+===================================== */
 
-async function cargarEntradas(
-eventoId,
-evento
-){
+async function cargarEntradas(){
 
 try{
-
 
 estado.innerHTML =
 "🔄 Buscando entradas del evento...";
@@ -339,7 +468,7 @@ entradasRef,
 where(
 "eventoId",
 "==",
-eventoId
+eventoActual.id
 )
 
 );
@@ -354,22 +483,21 @@ consulta
 if(snapshot.empty){
 
 estado.innerHTML =
-"❌ Este evento no tiene entradas generadas.";
+"❌ Este evento no tiene entradas.";
 
 return;
 
 }
 
 
-/*
-Ordenar por código
-*/
-
 const entradas =
 snapshot.docs.map(
 documento => ({
+
 id:documento.id,
+
 ...documento.data()
+
 })
 );
 
@@ -383,11 +511,12 @@ b.codigo
 
 
 /*
-SEGURIDAD:
-mostrar solamente 150.
+IMPORTANTE:
+solamente mostramos
+las primeras 150.
 */
 
-const entradasMostrar =
+entradasActuales =
 entradas.slice(0,150);
 
 
@@ -398,20 +527,24 @@ estado.innerHTML = `
 <br>
 
 <strong>
-${evento.nombre || "Piano & Vino"}
+${eventoActual.nombre || "Piano & Vino"}
 </strong>
 
 <br>
 
-📅 ${formatearFecha(evento.fecha)}
+📅 ${formatearFecha(eventoActual.fecha)}
 
 <br>
 
-⏰ ${evento.hora || "-"}
+⏰ ${eventoActual.hora || "-"}
 
 <br>
 
-🎟️ ${entradasMostrar.length} entradas
+📍 ${eventoActual.lugar || "-"}
+
+<br>
+
+🎟️ ${entradasActuales.length} entradas
 
 `;
 
@@ -419,15 +552,18 @@ ${evento.nombre || "Piano & Vino"}
 contenedor.innerHTML = "";
 
 
-entradasMostrar.forEach(
+entradasActuales.forEach(
 entrada => {
 
 crearEntrada(
 entrada,
-evento
+eventoActual
 );
 
 });
+
+
+btnTodas.disabled = false;
 
 
 }catch(error){
@@ -442,15 +578,14 @@ estado.innerHTML =
 }
 
 
-/* ==========================================
-CREAR ENTRADA
-========================================== */
+/* =====================================
+CREAR TICKET
+===================================== */
 
 function crearEntrada(
 entrada,
 evento
 ){
-
 
 const caja =
 document.createElement("div");
@@ -460,17 +595,20 @@ caja.className =
 "entrada";
 
 
-caja.id =
-"entrada-" +
+caja.dataset.codigo =
 entrada.codigo;
 
 
 caja.innerHTML = `
 
 <img
+
 src="logo-piano-vino.jpg"
+
 class="logo"
+
 alt="Piano & Vino"
+
 >
 
 
@@ -483,7 +621,9 @@ Piano & Vino
 
 <div class="evento">
 
-${evento.nombre || "Evento"}
+${escaparHTML(
+evento.nombre || "Evento"
+)}
 
 </div>
 
@@ -498,7 +638,9 @@ ${evento.nombre || "Evento"}
 
 <br>
 
-📍 ${evento.lugar || "-"}
+📍 ${escaparHTML(
+evento.lugar || "-"
+)}
 
 </div>
 
@@ -516,10 +658,17 @@ id="qr-${entrada.codigo}"
 ></div>
 
 
+<div class="pie">
+
+Presentar este QR al ingresar
+
+</div>
+
+
 <div class="no-imprimir">
 
 <button
-class="descargar"
+class="btn-descargar"
 >
 
 📱 Descargar entrada
@@ -536,9 +685,7 @@ caja
 );
 
 
-/*
-Crear QR
-*/
+/* Crear QR */
 
 new QRCode(
 
@@ -562,13 +709,11 @@ QRCode.CorrectLevel.H
 );
 
 
-/*
-Botón descargar
-*/
+/* Botón individual */
 
 const boton =
 caja.querySelector(
-".descargar"
+".btn-descargar"
 );
 
 
@@ -588,23 +733,24 @@ entrada.codigo
 }
 
 
-/* ==========================================
-DESCARGAR INDIVIDUAL
-========================================== */
+/* =====================================
+DESCARGAR UNA ENTRADA
+===================================== */
 
 async function descargarEntrada(
 elemento,
 codigo
 ){
 
-try{
-
-
 const boton =
 elemento.querySelector(
-".descargar"
+".btn-descargar"
 );
 
+
+try{
+
+boton.disabled = true;
 
 boton.textContent =
 "⏳ Preparando...";
@@ -615,11 +761,19 @@ await html2canvas(
 elemento,
 {
 
-backgroundColor:"#000",
+backgroundColor:"#050505",
 
 scale:2,
 
-useCORS:true
+useCORS:true,
+
+logging:false,
+
+ignoreElements:
+element =>
+element.classList.contains(
+"no-imprimir"
+)
 
 }
 );
@@ -644,8 +798,243 @@ canvas.toDataURL(
 enlace.click();
 
 
+}catch(error){
+
+console.error(error);
+
+alert(
+"No se pudo descargar " +
+codigo
+);
+
+}finally{
+
+boton.disabled = false;
+
 boton.textContent =
 "📱 Descargar entrada";
+
+}
+
+}
+
+
+/* =====================================
+DESCARGAR LAS 150 EN ZIP
+===================================== */
+
+btnTodas.addEventListener(
+"click",
+async()=>{
+
+if(!entradasActuales.length){
+
+return;
+
+}
+
+
+const confirmar =
+confirm(
+
+`Se van a preparar ${entradasActuales.length} entradas.
+
+Evento:
+${eventoActual.nombre}
+
+Fecha:
+${formatearFecha(eventoActual.fecha)}
+
+Esto puede tardar unos minutos.
+
+¿Continuar?`
+
+);
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+try{
+
+btnTodas.disabled = true;
+
+btnTodas.textContent =
+"⏳ Preparando ZIP...";
+
+
+const zip =
+new JSZip();
+
+
+const entradasDOM =
+document.querySelectorAll(
+".entrada"
+);
+
+
+let contador = 0;
+
+
+for(
+const elemento of entradasDOM
+){
+
+const codigo =
+elemento.dataset.codigo;
+
+
+contador++;
+
+
+btnTodas.textContent =
+
+`⏳ Preparando ${contador}/${entradasDOM.length}`;
+
+
+const canvas =
+await html2canvas(
+elemento,
+{
+
+backgroundColor:"#050505",
+
+scale:2,
+
+useCORS:true,
+
+logging:false,
+
+ignoreElements:
+element =>
+element.classList.contains(
+"no-imprimir"
+)
+
+}
+);
+
+
+const blob =
+await new Promise(
+resolve =>
+canvas.toBlob(
+resolve,
+"image/png"
+)
+);
+
+
+zip.file(
+
+`Piano-Vino-${codigo}.png`,
+
+blob
+
+);
+
+
+/*
+Pequeña pausa para
+no saturar el navegador.
+*/
+
+await esperar(80);
+
+}
+
+
+btnTodas.textContent =
+"📦 Creando ZIP...";
+
+
+const contenido =
+await zip.generateAsync(
+{
+
+type:"blob",
+
+compression:"DEFLATE",
+
+compressionOptions:
+{
+level:6
+}
+
+},
+
+metadata => {
+
+if(metadata.percent){
+
+btnTodas.textContent =
+
+`📦 Creando ZIP ${Math.round(
+metadata.percent
+)}%`;
+
+}
+
+}
+
+);
+
+
+const url =
+URL.createObjectURL(
+contenido
+);
+
+
+const enlace =
+document.createElement("a");
+
+
+enlace.href =
+url;
+
+
+enlace.download =
+
+"Piano-Vino-" +
+
+limpiarNombre(
+eventoActual.nombre ||
+"Evento"
+) +
+
+"-" +
+
+eventoActual.fecha +
+
+"-150-entradas.zip";
+
+
+document.body.appendChild(
+enlace
+);
+
+
+enlace.click();
+
+
+enlace.remove();
+
+
+URL.revokeObjectURL(
+url
+);
+
+
+alert(
+"✅ Las " +
+entradasDOM.length +
+" entradas fueron preparadas correctamente."
+);
 
 
 }catch(error){
@@ -653,17 +1042,54 @@ boton.textContent =
 console.error(error);
 
 alert(
-"No se pudo descargar la entrada."
+"❌ No se pudo crear el ZIP."
+);
+
+}finally{
+
+btnTodas.disabled = false;
+
+btnTodas.textContent =
+"📦 Descargar las 150 entradas";
+
+}
+
+});
+
+
+/* =====================================
+UTILIDADES
+===================================== */
+
+function esperar(ms){
+
+return new Promise(
+resolve =>
+setTimeout(
+resolve,
+ms
+)
 );
 
 }
 
+
+function limpiarNombre(texto){
+
+return texto
+
+.replace(
+/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ_-]/g,
+"_"
+)
+
+.substring(
+0,
+50
+);
+
 }
 
-
-/* ==========================================
-FECHA
-========================================== */
 
 function formatearFecha(
 fecha
@@ -696,14 +1122,48 @@ return fecha;
 }
 
 
-/* ==========================================
+function escaparHTML(
+texto
+){
+
+return String(texto)
+
+.replace(
+/&/g,
+"&amp;"
+)
+
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
+
+
+/* =====================================
 INICIAR
-========================================== */
+===================================== */
 
 cargarEvento();
 
-
 </script>
+
 
 </body>
 
