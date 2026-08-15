@@ -5,10 +5,7 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Piano & Vino - Administrador</title>
 
@@ -177,10 +174,6 @@ border-top:1px solid #444;
 display:none;
 }
 
-.activo{
-border:2px solid #4caf50;
-}
-
 </style>
 
 </head>
@@ -188,18 +181,12 @@ border:2px solid #4caf50;
 
 <body>
 
-
 <div class="panel">
-
 
 <h1>🎹 Piano & Vino</h1>
 
 <h2>Panel Administrador</h2>
 
-
-<!-- =========================================
-ESTADO FIREBASE
-========================================= -->
 
 <div
 id="estadoConexion"
@@ -211,67 +198,40 @@ class="estado cargando"
 </div>
 
 
-<!-- =========================================
-EVENTO ACTUAL
-========================================= -->
+<!-- EVENTO ACTUAL -->
 
-<div
-class="evento-card"
->
+<div class="evento-card">
 
 <h3>🎟️ Evento actual</h3>
 
 <p>
-
 <strong id="eventoNombre">
 Sin evento seleccionado
 </strong>
-
 </p>
 
 <p>
-
-📅
-<span id="eventoFecha">
--
-</span>
-
+📅 <span id="eventoFecha">-</span>
 </p>
 
 <p>
-
-⏰
-<span id="eventoHora">
--
-</span>
-
+⏰ <span id="eventoHora">-</span>
 </p>
 
 <p>
-
-📍
-<span id="eventoLugar">
--
-</span>
-
+📍 <span id="eventoLugar">-</span>
 </p>
 
 </div>
 
 
-<!-- =========================================
-ESTADÍSTICAS
-========================================= -->
+<!-- ESTADÍSTICAS -->
 
 <div class="stats">
 
-
 <div class="stat">
 
-<span
-class="numero"
-id="total"
->
+<span class="numero" id="total">
 0
 </span>
 
@@ -282,10 +242,7 @@ Total entradas
 
 <div class="stat">
 
-<span
-class="numero"
-id="ingresadas"
->
+<span class="numero" id="ingresadas">
 0
 </span>
 
@@ -296,10 +253,7 @@ Ingresadas
 
 <div class="stat">
 
-<span
-class="numero"
-id="disponibles"
->
+<span class="numero" id="disponibles">
 0
 </span>
 
@@ -310,10 +264,7 @@ Disponibles
 
 <div class="stat">
 
-<span
-class="numero"
-id="usadas"
->
+<span class="numero" id="usadas">
 0
 </span>
 
@@ -321,25 +272,19 @@ QR utilizados
 
 </div>
 
-
 </div>
 
 
 <hr class="separador">
 
 
-<!-- =========================================
-SELECCIONAR EVENTO
-========================================= -->
+<!-- SELECCIONAR EVENTO -->
 
 <h3>
 📂 Seleccionar evento
 </h3>
 
-
-<select
-id="selectorEvento"
->
+<select id="selectorEvento">
 
 <option value="">
 Cargando eventos...
@@ -348,9 +293,7 @@ Cargando eventos...
 </select>
 
 
-<!-- =========================================
-NUEVO EVENTO
-========================================= -->
+<!-- NUEVO EVENTO -->
 
 <button
 id="btnNuevoEvento"
@@ -367,20 +310,14 @@ id="formularioEvento"
 class="oculto"
 >
 
-
 <h3>
 ⚙️ Nuevo evento
 </h3>
 
 
-<label
-for="nombreEvento"
->
-
+<label for="nombreEvento">
 🎹 Nombre del evento
-
 </label>
-
 
 <input
 type="text"
@@ -389,14 +326,9 @@ placeholder="Ej: Piano & Vino"
 >
 
 
-<label
-for="fecha"
->
-
+<label for="fecha">
 📅 Fecha del evento
-
 </label>
-
 
 <input
 type="date"
@@ -404,14 +336,9 @@ id="fecha"
 >
 
 
-<label
-for="hora"
->
-
+<label for="hora">
 ⏰ Hora del evento
-
 </label>
-
 
 <input
 type="time"
@@ -419,14 +346,9 @@ id="hora"
 >
 
 
-<label
-for="lugar"
->
-
+<label for="lugar">
 📍 Lugar
-
 </label>
-
 
 <input
 type="text"
@@ -435,27 +357,29 @@ placeholder="Ej: Galpón Vinilo"
 >
 
 
-<label
-for="cantidad"
->
-
+<label for="cantidad">
 🎟️ Cantidad de entradas
-
 </label>
-
 
 <input
 type="number"
 id="cantidad"
 value="150"
-min="1"
-max="500"
+min="150"
+max="150"
+readonly
 >
 
 
-<button
-id="guardarEvento"
->
+<p class="info">
+
+🔒 Cada evento tendrá exactamente
+<strong>150 entradas</strong>.
+
+</p>
+
+
+<button id="guardarEvento">
 
 💾 Crear evento
 
@@ -471,33 +395,28 @@ Cancelar
 
 </button>
 
-
 </div>
 
 
 <hr class="separador">
 
 
-<!-- =========================================
-GENERAR ENTRADAS
-========================================= -->
+<!-- GENERAR ENTRADAS -->
 
 <h3>
-🎟️ Entradas
+🎟️ Entradas del evento
 </h3>
 
 
 <p class="info">
 
-Las entradas se generarán únicamente para el
-<strong>evento seleccionado</strong>.
+Cada evento puede tener como máximo
+<strong>150 entradas</strong>.
 
 </p>
 
 
-<button
-id="generarEntradas"
->
+<button id="generarEntradas">
 
 🎟️ Generar entradas del evento
 
@@ -507,9 +426,7 @@ id="generarEntradas"
 <hr class="separador">
 
 
-<!-- =========================================
-REINICIAR ENTRADAS
-========================================= -->
+<!-- REINICIAR -->
 
 <h3>
 🔄 Reiniciar entradas
@@ -518,10 +435,8 @@ REINICIAR ENTRADAS
 
 <p class="info">
 
-Esta opción reinicia solamente las entradas
-del <strong>evento actual</strong>.
-
-Los eventos anteriores no serán modificados.
+Reinicia solamente las entradas
+del evento seleccionado.
 
 </p>
 
@@ -550,16 +465,10 @@ Panel de administración
 
 </p>
 
-
 </div>
 
 
 <script type="module">
-
-
-/* ==========================================
-FIREBASE
-========================================== */
 
 import { db } from "./firebase.js";
 
@@ -636,9 +545,6 @@ document.getElementById("hora");
 const lugarInput =
 document.getElementById("lugar");
 
-const cantidadInput =
-document.getElementById("cantidad");
-
 const eventoNombre =
 document.getElementById("eventoNombre");
 
@@ -652,65 +558,45 @@ const eventoLugar =
 document.getElementById("eventoLugar");
 
 
-/* ==========================================
-EVENTO ACTUAL
-========================================== */
-
 let eventoActual = null;
 
 
 /* ==========================================
-MENSAJE
+MENSAJES
 ========================================== */
 
-function mostrarMensaje(
-texto,
-tipo=""
-){
+function mostrarMensaje(texto,tipo=""){
 
-mensaje.textContent =
-texto;
+mensaje.textContent = texto;
 
-mensaje.style.display =
-"block";
+mensaje.style.display = "block";
 
 mensaje.className =
 "mensaje " + tipo;
 
+setTimeout(()=>{
 
-setTimeout(
-()=>{
+mensaje.style.display = "none";
 
-mensaje.style.display =
-"none";
-
-},
-5000
-);
+},5000);
 
 }
 
 
 /* ==========================================
-FORMATEAR FECHA
+FECHA
 ========================================== */
 
-function formatearFecha(
-fecha
-){
+function formatearFecha(fecha){
 
 if(!fecha){
-
 return "-";
-
 }
-
 
 if(fecha.includes("-")){
 
 const partes =
 fecha.split("-");
-
 
 if(partes.length === 3){
 
@@ -719,7 +605,6 @@ return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
 }
-
 
 return fecha;
 
@@ -734,86 +619,51 @@ async function cargarEventos(){
 
 try{
 
-
 const eventosRef =
-collection(
-db,
-"eventos"
-);
-
+collection(db,"eventos");
 
 const snapshot =
-await getDocs(
-eventosRef
-);
+await getDocs(eventosRef);
 
-
-selectorEvento.innerHTML =
-"";
-
+selectorEvento.innerHTML = "";
 
 if(snapshot.empty){
 
 selectorEvento.innerHTML = `
-
 <option value="">
-
 No hay eventos creados
-
 </option>
-
 `;
 
+eventoActual = null;
 
-eventoActual =
-null;
-
-
-actualizarDatosEvento();
-
+actualizarPantalla();
 
 return;
 
 }
 
 
-snapshot.forEach(
-(documento)=>{
-
+snapshot.forEach(documento=>{
 
 const datos =
 documento.data();
 
-
 const option =
-document.createElement(
-"option"
-);
-
+document.createElement("option");
 
 option.value =
 documento.id;
 
-
 option.textContent =
-
 `${datos.nombre || "Evento"} - ${formatearFecha(datos.fecha)}`;
 
-
-selectorEvento.appendChild(
-option
-);
+selectorEvento.appendChild(option);
 
 });
 
 
-/*
-Seleccionamos el primer evento.
-*/
-
-selectorEvento.selectedIndex =
-0;
-
+selectorEvento.selectedIndex = 0;
 
 await seleccionarEvento(
 selectorEvento.value
@@ -822,11 +672,7 @@ selectorEvento.value
 
 }catch(error){
 
-console.error(
-"Error cargando eventos:",
-error
-);
-
+console.error(error);
 
 mostrarMensaje(
 "❌ No se pudieron cargar los eventos.",
@@ -842,16 +688,13 @@ mostrarMensaje(
 SELECCIONAR EVENTO
 ========================================== */
 
-async function seleccionarEvento(
-eventoId
-){
+async function seleccionarEvento(eventoId){
 
 if(!eventoId){
 
-eventoActual =
-null;
+eventoActual = null;
 
-actualizarDatosEvento();
+actualizarPantalla();
 
 return;
 
@@ -860,19 +703,11 @@ return;
 
 try{
 
-
 const referencia =
-doc(
-db,
-"eventos",
-eventoId
-);
-
+doc(db,"eventos",eventoId);
 
 const documento =
-await getDoc(
-referencia
-);
+await getDoc(referencia);
 
 
 if(!documento.exists()){
@@ -887,10 +722,6 @@ return;
 }
 
 
-/* ==========================================
-GUARDAR EVENTO ACTUAL
-========================================== */
-
 eventoActual = {
 
 id:eventoId,
@@ -901,7 +732,7 @@ id:eventoId,
 
 
 /* ==========================================
-GUARDAR EVENTO COMO ACTIVO
+GUARDAR EVENTO ACTIVO
 ========================================== */
 
 await setDoc(
@@ -916,50 +747,29 @@ db,
 
 eventoId:eventoId,
 
-nombre:
-eventoActual.nombre || "",
+nombre:eventoActual.nombre || "",
 
-fecha:
-eventoActual.fecha || "",
+fecha:eventoActual.fecha || "",
 
-hora:
-eventoActual.hora || "",
+hora:eventoActual.hora || "",
 
-lugar:
-eventoActual.lugar || ""
+lugar:eventoActual.lugar || ""
 
 },
 
-{
-
-merge:true
-
-}
+{merge:true}
 
 );
 
 
-/* ==========================================
-ACTUALIZAR PANTALLA
-========================================== */
-
-actualizarDatosEvento();
-
-
-/* ==========================================
-CARGAR ENTRADAS
-========================================== */
+actualizarPantalla();
 
 await cargarEntradas();
 
 
 }catch(error){
 
-console.error(
-"Error seleccionando evento:",
-error
-);
-
+console.error(error);
 
 mostrarMensaje(
 "❌ Error seleccionando el evento.",
@@ -972,36 +782,29 @@ mostrarMensaje(
 
 
 /* ==========================================
-MOSTRAR EVENTO
+PANTALLA
 ========================================== */
 
-function actualizarDatosEvento(){
+function actualizarPantalla(){
 
 if(!eventoActual){
 
 eventoNombre.textContent =
 "Sin evento seleccionado";
 
-eventoFecha.textContent =
-"-";
+eventoFecha.textContent = "-";
 
-eventoHora.textContent =
-"-";
+eventoHora.textContent = "-";
 
-eventoLugar.textContent =
-"-";
+eventoLugar.textContent = "-";
 
-totalElement.textContent =
-"0";
+totalElement.textContent = "0";
 
-ingresadasElement.textContent =
-"0";
+ingresadasElement.textContent = "0";
 
-disponiblesElement.textContent =
-"0";
+disponiblesElement.textContent = "0";
 
-usadasElement.textContent =
-"0";
+usadasElement.textContent = "0";
 
 return;
 
@@ -1012,9 +815,7 @@ eventoNombre.textContent =
 eventoActual.nombre || "-";
 
 eventoFecha.textContent =
-formatearFecha(
-eventoActual.fecha
-);
+formatearFecha(eventoActual.fecha);
 
 eventoHora.textContent =
 eventoActual.hora || "-";
@@ -1032,26 +833,16 @@ CARGAR ENTRADAS DEL EVENTO
 async function cargarEntradas(){
 
 if(!eventoActual){
-
 return;
-
 }
 
 
 try{
 
-
-const entradasRef =
-collection(
-db,
-"entradas"
-);
-
-
 const consulta =
 query(
 
-entradasRef,
+collection(db,"entradas"),
 
 where(
 "eventoId",
@@ -1063,32 +854,19 @@ eventoActual.id
 
 
 const snapshot =
-await getDocs(
-consulta
-);
+await getDocs(consulta);
 
 
-let total =
-0;
+let total = 0;
 
-let usadas =
-0;
+let usadas = 0;
 
 
-snapshot.forEach(
-(documento)=>{
-
-
-const datos =
-documento.data();
-
+snapshot.forEach(documento=>{
 
 total++;
 
-
-if(
-datos.usado === true
-){
+if(documento.data().usado === true){
 
 usadas++;
 
@@ -1112,11 +890,7 @@ total - usadas;
 
 }catch(error){
 
-console.error(
-"Error cargando entradas:",
-error
-);
-
+console.error(error);
 
 mostrarMensaje(
 "❌ Error cargando las entradas.",
@@ -1170,7 +944,6 @@ guardarEvento.addEventListener(
 "click",
 async()=>{
 
-
 const nombre =
 nombreEvento.value.trim();
 
@@ -1183,53 +956,26 @@ horaInput.value;
 const lugar =
 lugarInput.value.trim();
 
-const cantidad =
-parseInt(
-cantidadInput.value
-);
-
 
 if(!nombre){
 
-alert(
-"Escribí el nombre del evento."
-);
+alert("Escribí el nombre del evento.");
 
 return;
 
 }
-
 
 if(!fecha){
 
-alert(
-"Seleccioná la fecha."
-);
+alert("Seleccioná la fecha.");
 
 return;
 
 }
-
 
 if(!hora){
 
-alert(
-"Seleccioná la hora."
-);
-
-return;
-
-}
-
-
-if(
-!cantidad ||
-cantidad < 1
-){
-
-alert(
-"Indicá la cantidad de entradas."
-);
+alert("Seleccioná la hora.");
 
 return;
 
@@ -1238,25 +984,17 @@ return;
 
 try{
 
-
-guardarEvento.disabled =
-true;
+guardarEvento.disabled = true;
 
 guardarEvento.textContent =
 "💾 Creando...";
 
 
 const eventosRef =
-collection(
-db,
-"eventos"
-);
-
+collection(db,"eventos");
 
 const nuevoEventoRef =
-doc(
-eventosRef
-);
+doc(eventosRef);
 
 
 await setDoc(
@@ -1273,13 +1011,12 @@ hora:hora,
 
 lugar:lugar,
 
-cantidad:cantidad,
+cantidad:150,
 
 creadoEn:
 new Date().toISOString(),
 
-estado:
-"activo"
+estado:"activo"
 
 }
 
@@ -1287,7 +1024,7 @@ estado:
 
 
 mostrarMensaje(
-"✅ Evento creado correctamente.",
+"✅ Evento creado con 150 entradas disponibles para generar.",
 "exito"
 );
 
@@ -1297,20 +1034,13 @@ formularioEvento.classList.add(
 );
 
 
-nombreEvento.value =
-"";
+nombreEvento.value = "";
 
-fechaInput.value =
-"";
+fechaInput.value = "";
 
-horaInput.value =
-"";
+horaInput.value = "";
 
-lugarInput.value =
-"";
-
-cantidadInput.value =
-"150";
+lugarInput.value = "";
 
 
 await cargarEventos();
@@ -1327,23 +1057,16 @@ nuevoEventoRef.id
 
 }catch(error){
 
-console.error(
-"Error creando evento:",
-error
-);
-
+console.error(error);
 
 mostrarMensaje(
 "❌ No se pudo crear el evento.",
 "error"
 );
 
-
 }finally{
 
-
-guardarEvento.disabled =
-false;
+guardarEvento.disabled = false;
 
 guardarEvento.textContent =
 "💾 Crear evento";
@@ -1378,7 +1101,6 @@ generarEntradas.addEventListener(
 "click",
 async()=>{
 
-
 if(!eventoActual){
 
 alert(
@@ -1390,55 +1112,18 @@ return;
 }
 
 
-const confirmar =
-confirm(
-
-`¿Generar las entradas para:
-
-${eventoActual.nombre}
-
-Fecha:
-${formatearFecha(eventoActual.fecha)}
-
-Hora:
-${eventoActual.hora}
-
-Cantidad:
-${eventoActual.cantidad}
-
-?`
-
-);
-
-
-if(!confirmar){
-
-return;
-
-}
-
-
 try{
 
-
-generarEntradas.disabled =
-true;
+generarEntradas.disabled = true;
 
 generarEntradas.textContent =
-"🎟️ Generando...";
-
-
-const entradasRef =
-collection(
-db,
-"entradas"
-);
+"🔎 Comprobando...";
 
 
 const consulta =
 query(
 
-entradasRef,
+collection(db,"entradas"),
 
 where(
 "eventoId",
@@ -1450,17 +1135,25 @@ eventoActual.id
 
 
 const existentes =
-await getDocs(
-consulta
-);
+await getDocs(consulta);
 
 
-if(
-!existentes.empty
-){
+const cantidadExistente =
+existentes.size;
 
-alert(
-"Este evento ya tiene entradas generadas."
+
+/* ==========================================
+YA TIENE 150
+========================================== */
+
+if(cantidadExistente >= 150){
+
+mostrarMensaje(
+
+`⚠️ Este evento ya tiene ${cantidadExistente} entradas. No se generarán más.`,
+
+"error"
+
 );
 
 return;
@@ -1468,45 +1161,98 @@ return;
 }
 
 
-/*
-Firestore permite máximo
-500 operaciones por batch.
+/* ==========================================
+SI TIENE MENOS DE 150
+GENERAMOS SOLO LAS QUE FALTAN
+========================================== */
 
-Usamos bloques de 450.
-*/
+const cantidadFaltante =
+150 - cantidadExistente;
+
+
+const confirmar =
+confirm(
+
+`Este evento tiene ${cantidadExistente} entradas.
+
+Se generarán ${cantidadFaltante} para completar 150.
+
+¿Continuar?`
+
+);
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+generarEntradas.textContent =
+"🎟️ Generando...";
+
 
 let batch =
 writeBatch(db);
 
-let operaciones =
-0;
+let operaciones = 0;
 
 
-for(
-let i=1;
-i<=eventoActual.cantidad;
-i++
-){
+/*
+Buscamos qué códigos ya existen.
+*/
 
+const codigosExistentes =
+new Set();
+
+
+existentes.forEach(documento=>{
+
+const codigo =
+documento.data().codigo;
+
+if(codigo){
+
+codigosExistentes.add(codigo);
+
+}
+
+});
+
+
+let creadas = 0;
+
+
+/*
+Siempre completamos hasta PV-0150.
+*/
+
+for(let i=1;i<=150;i++){
 
 const codigo =
 "PV-" +
-String(i).padStart(
-4,
-"0"
-);
+String(i).padStart(4,"0");
 
 
-const idEntrada =
-eventoActual.id +
-"_" +
-codigo;
+if(codigosExistentes.has(codigo)){
+
+continue;
+
+}
 
 
 const entradaRef =
 doc(
-entradasRef,
-idEntrada
+
+db,
+
+"entradas",
+
+eventoActual.id +
+"_" +
+codigo
+
 );
 
 
@@ -1535,8 +1281,7 @@ eventoActual.lugar || "",
 
 usado:false,
 
-estado:
-"disponible",
+estado:"disponible",
 
 fechaIngreso:"",
 
@@ -1549,27 +1294,28 @@ horaIngreso:""
 
 operaciones++;
 
+creadas++;
 
-if(
-operaciones >= 450
-){
+
+/*
+Máximo 450 operaciones.
+*/
+
+if(operaciones >= 450){
 
 await batch.commit();
 
 batch =
 writeBatch(db);
 
-operaciones =
-0;
+operaciones = 0;
 
 }
 
 }
 
 
-if(
-operaciones > 0
-){
+if(operaciones > 0){
 
 await batch.commit();
 
@@ -1578,7 +1324,7 @@ await batch.commit();
 
 mostrarMensaje(
 
-`✅ ${eventoActual.cantidad} entradas generadas correctamente.`,
+`✅ Se agregaron ${creadas} entradas. El evento ahora tiene 150.`,
 
 "exito"
 
@@ -1590,23 +1336,16 @@ await cargarEntradas();
 
 }catch(error){
 
-console.error(
-"Error generando entradas:",
-error
-);
-
+console.error(error);
 
 mostrarMensaje(
 "❌ Error generando las entradas.",
 "error"
 );
 
-
 }finally{
 
-
-generarEntradas.disabled =
-false;
+generarEntradas.disabled = false;
 
 generarEntradas.textContent =
 "🎟️ Generar entradas del evento";
@@ -1618,13 +1357,12 @@ generarEntradas.textContent =
 
 
 /* ==========================================
-REINICIAR ENTRADAS
+REINICIAR EVENTO
 ========================================== */
 
 reiniciar.addEventListener(
 "click",
 async()=>{
-
 
 if(!eventoActual){
 
@@ -1640,16 +1378,14 @@ return;
 const confirmar =
 confirm(
 
-`⚠️ ATENCIÓN
-
-Vas a reiniciar TODAS las entradas de:
+`⚠️ Vas a reiniciar las entradas de:
 
 ${eventoActual.nombre}
 
 Fecha:
 ${formatearFecha(eventoActual.fecha)}
 
-Esto solamente afecta este evento.
+Todas quedarán disponibles nuevamente.
 
 ¿Continuar?`
 
@@ -1665,25 +1401,16 @@ return;
 
 try{
 
-
-reiniciar.disabled =
-true;
+reiniciar.disabled = true;
 
 reiniciar.textContent =
 "🔄 Reiniciando...";
 
 
-const entradasRef =
-collection(
-db,
-"entradas"
-);
-
-
 const consulta =
 query(
 
-entradasRef,
+collection(db,"entradas"),
 
 where(
 "eventoId",
@@ -1695,23 +1422,16 @@ eventoActual.id
 
 
 const snapshot =
-await getDocs(
-consulta
-);
+await getDocs(consulta);
 
 
 let batch =
 writeBatch(db);
 
-let operaciones =
-0;
+let operaciones = 0;
 
 
-for(
-const documento
-of snapshot.docs
-){
-
+for(const documento of snapshot.docs){
 
 batch.update(
 
@@ -1721,8 +1441,7 @@ documento.ref,
 
 usado:false,
 
-estado:
-"disponible",
+estado:"disponible",
 
 fechaIngreso:"",
 
@@ -1736,26 +1455,21 @@ horaIngreso:""
 operaciones++;
 
 
-if(
-operaciones >= 450
-){
+if(operaciones >= 450){
 
 await batch.commit();
 
 batch =
 writeBatch(db);
 
-operaciones =
-0;
+operaciones = 0;
 
 }
 
 }
 
 
-if(
-operaciones > 0
-){
+if(operaciones > 0){
 
 await batch.commit();
 
@@ -1763,7 +1477,7 @@ await batch.commit();
 
 
 mostrarMensaje(
-"✅ Entradas del evento reiniciadas.",
+"✅ Las entradas del evento fueron reiniciadas.",
 "exito"
 );
 
@@ -1773,23 +1487,16 @@ await cargarEntradas();
 
 }catch(error){
 
-console.error(
-"Error reiniciando:",
-error
-);
-
+console.error(error);
 
 mostrarMensaje(
 "❌ No se pudieron reiniciar las entradas.",
 "error"
 );
 
-
 }finally{
 
-
-reiniciar.disabled =
-false;
+reiniciar.disabled = false;
 
 reiniciar.textContent =
 "🔄 Reiniciar entradas del evento";
@@ -1808,13 +1515,10 @@ async function iniciar(){
 
 try{
 
-
 estadoConexion.textContent =
 "🔄 Conectando con Firebase...";
 
-
 await cargarEventos();
-
 
 estadoConexion.textContent =
 "🟢 Firebase conectado correctamente";
@@ -1822,13 +1526,9 @@ estadoConexion.textContent =
 estadoConexion.className =
 "estado exito";
 
-
 }catch(error){
 
-console.error(
-error
-);
-
+console.error(error);
 
 estadoConexion.textContent =
 "🔴 Error conectando con Firebase";
@@ -1843,10 +1543,10 @@ estadoConexion.className =
 
 iniciar();
 
-
 </script>
-
 
 </body>
 
 </html>
+
+
