@@ -1,1593 +1,1261 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Piano & Vino - Administrador</title>
-<style>
-*{box-sizing:border-box}
+  <meta charset="UTF-8">
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#111;
-color:white;
-text-align:center;
-padding:20px;
-}
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-.panel{
-max-width:520px;
-margin:20px auto;
-background:#222;
-border-radius:20px;
-padding:25px;
-box-shadow:0 0 25px rgba(0,0,0,.6);
-}
+  <title>Piano & Vino - Manager</title>
 
-h1{
-color:#d4af37;
-margin-bottom:5px;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-h2{margin-top:5px}
-h3{margin-top:25px}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #090909;
+      color: #f5f0e6;
+    }
 
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin:25px 0;
-}
+    header {
+      padding: 35px 20px 30px;
+      text-align: center;
+      background:
+        radial-gradient(circle at center, #35141f 0%, #130b0e 45%, #080808 100%);
+      border-bottom: 2px solid #741d32;
+    }
 
-.stat{
-background:#333;
-padding:18px 10px;
-border-radius:12px;
-}
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 42px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
 
-.numero{
-font-size:30px;
-font-weight:bold;
-color:#d4af37;
-display:block;
-}
+    .logo span {
+      color: #b52b4b;
+    }
 
-label{
-display:block;
-text-align:left;
-margin-top:15px;
-margin-bottom:5px;
-}
+    .manager {
+      margin-top: 8px;
+      color: #b52b4b;
+      font-size: 16px;
+      letter-spacing: 6px;
+    }
 
-input,select{
-width:100%;
-padding:13px;
-border-radius:10px;
-border:none;
-font-size:17px;
-}
+    .subtitle {
+      margin-top: 12px;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: #ddd3c4;
+    }
 
-button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:10px;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
-background:#d4af37;
-color:#111;
-}
+    .firebase-status {
+      margin: 18px auto 0;
+      padding: 9px 16px;
+      max-width: 420px;
+      border-radius: 20px;
+      font-size: 13px;
+      background: #151515;
+      color: #aaa;
+    }
 
-button:hover{opacity:.9}
+    .firebase-status.ok {
+      color: #72d69a;
+    }
 
-button:disabled{
-opacity:.5;
-cursor:not-allowed;
-}
+    .firebase-status.error {
+      color: #ff7272;
+    }
 
-.btn-nuevo{
-background:#4caf50;
-color:white;
-}
+    .container {
+      width: 94%;
+      max-width: 1200px;
+      margin: 30px auto;
+    }
 
-.btn-danger{
-background:#b52b2b;
-color:white;
-}
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
 
-.btn-secundario{
-background:#444;
-color:white;
-}
+    .card {
+      background: #151515;
+      border: 1px solid #302327;
+      border-radius: 14px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,.25);
+    }
 
-.btn-venta{
-background:#4caf50;
-color:white;
-}
+    .card-title {
+      color: #bcb2a5;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
 
-.mensaje{
-margin-top:18px;
-padding:12px;
-border-radius:10px;
-display:none;
-background:#333;
-}
+    .number {
+      font-size: 38px;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #f4eee4;
+    }
 
-.info{
-font-size:14px;
-color:#bbb;
-margin-top:20px;
-line-height:1.5;
-}
+    .red-line {
+      width: 45px;
+      height: 3px;
+      margin: 14px auto 0;
+      background: #9d2943;
+      border-radius: 3px;
+    }
 
-.estado{
-margin-top:15px;
-font-size:14px;
-color:#bbb;
-}
+    .panel {
+      margin-top: 25px;
+      background: #111111;
+      border: 1px solid #2c2225;
+      border-radius: 15px;
+      overflow: hidden;
+    }
 
-.cargando{color:#d4af37}
-.exito{color:#4caf50}
-.error{color:#ff5252}
+    .panel-header {
+      padding: 20px;
+      border-bottom: 1px solid #2c2225;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
 
-.evento-card{
-background:#333;
-border-radius:15px;
-padding:18px;
-margin-top:20px;
-text-align:left;
-}
+    .panel-title {
+      font-family: Georgia, serif;
+      font-size: 22px;
+    }
 
-.evento-card strong{color:#d4af37}
+    .search {
+      background: #1d1d1d;
+      border: 1px solid #443036;
+      color: white;
+      padding: 11px 14px;
+      border-radius: 8px;
+      width: 250px;
+      outline: none;
+    }
 
-.recaudacion{
-background:#333;
-border-radius:15px;
-padding:20px;
-margin-top:15px;
-}
+    .search:focus {
+      border-color: #9d2943;
+    }
 
-.recaudacion .titulo{
-font-size:16px;
-color:#bbb;
-}
+    .table-wrapper {
+      overflow-x: auto;
+    }
 
-.recaudacion .monto{
-font-size:32px;
-font-weight:bold;
-color:#4caf50;
-margin-top:8px;
-}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-.separador{
-margin:30px 0;
-border:none;
-border-top:1px solid #444;
-}
+    th {
+      text-align: left;
+      padding: 15px;
+      color: #a99e92;
+      font-size: 12px;
+      letter-spacing: 1px;
+      background: #171717;
+    }
 
-.oculto{display:none}
+    td {
+      padding: 14px 15px;
+      border-top: 1px solid #242020;
+      font-size: 14px;
+    }
 
-.estado-venta{
-background:#333;
-padding:15px;
-border-radius:12px;
-margin-top:15px;
-font-size:15px;
-line-height:1.5;
-}
-</style>
+    tr:hover {
+      background: #171315;
+    }
+
+    .code {
+      font-weight: bold;
+      color: #f1e8dc;
+      letter-spacing: 1px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .available {
+      background: #173723;
+      color: #73d899;
+    }
+
+    .used {
+      background: #422027;
+      color: #ff8294;
+    }
+
+    .unknown {
+      background: #353535;
+      color: #ddd;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 8px 12px;
+      font-weight: bold;
+    }
+
+    .btn-use {
+      background: #8f243d;
+      color: white;
+    }
+
+    .btn-use:hover {
+      background: #b32d4b;
+    }
+
+    .btn-reset {
+      background: #333;
+      color: #eee;
+    }
+
+    .btn-reset:hover {
+      background: #4b4b4b;
+    }
+
+    .btn-disabled {
+      background: #292929;
+      color: #777;
+      cursor: not-allowed;
+    }
+
+    .message {
+      margin: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .message.success {
+      display: block;
+      background: #14351f;
+      color: #7ce09d;
+    }
+
+    .message.error {
+      display: block;
+      background: #421b20;
+      color: #ff8d9a;
+    }
+
+    .loading {
+      padding: 35px;
+      text-align: center;
+      color: #aaa;
+    }
+
+    footer {
+      text-align: center;
+      padding: 35px 15px;
+      color: #777;
+      font-size: 12px;
+    }
+
+    @media (max-width: 800px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .logo {
+        font-size: 32px;
+      }
+
+      .search {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      .card {
+        padding: 15px 8px;
+      }
+
+      .number {
+        font-size: 30px;
+      }
+
+      td, th {
+        padding: 10px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div class="panel">
-<h1>🎹 Piano & Vino</h1>
-<h2>Panel Administrador</h2>
-<div id="estadoConexion" class="estado cargando">
-🔄 Conectando con Firebase...
-</div>
-<div class="evento-card">
-<h3>🎟️ Evento actual</h3>
-<p>
-<strong id="eventoNombre">Sin evento seleccionado</strong>
-</p>
-<p>📅 <span id="eventoFecha">-</span></p>
-<p>⏰ <span id="eventoHora">-</span></p>
-<p>📍 <span id="eventoLugar">-</span></p>
-</div>
-<div class="stats">
-<div class="stat">
-<span class="numero" id="total">0</span>
-Total
-</div>
-<div class="stat">
-<span class="numero" id="vendidas">0</span>
-💰 Vendidas
-</div>
-<div class="stat">
-<span class="numero" id="ingresadas">0</span>
-🚪 Ingresadas
-</div>
-<div class="stat">
-<span class="numero" id="disponibles">0</span>
-🟢 Disponibles
-</div>
-</div>
-<div class="recaudacion">
-<div class="titulo">
-💵 Recaudación estimada
-</div>
-<div class="monto" id="recaudacion">
-$0
-</div>
-<div class="info" id="precioMostrado">
-Precio por entrada: $0
-</div>
-</div>
-<hr class="separador">
-<h3>📂 Seleccionar evento</h3>
-<select id="selectorEvento">
-<option value="">Cargando eventos...</option>
-</select>
-<button id="btnNuevoEvento" class="btn-nuevo">
-➕ Crear nuevo evento
-</button>
-<div id="formularioEvento" class="oculto">
-<h3>⚙️ Nuevo evento</h3>
-🎹 Nombre del evento
 
-<input
-type=“text”
-id=“nombreEvento”
-placeholder=“Ej: Piano & Vino”
+<header>
 
-📅 Fecha del evento
+  <div class="logo">
+    Piano<span>&</span>Vino
+  </div>
 
-<input type="date" id="fecha">
-⏰ Hora del evento
+  <div class="manager">
+    MANAGER
+  </div>
 
-<input type="time" id="hora">
-📍 Lugar
+  <div class="subtitle">
+    CONTROL DE ENTRADAS
+  </div>
 
-<input
-type=“text”
-id=“lugar”
-placeholder=“Ej: Galpón Vinilo”
+  <div id="firebaseStatus"
+       class="firebase-status">
+    🔄 Conectando con Firebase...
+  </div>
 
-💵 Precio de entrada
+</header>
 
-<input
-type=“number”
-id=“precio”
-placeholder=“Ej: 15000”
-min=“0”
-step=“1”
 
-🎟️ Cantidad de entradas
+<div class="container">
 
-<input
-type=“number”
-id=“cantidad”
-value=“150”
-min=“150”
-max=“150”
-readonly
+  <!-- ESTADÍSTICAS -->
 
-<p class="info">
-🔒 Cada evento tendrá exactamente
-<strong>150 entradas</strong>.
-</p>
-<button id="guardarEvento">
-💾 Crear evento
-</button>
-<button id="cancelarEvento" class="btn-secundario">
-Cancelar
-</button>
+  <div class="stats">
+
+    <div class="card">
+      <div class="card-title">
+        TOTAL ENTRADAS
+      </div>
+
+      <div id="total"
+           class="number">
+        150
+      </div>
+
+      <div class="red-line"></div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-title">
+        VENDIDAS
+      </div>
+
+      <div id="vendidas"
+           class="number">
+        0
+      </div>
+
+      <div class="red-line"></div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-title">
+        INGRESADAS
+      </div>
+
+      <div id="ingresadas"
+           class="number">
+        0
+      </div>
+
+      <div class="red-line"></div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-title">
+        DISPONIBLES
+      </div>
+
+      <div id="disponibles"
+           class="number">
+        150
+      </div>
+
+      <div class="red-line"></div>
+    </div>
+
+  </div>
+
+
+  <!-- ENTRADAS -->
+
+  <div class="panel">
+
+    <div class="panel-header">
+
+      <div class="panel-title">
+        🎟️ Entradas
+      </div>
+
+      <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="Buscar PV-0001..."
+      >
+
+    </div>
+
+
+    <div id="message"
+         class="message">
+    </div>
+
+
+    <div id="loading"
+         class="loading">
+
+      🔄 Cargando entradas...
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table id="ticketsTable"
+             style="display:none">
+
+        <thead>
+
+          <tr>
+
+            <th>
+              CÓDIGO
+            </th>
+
+            <th>
+              ESTADO
+            </th>
+
+            <th>
+              INGRESO
+            </th>
+
+            <th>
+              ACCIÓN
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="ticketsBody">
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
 </div>
-<hr class="separador">
-<h3>💰 Registrar venta</h3>
-<p class="info">
-Ingresá el código de la entrada vendida.
-Ejemplo: <strong>PV-0001</strong>
-</p>
-<input
-type=“text”
-id=“codigoVenta”
-placeholder=“PV-0001”
-autocomplete=“off”
 
-<button id="registrarVenta" class="btn-venta">
-💰 Registrar venta
-</button>
-<div id="estadoVenta" class="estado-venta oculto"></div>
-<hr class="separador">
-<h3>🎟️ Entradas del evento</h3>
-<p class="info">
-Cada evento puede tener como máximo
-<strong>150 entradas</strong>.
-</p>
-<button id="generarEntradas">
-🎟️ Generar entradas del evento
-</button>
-<hr class="separador">
-<h3>🔄 Reiniciar entradas</h3>
-<p class="info">
-Reinicia solamente las entradas
-del evento seleccionado.
-</p>
-<button id="reiniciar" class="btn-danger">
-🔄 Reiniciar entradas del evento
-</button>
-<div id="mensaje" class="mensaje"></div>
-<p class="info">
-Piano & Vino Manager<br>
-Panel de administración
-</p>
-</div>
+
+<footer>
+
+  ♫ &nbsp; Piano & Vino Bar &nbsp; ♫
+
+  <br><br>
+
+  Canciones a la carta · Música que se siente,
+  momentos que se recuerdan
+
+</footer>
+
+
 <script type="module">
 
-import { db } from "./firebase.js";
+  import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc,
+    onSnapshot,
+    query,
+    orderBy
+  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-import {
-collection,
-getDocs,
-doc,
-getDoc,
-setDoc,
-writeBatch,
-query,
-where
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+  import { db } from "./firebase.js";
 
 
-const totalElement =
-document.getElementById("total");
+  /*
+   * =====================================================
+   * CONFIGURACIÓN
+   * =====================================================
+   */
 
-const vendidasElement =
-document.getElementById("vendidas");
+  const COLLECTION_NAME = "entradas";
 
-const ingresadasElement =
-document.getElementById("ingresadas");
+  const TOTAL_ENTRADAS = 150;
 
-const disponiblesElement =
-document.getElementById("disponibles");
 
-const recaudacionElement =
-document.getElementById("recaudacion");
+  /*
+   * =====================================================
+   * ELEMENTOS
+   * =====================================================
+   */
 
-const precioMostrado =
-document.getElementById("precioMostrado");
+  const totalElement =
+    document.getElementById("total");
 
-const estadoConexion =
-document.getElementById("estadoConexion");
+  const vendidasElement =
+    document.getElementById("vendidas");
 
-const selectorEvento =
-document.getElementById("selectorEvento");
+  const ingresadasElement =
+    document.getElementById("ingresadas");
 
-const btnNuevoEvento =
-document.getElementById("btnNuevoEvento");
+  const disponiblesElement =
+    document.getElementById("disponibles");
 
-const formularioEvento =
-document.getElementById("formularioEvento");
+  const body =
+    document.getElementById("ticketsBody");
 
-const guardarEvento =
-document.getElementById("guardarEvento");
+  const table =
+    document.getElementById("ticketsTable");
 
-const cancelarEvento =
-document.getElementById("cancelarEvento");
+  const loading =
+    document.getElementById("loading");
 
-const generarEntradas =
-document.getElementById("generarEntradas");
+  const search =
+    document.getElementById("search");
 
-const reiniciar =
-document.getElementById("reiniciar");
+  const firebaseStatus =
+    document.getElementById("firebaseStatus");
 
-const mensaje =
-document.getElementById("mensaje");
+  const message =
+    document.getElementById("message");
 
-const nombreEvento =
-document.getElementById("nombreEvento");
 
-const fechaInput =
-document.getElementById("fecha");
+  /*
+   * =====================================================
+   * DATOS
+   * =====================================================
+   */
 
-const horaInput =
-document.getElementById("hora");
+  let tickets = [];
 
-const lugarInput =
-document.getElementById("lugar");
 
-const precioInput =
-document.getElementById("precio");
+  /*
+   * =====================================================
+   * FIREBASE
+   * =====================================================
+   */
 
-const codigoVenta =
-document.getElementById("codigoVenta");
+  try {
 
-const registrarVenta =
-document.getElementById("registrarVenta");
+    firebaseStatus.textContent =
+      "🟢 Firebase conectado";
 
-const estadoVenta =
-document.getElementById("estadoVenta");
+    firebaseStatus.classList.add("ok");
 
-const eventoNombre =
-document.getElementById("eventoNombre");
+    cargarEntradas();
 
-const eventoFecha =
-document.getElementById("eventoFecha");
+  } catch (error) {
 
-const eventoHora =
-document.getElementById("eventoHora");
+    console.error(error);
 
-const eventoLugar =
-document.getElementById("eventoLugar");
+    firebaseStatus.textContent =
+      "🔴 Error de conexión con Firebase";
 
+    firebaseStatus.classList.add("error");
 
-let eventoActual = null;
+    mostrarMensaje(
+      "No se pudo conectar con Firebase.",
+      "error"
+    );
 
+  }
 
-function mostrarMensaje(texto,tipo=""){
 
-mensaje.textContent = texto;
+  /*
+   * =====================================================
+   * CARGAR ENTRADAS EN TIEMPO REAL
+   * =====================================================
+   */
 
-mensaje.style.display = "block";
+  function cargarEntradas() {
 
-mensaje.className =
-"mensaje " + tipo;
+    const entradasRef =
+      collection(db, COLLECTION_NAME);
 
-setTimeout(()=>{
 
-mensaje.style.display = "none";
+    onSnapshot(
+      entradasRef,
 
-},5000);
+      (snapshot) => {
 
-}
+        tickets = [];
 
+        snapshot.forEach((docSnap) => {
 
-function formatearFecha(fecha){
+          tickets.push({
+            id: docSnap.id,
+            ...docSnap.data()
+          });
 
-if(!fecha){
-return "-";
-}
+        });
 
-if(fecha.includes("-")){
 
-const partes =
-fecha.split("-");
+        /*
+         * Ordenar por código
+         */
 
-if(partes.length === 3){
+        tickets.sort((a, b) => {
 
-return `${partes[2]}/${partes[1]}/${partes[0]}`;
+          const codigoA =
+            String(a.codigo || a.id || "");
 
-}
+          const codigoB =
+            String(b.codigo || b.id || "");
 
-}
+          return codigoA.localeCompare(
+            codigoB,
+            undefined,
+            { numeric: true }
+          );
 
-return fecha;
+        });
 
-}
 
+        loading.style.display = "none";
 
-function formatearPesos(numero){
+        table.style.display = "table";
 
-return "$" +
-Number(numero || 0)
-.toLocaleString("es-AR");
+        actualizarEstadisticas();
 
-}
+        mostrarEntradas(tickets);
 
+      },
 
-async function cargarEventos(){
+      (error) => {
 
-try{
+        console.error(
+          "Firebase:",
+          error
+        );
 
-const eventosRef =
-collection(db,"eventos");
+        loading.textContent =
+          "❌ Error al cargar las entradas.";
 
-const snapshot =
-await getDocs(eventosRef);
+        firebaseStatus.textContent =
+          "🔴 Error de Firebase";
 
-selectorEvento.innerHTML = "";
+        firebaseStatus.classList.remove("ok");
 
-if(snapshot.empty){
+        firebaseStatus.classList.add("error");
 
-selectorEvento.innerHTML = `
-<option value="">
-No hay eventos creados
-</option>
-`;
+        mostrarMensaje(
+          "Error leyendo la colección 'entradas'. Verificá que el nombre de la colección sea correcto.",
+          "error"
+        );
 
-eventoActual = null;
+      }
+    );
 
-actualizarPantalla();
+  }
 
-return;
 
-}
+  /*
+   * =====================================================
+   * ESTADÍSTICAS
+   * =====================================================
+   */
 
+  function actualizarEstadisticas() {
 
-snapshot.forEach(documento=>{
+    const total =
+      tickets.length || TOTAL_ENTRADAS;
 
-const datos =
-documento.data();
 
-const option =
-document.createElement("option");
+    let ingresadas = 0;
 
-option.value =
-documento.id;
+    let vendidas = 0;
 
-option.textContent =
-`${datos.nombre || "Evento"} - ${formatearFecha(datos.fecha)}`;
 
-selectorEvento.appendChild(option);
+    tickets.forEach(ticket => {
 
-});
+      const estado =
+        String(ticket.estado || "")
+        .toLowerCase();
 
 
-selectorEvento.selectedIndex = 0;
+      /*
+       * Consideramos usada/incrementada
+       */
 
-await seleccionarEvento(
-selectorEvento.value
-);
+      if (
+        estado === "ingreso" ||
+        estado === "ingresada" ||
+        estado === "usado" ||
+        estado === "utilizado" ||
+        ticket.ingreso === true
+      ) {
 
+        ingresadas++;
 
-}catch(error){
+      }
 
-console.error(error);
 
-mostrarMensaje(
-"❌ No se pudieron cargar los eventos.",
-"error"
-);
+      /*
+       * Vendida:
+       *
+       * Si existe un campo vendido=true
+       * o si tiene comprador/venta.
+       */
 
-}
+      if (
+        ticket.vendido === true ||
+        ticket.estado === "vendida" ||
+        ticket.estado === "usado" ||
+        ticket.estado === "utilizado" ||
+        ticket.ingreso === true
+      ) {
 
-}
+        vendidas++;
 
+      }
 
-async function seleccionarEvento(eventoId){
+    });
 
-if(!eventoId){
 
-eventoActual = null;
+    const disponibles =
+      Math.max(
+        total - vendidas,
+        0
+      );
 
-actualizarPantalla();
 
-return;
+    totalElement.textContent =
+      total;
 
-}
+    vendidasElement.textContent =
+      vendidas;
 
+    ingresadasElement.textContent =
+      ingresadas;
 
-try{
+    disponiblesElement.textContent =
+      disponibles;
 
-const referencia =
-doc(db,"eventos",eventoId);
+  }
 
-const documento =
-await getDoc(referencia);
 
+  /*
+   * =====================================================
+   * MOSTRAR ENTRADAS
+   * =====================================================
+   */
 
-if(!documento.exists()){
+  function mostrarEntradas(lista) {
 
-mostrarMensaje(
-"❌ El evento no existe.",
-"error"
-);
+    body.innerHTML = "";
 
-return;
 
-}
+    if (lista.length === 0) {
 
+      body.innerHTML = `
+        <tr>
+          <td colspan="4"
+              style="text-align:center;color:#888;padding:30px">
+            No se encontraron entradas.
+          </td>
+        </tr>
+      `;
 
-eventoActual = {
+      return;
 
-id:eventoId,
+    }
 
-...documento.data()
 
-};
+    lista.forEach(ticket => {
 
+      const codigo =
+        ticket.codigo || ticket.id;
 
-await setDoc(
 
-doc(
-db,
-"configuracion",
-"evento"
-),
+      const usado =
+        esEntradaUsada(ticket);
 
-{
 
-eventoId:eventoId,
+      const fecha =
+        obtenerFecha(ticket);
 
-nombre:eventoActual.nombre || "",
 
-fecha:eventoActual.fecha || "",
+      const row =
+        document.createElement("tr");
 
-hora:eventoActual.hora || "",
 
-lugar:eventoActual.lugar || ""
+      row.innerHTML = `
 
-},
+        <td class="code">
+          ${escapeHtml(codigo)}
+        </td>
 
-{merge:true}
+        <td>
 
-);
+          ${
+            usado
 
+            ?
 
-actualizarPantalla();
+            `<span class="badge used">
+              🔴 UTILIZADA
+            </span>`
 
-await cargarEntradas();
+            :
 
+            `<span class="badge available">
+              🟢 DISPONIBLE
+            </span>`
+          }
 
-}catch(error){
+        </td>
 
-console.error(error);
+        <td>
+          ${fecha}
+        </td>
 
-mostrarMensaje(
-"❌ Error seleccionando el evento.",
-"error"
-);
+        <td>
 
-}
+          ${
+            usado
 
-}
+            ?
 
+            `<button
+                class="btn-reset"
+                data-action="reset"
+                data-id="${escapeHtml(ticket.id)}">
+                ↩ Reiniciar
+             </button>`
 
-function actualizarPantalla(){
+            :
 
-if(!eventoActual){
+            `<button
+                class="btn-use"
+                data-action="use"
+                data-id="${escapeHtml(ticket.id)}">
+                ✓ Marcar ingreso
+             </button>`
+          }
 
-eventoNombre.textContent =
-"Sin evento seleccionado";
+        </td>
 
-eventoFecha.textContent = "-";
-eventoHora.textContent = "-";
-eventoLugar.textContent = "-";
+      `;
 
-totalElement.textContent = "0";
-vendidasElement.textContent = "0";
-ingresadasElement.textContent = "0";
-disponiblesElement.textContent = "0";
 
-recaudacionElement.textContent = "$0";
+      body.appendChild(row);
 
-precioMostrado.textContent =
-"Precio por entrada: $0";
+    });
 
-return;
+  }
 
-}
 
+  /*
+   * =====================================================
+   * DETERMINAR SI FUE UTILIZADA
+   * =====================================================
+   */
 
-eventoNombre.textContent =
-eventoActual.nombre || "-";
+  function esEntradaUsada(ticket) {
 
-eventoFecha.textContent =
-formatearFecha(eventoActual.fecha);
+    const estado =
+      String(ticket.estado || "")
+      .toLowerCase();
 
-eventoHora.textContent =
-eventoActual.hora || "-";
 
-eventoLugar.textContent =
-eventoActual.lugar || "-";
+    return (
 
+      estado === "ingreso" ||
 
-const precio =
-Number(eventoActual.precio || 0);
+      estado === "ingresada" ||
 
-precioMostrado.textContent =
-"Precio por entrada: " +
-formatearPesos(precio);
+      estado === "usado" ||
 
-}
+      estado === "utilizado" ||
 
+      ticket.ingreso === true
 
-async function cargarEntradas(){
+    );
 
-if(!eventoActual){
-return;
-}
+  }
 
 
-try{
+  /*
+   * =====================================================
+   * FECHA
+   * =====================================================
+   */
 
-const consulta =
-query(
+  function obtenerFecha(ticket) {
 
-collection(db,"entradas"),
+    if (!ticket.fechaIngreso) {
 
-where(
-"eventoId",
-"==",
-eventoActual.id
-)
+      return "—";
 
-);
+    }
 
 
-const snapshot =
-await getDocs(consulta);
+    try {
 
+      if (
+        ticket.fechaIngreso.toDate
+      ) {
 
-let total = 0;
-let vendidas = 0;
-let ingresadas = 0;
+        return ticket.fechaIngreso
+          .toDate()
+          .toLocaleString(
+            "es-AR"
+          );
 
+      }
 
-snapshot.forEach(documento=>{
 
-const datos =
-documento.data();
+      return new Date(
+        ticket.fechaIngreso
+      ).toLocaleString(
+        "es-AR"
+      );
 
-total++;
+    } catch {
 
+      return "—";
 
-if(datos.usado === true){
+    }
 
-ingresadas++;
-vendidas++;
+  }
 
-}
-else if(datos.estado === "vendida"){
 
-vendidas++;
+  /*
+   * =====================================================
+   * MARCAR INGRESO
+   * =====================================================
+   */
 
-}
+  async function marcarIngreso(id) {
 
-});
+    const ticket =
+      tickets.find(
+        item => item.id === id
+      );
 
 
-const disponibles =
-total - vendidas;
+    if (!ticket) {
 
+      mostrarMensaje(
+        "No se encontró la entrada.",
+        "error"
+      );
 
-const precio =
-Number(eventoActual.precio || 0);
+      return;
 
-const recaudacion =
-vendidas * precio;
+    }
 
 
-totalElement.textContent =
-total;
+    if (esEntradaUsada(ticket)) {
 
-vendidasElement.textContent =
-vendidas;
+      mostrarMensaje(
+        "⚠️ Esta entrada ya fue utilizada.",
+        "error"
+      );
 
-ingresadasElement.textContent =
-ingresadas;
+      return;
 
-disponiblesElement.textContent =
-disponibles;
+    }
 
-recaudacionElement.textContent =
-formatearPesos(recaudacion);
 
-precioMostrado.textContent =
-"Precio por entrada: " +
-formatearPesos(precio);
+    const confirmar =
+      confirm(
+        `¿Confirmar ingreso de ${ticket.codigo || ticket.id}?`
+      );
 
 
-}catch(error){
+    if (!confirmar) {
 
-console.error(error);
+      return;
 
-mostrarMensaje(
-"❌ Error cargando las entradas.",
-"error"
-);
+    }
 
-}
 
-}
+    try {
 
+      await updateDoc(
+        doc(
+          db,
+          COLLECTION_NAME,
+          id
+        ),
+        {
 
-btnNuevoEvento.addEventListener(
-"click",
-()=>{
+          estado: "ingreso",
 
-formularioEvento.classList.remove(
-"oculto"
-);
+          ingreso: true,
 
-nombreEvento.focus();
+          fechaIngreso: new Date()
 
-}
-);
+        }
+      );
 
 
-cancelarEvento.addEventListener(
-"click",
-()=>{
+      mostrarMensaje(
+        `✅ ${ticket.codigo || ticket.id} ingresada correctamente.`,
+        "success"
+      );
 
-formularioEvento.classList.add(
-"oculto"
-);
 
-}
-);
+    } catch (error) {
 
+      console.error(error);
 
-guardarEvento.addEventListener(
-"click",
-async()=>{
+      mostrarMensaje(
+        "❌ No se pudo actualizar la entrada.",
+        "error"
+      );
 
-const nombre =
-nombreEvento.value.trim();
+    }
 
-const fecha =
-fechaInput.value;
+  }
 
-const hora =
-horaInput.value;
 
-const lugar =
-lugarInput.value.trim();
+  /*
+   * =====================================================
+   * REINICIAR ENTRADA
+   * =====================================================
+   */
 
-const precio =
-Number(precioInput.value || 0);
+  async function reiniciarEntrada(id) {
 
+    const ticket =
+      tickets.find(
+        item => item.id === id
+      );
 
-if(!nombre){
 
-alert("Escribí el nombre del evento.");
+    if (!ticket) {
 
-return;
+      return;
 
-}
+    }
 
-if(!fecha){
 
-alert("Seleccioná la fecha.");
+    const confirmar =
+      confirm(
+        `¿Querés reiniciar ${ticket.codigo || ticket.id} y volverla a disponible?`
+      );
 
-return;
 
-}
+    if (!confirmar) {
 
-if(!hora){
+      return;
 
-alert("Seleccioná la hora.");
+    }
 
-return;
 
-}
+    try {
 
-if(precio <= 0){
+      await updateDoc(
+        doc(
+          db,
+          COLLECTION_NAME,
+          id
+        ),
+        {
 
-alert("Ingresá el precio de la entrada.");
+          estado: "disponible",
 
-return;
+          ingreso: false,
 
-}
+          fechaIngreso: null
 
+        }
+      );
 
-try{
 
-guardarEvento.disabled = true;
+      mostrarMensaje(
+        `↩ ${ticket.codigo || ticket.id} fue reiniciada.`,
+        "success"
+      );
 
-guardarEvento.textContent =
-"💾 Creando...";
 
+    } catch (error) {
 
-const eventosRef =
-collection(db,"eventos");
+      console.error(error);
 
-const nuevoEventoRef =
-doc(eventosRef);
+      mostrarMensaje(
+        "❌ No se pudo reiniciar la entrada.",
+        "error"
+      );
 
+    }
 
-await setDoc(
+  }
 
-nuevoEventoRef,
 
-{
+  /*
+   * =====================================================
+   * BOTONES
+   * =====================================================
+   */
 
-nombre:nombre,
-fecha:fecha,
-hora:hora,
-lugar:lugar,
-cantidad:150,
-precio:precio,
-creadoEn:new Date().toISOString(),
-estado:"activo"
+  body.addEventListener(
+    "click",
+    (event) => {
 
-}
+      const button =
+        event.target.closest("button");
 
-);
 
+      if (!button) {
 
-mostrarMensaje(
-"✅ Evento creado correctamente con 150 entradas.",
-"exito"
-);
+        return;
 
+      }
 
-formularioEvento.classList.add(
-"oculto"
-);
 
+      const id =
+        button.dataset.id;
 
-nombreEvento.value = "";
-fechaInput.value = "";
-horaInput.value = "";
-lugarInput.value = "";
-precioInput.value = "";
+      const action =
+        button.dataset.action;
 
 
-await cargarEventos();
+      if (action === "use") {
 
+        marcarIngreso(id);
 
-selectorEvento.value =
-nuevoEventoRef.id;
+      }
 
 
-await seleccionarEvento(
-nuevoEventoRef.id
-);
+      if (action === "reset") {
 
+        reiniciarEntrada(id);
 
-}catch(error){
+      }
 
-console.error(error);
+    }
+  );
 
-mostrarMensaje(
-"❌ No se pudo crear el evento.",
-"error"
-);
 
-}finally{
+  /*
+   * =====================================================
+   * BUSCADOR
+   * =====================================================
+   */
 
-guardarEvento.disabled = false;
+  search.addEventListener(
+    "input",
+    () => {
 
-guardarEvento.textContent =
-"💾 Crear evento";
+      const texto =
+        search.value
+        .trim()
+        .toLowerCase();
 
-}
 
-}
-);
+      if (!texto) {
 
+        mostrarEntradas(tickets);
 
-selectorEvento.addEventListener(
-"change",
-async()=>{
+        return;
 
-await seleccionarEvento(
-selectorEvento.value
-);
+      }
 
-}
-);
 
+      const filtradas =
+        tickets.filter(ticket => {
 
-registrarVenta.addEventListener(
-"click",
-async()=>{
+          const codigo =
+            String(
+              ticket.codigo ||
+              ticket.id ||
+              ""
+            ).toLowerCase();
 
-if(!eventoActual){
 
-alert(
-"Primero seleccioná un evento."
-);
+          return codigo.includes(texto);
 
-return;
+        });
 
-}
 
+      mostrarEntradas(
+        filtradas
+      );
 
-const codigo =
-codigoVenta.value
-.trim()
-.toUpperCase();
+    }
+  );
 
 
-if(!codigo){
+  /*
+   * =====================================================
+   * MENSAJES
+   * =====================================================
+   */
 
-alert(
-"Escribí el código de la entrada."
-);
+  function mostrarMensaje(
+    texto,
+    tipo
+  ) {
 
-codigoVenta.focus();
+    message.textContent =
+      texto;
 
-return;
+    message.className =
+      "message " + tipo;
 
-}
 
+    setTimeout(
+      () => {
 
-try{
+        message.className =
+          "message";
 
-registrarVenta.disabled = true;
+      },
+      4000
+    );
 
-registrarVenta.textContent =
-"🔎 Buscando...";
+  }
 
 
-const consulta =
-query(
+  /*
+   * =====================================================
+   * SEGURIDAD HTML
+   * =====================================================
+   */
 
-collection(db,"entradas"),
+  function escapeHtml(valor) {
 
-where(
-"eventoId",
-"==",
-eventoActual.id
-),
+    return String(valor)
 
-where(
-"codigo",
-"==",
-codigo
-)
+      .replaceAll("&", "&amp;")
 
-);
+      .replaceAll("<", "&lt;")
 
+      .replaceAll(">", "&gt;")
 
-const snapshot =
-await getDocs(consulta);
+      .replaceAll('"', "&quot;")
 
+      .replaceAll("'", "&#039;");
 
-if(snapshot.empty){
-
-mostrarEstadoVenta(
-"❌ No se encontró esa entrada en este evento.",
-"error"
-);
-
-return;
-
-}
-
-
-const documento =
-snapshot.docs[0];
-
-const datos =
-documento.data();
-
-
-if(datos.usado === true){
-
-mostrarEstadoVenta(
-"❌ Esta entrada ya fue ingresada mediante QR.",
-"error"
-);
-
-return;
-
-}
-
-
-if(datos.estado === "vendida"){
-
-mostrarEstadoVenta(
-"⚠️ Esta entrada ya figura como VENDIDA.",
-"error"
-);
-
-return;
-
-}
-
-
-await setDoc(
-
-documento.ref,
-
-{
-
-estado:"vendida",
-
-vendida:true,
-
-fechaVenta:
-new Date().toISOString()
-
-},
-
-{merge:true}
-
-);
-
-
-mostrarEstadoVenta(
-
-`✅ Venta registrada correctamente.
-
-Entrada: ${codigo}
-
-Precio: ${formatearPesos(
-eventoActual.precio
-)}`,
-
-"exito"
-
-);
-
-
-codigoVenta.value = "";
-
-await cargarEntradas();
-
-
-}catch(error){
-
-console.error(error);
-
-mostrarEstadoVenta(
-"❌ Error registrando la venta.",
-"error"
-);
-
-}finally{
-
-registrarVenta.disabled = false;
-
-registrarVenta.textContent =
-"💰 Registrar venta";
-
-}
-
-}
-);
-
-
-function mostrarEstadoVenta(texto,tipo){
-
-estadoVenta.textContent =
-texto;
-
-estadoVenta.classList.remove(
-"oculto",
-"exito",
-"error"
-);
-
-estadoVenta.classList.add(tipo);
-
-}
-
-
-codigoVenta.addEventListener(
-"keydown",
-(event)=>{
-
-if(event.key === "Enter"){
-
-registrarVenta.click();
-
-}
-
-}
-);
-
-
-generarEntradas.addEventListener(
-"click",
-async()=>{
-
-if(!eventoActual){
-
-alert(
-"Primero seleccioná un evento."
-);
-
-return;
-
-}
-
-
-try{
-
-generarEntradas.disabled = true;
-
-generarEntradas.textContent =
-"🔎 Comprobando...";
-
-
-const consulta =
-query(
-
-collection(db,"entradas"),
-
-where(
-"eventoId",
-"==",
-eventoActual.id
-)
-
-);
-
-
-const existentes =
-await getDocs(consulta);
-
-
-const cantidadExistente =
-existentes.size;
-
-
-if(cantidadExistente >= 150){
-
-mostrarMensaje(
-
-`⚠️ Este evento ya tiene ${cantidadExistente} entradas. No se generarán más.`,
-
-"error"
-
-);
-
-return;
-
-}
-
-
-const cantidadFaltante =
-150 - cantidadExistente;
-
-
-const confirmar =
-confirm(
-
-`Este evento tiene ${cantidadExistente} entradas.
-
-Se generarán ${cantidadFaltante} para completar 150.
-
-¿Continuar?`
-
-);
-
-
-if(!confirmar){
-
-return;
-
-}
-
-
-generarEntradas.textContent =
-"🎟️ Generando...";
-
-
-let batch =
-writeBatch(db);
-
-let operaciones = 0;
-
-
-const codigosExistentes =
-new Set();
-
-
-existentes.forEach(documento=>{
-
-const codigo =
-documento.data().codigo;
-
-if(codigo){
-
-codigosExistentes.add(codigo);
-
-}
-
-});
-
-
-let creadas = 0;
-
-
-for(let i=1;i<=150;i++){
-
-const codigo =
-"PV-" +
-String(i).padStart(4,"0");
-
-
-if(codigosExistentes.has(codigo)){
-
-continue;
-
-}
-
-
-const entradaRef =
-doc(
-
-db,
-
-"entradas",
-
-eventoActual.id +
-"_" +
-codigo
-
-);
-
-
-batch.set(
-
-entradaRef,
-
-{
-
-codigo:codigo,
-
-eventoId:
-eventoActual.id,
-
-evento:
-eventoActual.nombre,
-
-fecha:
-eventoActual.fecha,
-
-hora:
-eventoActual.hora,
-
-lugar:
-eventoActual.lugar || "",
-
-usado:false,
-
-estado:"disponible",
-
-vendida:false,
-
-fechaVenta:"",
-
-fechaIngreso:"",
-
-horaIngreso:""
-
-}
-
-);
-
-
-operaciones++;
-creadas++;
-
-
-if(operaciones >= 450){
-
-await batch.commit();
-
-batch =
-writeBatch(db);
-
-operaciones = 0;
-
-}
-
-}
-
-
-if(operaciones > 0){
-
-await batch.commit();
-
-}
-
-
-mostrarMensaje(
-
-`✅ Se agregaron ${creadas} entradas. El evento ahora tiene 150.`,
-
-"exito"
-
-);
-
-
-await cargarEntradas();
-
-
-}catch(error){
-
-console.error(error);
-
-mostrarMensaje(
-"❌ Error generando las entradas.",
-"error"
-);
-
-}finally{
-
-generarEntradas.disabled = false;
-
-generarEntradas.textContent =
-"🎟️ Generar entradas del evento";
-
-}
-
-}
-);
-
-
-reiniciar.addEventListener(
-"click",
-async()=>{
-
-if(!eventoActual){
-
-alert(
-"Primero seleccioná un evento."
-);
-
-return;
-
-}
-
-
-const confirmar =
-confirm(
-
-`⚠️ Vas a reiniciar las entradas de:
-
-${eventoActual.nombre}
-
-Fecha:
-${formatearFecha(eventoActual.fecha)}
-
-Todas quedarán disponibles nuevamente.
-
-¿Continuar?`
-
-);
-
-
-if(!confirmar){
-
-return;
-
-}
-
-
-try{
-
-reiniciar.disabled = true;
-
-reiniciar.textContent =
-"🔄 Reiniciando...";
-
-
-const consulta =
-query(
-
-collection(db,"entradas"),
-
-where(
-"eventoId",
-"==",
-eventoActual.id
-)
-
-);
-
-
-const snapshot =
-await getDocs(consulta);
-
-
-let batch =
-writeBatch(db);
-
-let operaciones = 0;
-
-
-for(const documento of snapshot.docs){
-
-batch.update(
-
-documento.ref,
-
-{
-
-usado:false,
-
-estado:"disponible",
-
-vendida:false,
-
-fechaVenta:"",
-
-fechaIngreso:"",
-horaIngreso:""
-
-}
-
-);
-
-
-operaciones++;
-
-
-if(operaciones >= 450){
-
-await batch.commit();
-
-batch =
-writeBatch(db);
-
-operaciones = 0;
-
-}
-
-}
-
-
-if(operaciones > 0){
-
-await batch.commit();
-
-}
-
-
-mostrarMensaje(
-"✅ Las entradas del evento fueron reiniciadas.",
-"exito"
-);
-
-
-await cargarEntradas();
-
-
-}catch(error){
-
-console.error(error);
-
-mostrarMensaje(
-"❌ No se pudieron reiniciar las entradas.",
-"error"
-);
-
-}finally{
-
-reiniciar.disabled = false;
-
-reiniciar.textContent =
-"🔄 Reiniciar entradas del evento";
-
-}
-
-}
-);
-
-
-async function iniciar(){
-
-try{
-
-estadoConexion.textContent =
-"🔄 Conectando con Firebase...";
-
-await cargarEventos();
-
-estadoConexion.textContent =
-"🟢 Firebase conectado correctamente";
-
-estadoConexion.className =
-"estado exito";
-
-}catch(error){
-
-console.error(error);
-
-estadoConexion.textContent =
-"🔴 Error conectando con Firebase";
-
-estadoConexion.className =
-"estado error";
-
-}
-
-}
-
-
-iniciar();
+  }
 
 </script>
+
 </body>
 </html>
