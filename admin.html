@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Piano & Vino - Administrador</title>
-
 <style>
-
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
@@ -38,13 +30,8 @@ color:#d4af37;
 margin-bottom:5px;
 }
 
-h2{
-margin-top:5px;
-}
-
-h3{
-margin-top:25px;
-}
+h2{margin-top:5px}
+h3{margin-top:25px}
 
 .stats{
 display:grid;
@@ -73,8 +60,7 @@ margin-top:15px;
 margin-bottom:5px;
 }
 
-input,
-select{
+input,select{
 width:100%;
 padding:13px;
 border-radius:10px;
@@ -95,9 +81,7 @@ background:#d4af37;
 color:#111;
 }
 
-button:hover{
-opacity:.9;
-}
+button:hover{opacity:.9}
 
 button:disabled{
 opacity:.5;
@@ -116,6 +100,11 @@ color:white;
 
 .btn-secundario{
 background:#444;
+color:white;
+}
+
+.btn-venta{
+background:#4caf50;
 color:white;
 }
 
@@ -140,17 +129,9 @@ font-size:14px;
 color:#bbb;
 }
 
-.cargando{
-color:#d4af37;
-}
-
-.exito{
-color:#4caf50;
-}
-
-.error{
-color:#ff5252;
-}
+.cargando{color:#d4af37}
+.exito{color:#4caf50}
+.error{color:#ff5252}
 
 .evento-card{
 background:#333;
@@ -160,8 +141,25 @@ margin-top:20px;
 text-align:left;
 }
 
-.evento-card strong{
-color:#d4af37;
+.evento-card strong{color:#d4af37}
+
+.recaudacion{
+background:#333;
+border-radius:15px;
+padding:20px;
+margin-top:15px;
+}
+
+.recaudacion .titulo{
+font-size:16px;
+color:#bbb;
+}
+
+.recaudacion .monto{
+font-size:32px;
+font-weight:bold;
+color:#4caf50;
+margin-top:8px;
 }
 
 .separador{
@@ -170,310 +168,168 @@ border:none;
 border-top:1px solid #444;
 }
 
-.oculto{
-display:none;
+.oculto{display:none}
+
+.estado-venta{
+background:#333;
+padding:15px;
+border-radius:12px;
+margin-top:15px;
+font-size:15px;
+line-height:1.5;
 }
-
 </style>
-
 </head>
-
-
 <body>
-
 <div class="panel">
-
 <h1>🎹 Piano & Vino</h1>
-
 <h2>Panel Administrador</h2>
-
-
-<div
-id="estadoConexion"
-class="estado cargando"
->
-
+<div id="estadoConexion" class="estado cargando">
 🔄 Conectando con Firebase...
-
 </div>
-
-
-<!-- EVENTO ACTUAL -->
-
 <div class="evento-card">
-
 <h3>🎟️ Evento actual</h3>
-
 <p>
-<strong id="eventoNombre">
-Sin evento seleccionado
-</strong>
+<strong id="eventoNombre">Sin evento seleccionado</strong>
 </p>
-
-<p>
-📅 <span id="eventoFecha">-</span>
-</p>
-
-<p>
-⏰ <span id="eventoHora">-</span>
-</p>
-
-<p>
-📍 <span id="eventoLugar">-</span>
-</p>
-
+<p>📅 <span id="eventoFecha">-</span></p>
+<p>⏰ <span id="eventoHora">-</span></p>
+<p>📍 <span id="eventoLugar">-</span></p>
 </div>
-
-
-<!-- ESTADÍSTICAS -->
-
 <div class="stats">
-
 <div class="stat">
-
-<span class="numero" id="total">
-0
-</span>
-
-Total entradas
-
+<span class="numero" id="total">0</span>
+Total
 </div>
-
-
 <div class="stat">
-
-<span class="numero" id="ingresadas">
-0
-</span>
-
-Ingresadas
-
+<span class="numero" id="vendidas">0</span>
+💰 Vendidas
 </div>
-
-
 <div class="stat">
-
-<span class="numero" id="disponibles">
-0
-</span>
-
-Disponibles
-
+<span class="numero" id="ingresadas">0</span>
+🚪 Ingresadas
 </div>
-
-
 <div class="stat">
-
-<span class="numero" id="usadas">
-0
-</span>
-
-QR utilizados
-
+<span class="numero" id="disponibles">0</span>
+🟢 Disponibles
 </div>
-
 </div>
-
-
+<div class="recaudacion">
+<div class="titulo">
+💵 Recaudación estimada
+</div>
+<div class="monto" id="recaudacion">
+$0
+</div>
+<div class="info" id="precioMostrado">
+Precio por entrada: $0
+</div>
+</div>
 <hr class="separador">
-
-
-<!-- SELECCIONAR EVENTO -->
-
-<h3>
-📂 Seleccionar evento
-</h3>
-
+<h3>📂 Seleccionar evento</h3>
 <select id="selectorEvento">
-
-<option value="">
-Cargando eventos...
-</option>
-
+<option value="">Cargando eventos...</option>
 </select>
-
-
-<!-- NUEVO EVENTO -->
-
-<button
-id="btnNuevoEvento"
-class="btn-nuevo"
->
-
+<button id="btnNuevoEvento" class="btn-nuevo">
 ➕ Crear nuevo evento
-
 </button>
-
-
-<div
-id="formularioEvento"
-class="oculto"
->
-
-<h3>
-⚙️ Nuevo evento
-</h3>
-
-
-<label for="nombreEvento">
+<div id="formularioEvento" class="oculto">
+<h3>⚙️ Nuevo evento</h3>
 🎹 Nombre del evento
-</label>
 
 <input
-type="text"
-id="nombreEvento"
-placeholder="Ej: Piano & Vino"
->
+type=“text”
+id=“nombreEvento”
+placeholder=“Ej: Piano & Vino”
 
-
-<label for="fecha">
 📅 Fecha del evento
-</label>
 
-<input
-type="date"
-id="fecha"
->
-
-
-<label for="hora">
+<input type="date" id="fecha">
 ⏰ Hora del evento
-</label>
 
-<input
-type="time"
-id="hora"
->
-
-
-<label for="lugar">
+<input type="time" id="hora">
 📍 Lugar
-</label>
 
 <input
-type="text"
-id="lugar"
-placeholder="Ej: Galpón Vinilo"
->
+type=“text”
+id=“lugar”
+placeholder=“Ej: Galpón Vinilo”
 
+💵 Precio de entrada
 
-<label for="cantidad">
+<input
+type=“number”
+id=“precio”
+placeholder=“Ej: 15000”
+min=“0”
+step=“1”
+
 🎟️ Cantidad de entradas
-</label>
 
 <input
-type="number"
-id="cantidad"
-value="150"
-min="150"
-max="150"
+type=“number”
+id=“cantidad”
+value=“150”
+min=“150”
+max=“150”
 readonly
->
-
 
 <p class="info">
-
 🔒 Cada evento tendrá exactamente
 <strong>150 entradas</strong>.
-
 </p>
-
-
 <button id="guardarEvento">
-
 💾 Crear evento
-
 </button>
-
-
-<button
-id="cancelarEvento"
-class="btn-secundario"
->
-
+<button id="cancelarEvento" class="btn-secundario">
 Cancelar
-
 </button>
-
 </div>
-
-
 <hr class="separador">
-
-
-<!-- GENERAR ENTRADAS -->
-
-<h3>
-🎟️ Entradas del evento
-</h3>
-
-
+<h3>💰 Registrar venta</h3>
 <p class="info">
+Ingresá el código de la entrada vendida.
+Ejemplo: <strong>PV-0001</strong>
+</p>
+<input
+type=“text”
+id=“codigoVenta”
+placeholder=“PV-0001”
+autocomplete=“off”
 
+<button id="registrarVenta" class="btn-venta">
+💰 Registrar venta
+</button>
+<div id="estadoVenta" class="estado-venta oculto"></div>
+<hr class="separador">
+<h3>🎟️ Entradas del evento</h3>
+<p class="info">
 Cada evento puede tener como máximo
 <strong>150 entradas</strong>.
-
 </p>
-
-
 <button id="generarEntradas">
-
 🎟️ Generar entradas del evento
-
 </button>
-
-
 <hr class="separador">
-
-
-<!-- REINICIAR -->
-
-<h3>
-🔄 Reiniciar entradas
-</h3>
-
-
+<h3>🔄 Reiniciar entradas</h3>
 <p class="info">
-
 Reinicia solamente las entradas
 del evento seleccionado.
-
 </p>
-
-
-<button
-id="reiniciar"
-class="btn-danger"
->
-
+<button id="reiniciar" class="btn-danger">
 🔄 Reiniciar entradas del evento
-
 </button>
-
-
-<div
-id="mensaje"
-class="mensaje"
->
-</div>
-
-
+<div id="mensaje" class="mensaje"></div>
 <p class="info">
-
 Piano & Vino Manager<br>
 Panel de administración
-
 </p>
-
 </div>
-
-
 <script type="module">
 
 import { db } from "./firebase.js";
 
 import {
-
 collection,
 getDocs,
 doc,
@@ -482,20 +338,16 @@ setDoc,
 writeBatch,
 query,
 where
-
 }
-
 from
-
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-/* ==========================================
-ELEMENTOS
-========================================== */
-
 const totalElement =
 document.getElementById("total");
+
+const vendidasElement =
+document.getElementById("vendidas");
 
 const ingresadasElement =
 document.getElementById("ingresadas");
@@ -503,8 +355,11 @@ document.getElementById("ingresadas");
 const disponiblesElement =
 document.getElementById("disponibles");
 
-const usadasElement =
-document.getElementById("usadas");
+const recaudacionElement =
+document.getElementById("recaudacion");
+
+const precioMostrado =
+document.getElementById("precioMostrado");
 
 const estadoConexion =
 document.getElementById("estadoConexion");
@@ -545,6 +400,18 @@ document.getElementById("hora");
 const lugarInput =
 document.getElementById("lugar");
 
+const precioInput =
+document.getElementById("precio");
+
+const codigoVenta =
+document.getElementById("codigoVenta");
+
+const registrarVenta =
+document.getElementById("registrarVenta");
+
+const estadoVenta =
+document.getElementById("estadoVenta");
+
 const eventoNombre =
 document.getElementById("eventoNombre");
 
@@ -560,10 +427,6 @@ document.getElementById("eventoLugar");
 
 let eventoActual = null;
 
-
-/* ==========================================
-MENSAJES
-========================================== */
 
 function mostrarMensaje(texto,tipo=""){
 
@@ -582,10 +445,6 @@ mensaje.style.display = "none";
 
 }
 
-
-/* ==========================================
-FECHA
-========================================== */
 
 function formatearFecha(fecha){
 
@@ -611,9 +470,14 @@ return fecha;
 }
 
 
-/* ==========================================
-CARGAR EVENTOS
-========================================== */
+function formatearPesos(numero){
+
+return "$" +
+Number(numero || 0)
+.toLocaleString("es-AR");
+
+}
+
 
 async function cargarEventos(){
 
@@ -684,10 +548,6 @@ mostrarMensaje(
 }
 
 
-/* ==========================================
-SELECCIONAR EVENTO
-========================================== */
-
 async function seleccionarEvento(eventoId){
 
 if(!eventoId){
@@ -730,10 +590,6 @@ id:eventoId,
 
 };
 
-
-/* ==========================================
-GUARDAR EVENTO ACTIVO
-========================================== */
 
 await setDoc(
 
@@ -781,10 +637,6 @@ mostrarMensaje(
 }
 
 
-/* ==========================================
-PANTALLA
-========================================== */
-
 function actualizarPantalla(){
 
 if(!eventoActual){
@@ -793,18 +645,18 @@ eventoNombre.textContent =
 "Sin evento seleccionado";
 
 eventoFecha.textContent = "-";
-
 eventoHora.textContent = "-";
-
 eventoLugar.textContent = "-";
 
 totalElement.textContent = "0";
-
+vendidasElement.textContent = "0";
 ingresadasElement.textContent = "0";
-
 disponiblesElement.textContent = "0";
 
-usadasElement.textContent = "0";
+recaudacionElement.textContent = "$0";
+
+precioMostrado.textContent =
+"Precio por entrada: $0";
 
 return;
 
@@ -823,12 +675,16 @@ eventoActual.hora || "-";
 eventoLugar.textContent =
 eventoActual.lugar || "-";
 
+
+const precio =
+Number(eventoActual.precio || 0);
+
+precioMostrado.textContent =
+"Precio por entrada: " +
+formatearPesos(precio);
+
 }
 
-
-/* ==========================================
-CARGAR ENTRADAS DEL EVENTO
-========================================== */
 
 async function cargarEntradas(){
 
@@ -858,34 +714,62 @@ await getDocs(consulta);
 
 
 let total = 0;
-
-let usadas = 0;
+let vendidas = 0;
+let ingresadas = 0;
 
 
 snapshot.forEach(documento=>{
 
+const datos =
+documento.data();
+
 total++;
 
-if(documento.data().usado === true){
 
-usadas++;
+if(datos.usado === true){
+
+ingresadas++;
+vendidas++;
+
+}
+else if(datos.estado === "vendida"){
+
+vendidas++;
 
 }
 
 });
 
 
+const disponibles =
+total - vendidas;
+
+
+const precio =
+Number(eventoActual.precio || 0);
+
+const recaudacion =
+vendidas * precio;
+
+
 totalElement.textContent =
 total;
 
-ingresadasElement.textContent =
-usadas;
+vendidasElement.textContent =
+vendidas;
 
-usadasElement.textContent =
-usadas;
+ingresadasElement.textContent =
+ingresadas;
 
 disponiblesElement.textContent =
-total - usadas;
+disponibles;
+
+recaudacionElement.textContent =
+formatearPesos(recaudacion);
+
+precioMostrado.textContent =
+"Precio por entrada: " +
+formatearPesos(precio);
 
 
 }catch(error){
@@ -902,10 +786,6 @@ mostrarMensaje(
 }
 
 
-/* ==========================================
-NUEVO EVENTO
-========================================== */
-
 btnNuevoEvento.addEventListener(
 "click",
 ()=>{
@@ -920,10 +800,6 @@ nombreEvento.focus();
 );
 
 
-/* ==========================================
-CANCELAR
-========================================== */
-
 cancelarEvento.addEventListener(
 "click",
 ()=>{
@@ -935,10 +811,6 @@ formularioEvento.classList.add(
 }
 );
 
-
-/* ==========================================
-CREAR EVENTO
-========================================== */
 
 guardarEvento.addEventListener(
 "click",
@@ -955,6 +827,9 @@ horaInput.value;
 
 const lugar =
 lugarInput.value.trim();
+
+const precio =
+Number(precioInput.value || 0);
 
 
 if(!nombre){
@@ -976,6 +851,14 @@ return;
 if(!hora){
 
 alert("Seleccioná la hora.");
+
+return;
+
+}
+
+if(precio <= 0){
+
+alert("Ingresá el precio de la entrada.");
 
 return;
 
@@ -1004,18 +887,12 @@ nuevoEventoRef,
 {
 
 nombre:nombre,
-
 fecha:fecha,
-
 hora:hora,
-
 lugar:lugar,
-
 cantidad:150,
-
-creadoEn:
-new Date().toISOString(),
-
+precio:precio,
+creadoEn:new Date().toISOString(),
 estado:"activo"
 
 }
@@ -1024,7 +901,7 @@ estado:"activo"
 
 
 mostrarMensaje(
-"✅ Evento creado con 150 entradas disponibles para generar.",
+"✅ Evento creado correctamente con 150 entradas.",
 "exito"
 );
 
@@ -1035,12 +912,10 @@ formularioEvento.classList.add(
 
 
 nombreEvento.value = "";
-
 fechaInput.value = "";
-
 horaInput.value = "";
-
 lugarInput.value = "";
+precioInput.value = "";
 
 
 await cargarEventos();
@@ -1077,10 +952,6 @@ guardarEvento.textContent =
 );
 
 
-/* ==========================================
-CAMBIAR EVENTO
-========================================== */
-
 selectorEvento.addEventListener(
 "change",
 async()=>{
@@ -1093,9 +964,206 @@ selectorEvento.value
 );
 
 
-/* ==========================================
-GENERAR ENTRADAS
-========================================== */
+registrarVenta.addEventListener(
+"click",
+async()=>{
+
+if(!eventoActual){
+
+alert(
+"Primero seleccioná un evento."
+);
+
+return;
+
+}
+
+
+const codigo =
+codigoVenta.value
+.trim()
+.toUpperCase();
+
+
+if(!codigo){
+
+alert(
+"Escribí el código de la entrada."
+);
+
+codigoVenta.focus();
+
+return;
+
+}
+
+
+try{
+
+registrarVenta.disabled = true;
+
+registrarVenta.textContent =
+"🔎 Buscando...";
+
+
+const consulta =
+query(
+
+collection(db,"entradas"),
+
+where(
+"eventoId",
+"==",
+eventoActual.id
+),
+
+where(
+"codigo",
+"==",
+codigo
+)
+
+);
+
+
+const snapshot =
+await getDocs(consulta);
+
+
+if(snapshot.empty){
+
+mostrarEstadoVenta(
+"❌ No se encontró esa entrada en este evento.",
+"error"
+);
+
+return;
+
+}
+
+
+const documento =
+snapshot.docs[0];
+
+const datos =
+documento.data();
+
+
+if(datos.usado === true){
+
+mostrarEstadoVenta(
+"❌ Esta entrada ya fue ingresada mediante QR.",
+"error"
+);
+
+return;
+
+}
+
+
+if(datos.estado === "vendida"){
+
+mostrarEstadoVenta(
+"⚠️ Esta entrada ya figura como VENDIDA.",
+"error"
+);
+
+return;
+
+}
+
+
+await setDoc(
+
+documento.ref,
+
+{
+
+estado:"vendida",
+
+vendida:true,
+
+fechaVenta:
+new Date().toISOString()
+
+},
+
+{merge:true}
+
+);
+
+
+mostrarEstadoVenta(
+
+`✅ Venta registrada correctamente.
+
+Entrada: ${codigo}
+
+Precio: ${formatearPesos(
+eventoActual.precio
+)}`,
+
+"exito"
+
+);
+
+
+codigoVenta.value = "";
+
+await cargarEntradas();
+
+
+}catch(error){
+
+console.error(error);
+
+mostrarEstadoVenta(
+"❌ Error registrando la venta.",
+"error"
+);
+
+}finally{
+
+registrarVenta.disabled = false;
+
+registrarVenta.textContent =
+"💰 Registrar venta";
+
+}
+
+}
+);
+
+
+function mostrarEstadoVenta(texto,tipo){
+
+estadoVenta.textContent =
+texto;
+
+estadoVenta.classList.remove(
+"oculto",
+"exito",
+"error"
+);
+
+estadoVenta.classList.add(tipo);
+
+}
+
+
+codigoVenta.addEventListener(
+"keydown",
+(event)=>{
+
+if(event.key === "Enter"){
+
+registrarVenta.click();
+
+}
+
+}
+);
+
 
 generarEntradas.addEventListener(
 "click",
@@ -1142,10 +1210,6 @@ const cantidadExistente =
 existentes.size;
 
 
-/* ==========================================
-YA TIENE 150
-========================================== */
-
 if(cantidadExistente >= 150){
 
 mostrarMensaje(
@@ -1160,11 +1224,6 @@ return;
 
 }
 
-
-/* ==========================================
-SI TIENE MENOS DE 150
-GENERAMOS SOLO LAS QUE FALTAN
-========================================== */
 
 const cantidadFaltante =
 150 - cantidadExistente;
@@ -1199,10 +1258,6 @@ writeBatch(db);
 let operaciones = 0;
 
 
-/*
-Buscamos qué códigos ya existen.
-*/
-
 const codigosExistentes =
 new Set();
 
@@ -1223,10 +1278,6 @@ codigosExistentes.add(codigo);
 
 let creadas = 0;
 
-
-/*
-Siempre completamos hasta PV-0150.
-*/
 
 for(let i=1;i<=150;i++){
 
@@ -1283,6 +1334,10 @@ usado:false,
 
 estado:"disponible",
 
+vendida:false,
+
+fechaVenta:"",
+
 fechaIngreso:"",
 
 horaIngreso:""
@@ -1293,13 +1348,8 @@ horaIngreso:""
 
 
 operaciones++;
-
 creadas++;
 
-
-/*
-Máximo 450 operaciones.
-*/
 
 if(operaciones >= 450){
 
@@ -1355,10 +1405,6 @@ generarEntradas.textContent =
 }
 );
 
-
-/* ==========================================
-REINICIAR EVENTO
-========================================== */
 
 reiniciar.addEventListener(
 "click",
@@ -1443,8 +1489,11 @@ usado:false,
 
 estado:"disponible",
 
-fechaIngreso:"",
+vendida:false,
 
+fechaVenta:"",
+
+fechaIngreso:"",
 horaIngreso:""
 
 }
@@ -1507,10 +1556,6 @@ reiniciar.textContent =
 );
 
 
-/* ==========================================
-INICIAR
-========================================== */
-
 async function iniciar(){
 
 try{
@@ -1544,9 +1589,5 @@ estadoConexion.className =
 iniciar();
 
 </script>
-
 </body>
-
 </html>
-
-
