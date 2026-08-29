@@ -2,1702 +2,449 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Piano & Vino Manager</title>
+<title>Piano & Vino - Administrador</title>
 
 <style>
 
-* {
-box-sizing: border-box;
+*{
+box-sizing:border-box;
 }
 
-body {
-margin: 0;
-background: #090909;
-color: #f5eee4;
-font-family: Arial, Helvetica, sans-serif;
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#111;
+color:white;
+text-align:center;
+padding:20px;
 }
 
-header {
-text-align: center;
-padding: 30px 15px;
-background: #111;
-border-bottom: 2px solid #7d2037;
+.panel{
+max-width:500px;
+margin:20px auto;
+background:#222;
+border-radius:20px;
+padding:25px;
+box-shadow:0 0 25px rgba(0,0,0,.6);
 }
 
-.logo {
-font-family: Georgia, serif;
-font-size: 42px;
-font-weight: bold;
+h1{
+color:#d4af37;
+margin-bottom:5px;
 }
 
-.logo span {
-color: #a92745;
+h2{
+margin-top:5px;
 }
 
-.manager {
-margin-top: 8px;
-color: #a92745;
-font-size: 14px;
-letter-spacing: 5px;
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin:25px 0;
 }
 
-.subtitle {
-margin-top: 10px;
-color: #aaa;
-font-size: 13px;
-letter-spacing: 2px;
+.stat{
+background:#333;
+padding:18px 10px;
+border-radius:12px;
 }
 
-.firebase-status {
-display: inline-block;
-margin-top: 15px;
-padding: 8px 16px;
-border-radius: 20px;
-background: #181818;
-color: #aaa;
-font-size: 13px;
+.numero{
+font-size:30px;
+font-weight:bold;
+color:#d4af37;
+display:block;
 }
 
-.firebase-status.ok {
-color: #72d79a;
+label{
+display:block;
+text-align:left;
+margin-top:15px;
+margin-bottom:5px;
 }
 
-.firebase-status.error {
-color: #ff7272;
+input{
+width:100%;
+padding:13px;
+border-radius:10px;
+border:none;
+font-size:17px;
 }
 
-.container {
-width: 94%;
-max-width: 1200px;
-margin: 25px auto;
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+background:#d4af37;
+color:#111;
 }
 
-
-/* EVENTO */
-
-.event-control {
-background: #111;
-border: 1px solid #302328;
-border-radius: 12px;
-padding: 18px;
-margin-bottom: 20px;
-
-display: flex;
-align-items: center;
-gap: 12px;
-flex-wrap: wrap;
+button:hover{
+opacity:.9;
 }
 
-.event-control label {
-color: #aaa;
-font-size: 13px;
+.btn-danger{
+background:#b52b2b;
+color:white;
 }
 
-.event-select {
-flex: 1;
-min-width: 220px;
-
-background: #1b1b1b;
-color: white;
-
-border: 1px solid #443036;
-border-radius: 8px;
-
-padding: 11px;
+.mensaje{
+margin-top:18px;
+padding:12px;
+border-radius:10px;
+display:none;
+background:#333;
 }
 
-.btn-new {
-background: #8f243d;
-color: white;
-
-border: none;
-border-radius: 8px;
-
-padding: 11px 16px;
-
-font-weight: bold;
-cursor: pointer;
+.info{
+font-size:14px;
+color:#bbb;
+margin-top:20px;
+line-height:1.5;
 }
 
-.btn-new:hover {
-background: #b32d4b;
+.estado{
+margin-top:15px;
+font-size:14px;
+color:#bbb;
 }
 
-
-/* INFORMACION */
-
-.event-info {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 12px;
-margin-bottom: 20px;
+.cargando{
+color:#d4af37;
 }
 
-.info-box {
-background: #111;
-border: 1px solid #302328;
-border-radius: 10px;
-padding: 14px;
+.exito{
+color:#4caf50;
 }
 
-.info-label {
-color: #888;
-font-size: 11px;
-margin-bottom: 7px;
-letter-spacing: 1px;
-}
-
-.info-value {
-color: #eee;
-font-size: 14px;
-}
-
-
-/* ESTADISTICAS */
-
-.stats {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 15px;
-}
-
-.card {
-background: #151515;
-border: 1px solid #302328;
-border-radius: 12px;
-
-padding: 20px;
-text-align: center;
-}
-
-.card-title {
-color: #aaa;
-font-size: 12px;
-letter-spacing: 2px;
-}
-
-.number {
-margin-top: 10px;
-font-size: 38px;
-font-weight: bold;
-}
-
-.line {
-width: 45px;
-height: 3px;
-background: #9d2943;
-margin: 12px auto 0;
-border-radius: 3px;
-}
-
-
-/* TABLA */
-
-.panel {
-margin-top: 22px;
-
-background: #111;
-
-border: 1px solid #302328;
-border-radius: 12px;
-
-overflow: hidden;
-}
-
-.panel-header {
-padding: 18px;
-
-display: flex;
-justify-content: space-between;
-align-items: center;
-
-gap: 12px;
-flex-wrap: wrap;
-
-border-bottom: 1px solid #302328;
-}
-
-.panel-title {
-font-family: Georgia, serif;
-font-size: 21px;
-}
-
-.search {
-background: #1b1b1b;
-color: white;
-
-border: 1px solid #443036;
-border-radius: 8px;
-
-padding: 10px 13px;
-
-width: 250px;
-}
-
-.table-wrapper {
-overflow-x: auto;
-}
-
-table {
-width: 100%;
-border-collapse: collapse;
-}
-
-th {
-text-align: left;
-
-background: #171717;
-
-color: #aaa;
-
-padding: 14px;
-
-font-size: 12px;
-letter-spacing: 1px;
-}
-
-td {
-padding: 13px 14px;
-
-border-top: 1px solid #242020;
-
-font-size: 14px;
-}
-
-.code {
-font-weight: bold;
-}
-
-.badge {
-display: inline-block;
-
-padding: 6px 10px;
-
-border-radius: 20px;
-
-font-size: 12px;
-font-weight: bold;
-}
-
-.available {
-background: #173723;
-color: #73d899;
-}
-
-.used {
-background: #422027;
-color: #ff8294;
-}
-
-.btn-use {
-background: #8f243d;
-color: white;
-}
-
-.btn-reset {
-background: #333;
-color: white;
-}
-
-button {
-cursor: pointer;
-}
-
-
-/* MENSAJES */
-
-.loading {
-padding: 30px;
-text-align: center;
-color: #aaa;
-}
-
-.message {
-margin: 15px;
-padding: 12px;
-border-radius: 8px;
-display: none;
-}
-
-.message.success {
-display: block;
-background: #14351f;
-color: #7ce09d;
-}
-
-.message.error {
-display: block;
-background: #421b20;
-color: #ff8d9a;
-}
-
-
-/* MODAL */
-
-.modal {
-display: none;
-
-position: fixed;
-
-z-index: 9999;
-
-left: 0;
-top: 0;
-
-width: 100%;
-height: 100%;
-
-background: rgba(0,0,0,.82);
-
-padding: 20px;
-
-overflow-y: auto;
-}
-
-.modal-content {
-max-width: 500px;
-
-margin: 40px auto;
-
-background: #151515;
-
-border: 1px solid #4a2932;
-
-border-radius: 15px;
-
-padding: 25px;
-}
-
-.modal-title {
-font-family: Georgia, serif;
-font-size: 27px;
-margin-bottom: 8px;
-}
-
-.modal-subtitle {
-color: #999;
-font-size: 13px;
-margin-bottom: 22px;
-}
-
-.form-group {
-margin-bottom: 17px;
-}
-
-.form-group label {
-display: block;
-
-color: #ccc;
-
-margin-bottom: 7px;
-
-font-size: 13px;
-}
-
-.form-group input {
-width: 100%;
-
-padding: 12px;
-
-background: #202020;
-
-color: white;
-
-border: 1px solid #443036;
-
-border-radius: 8px;
-}
-
-.modal-buttons {
-display: flex;
-gap: 10px;
-margin-top: 22px;
-}
-
-.btn-cancel,
-.btn-create {
-flex: 1;
-
-padding: 12px;
-
-border: none;
-
-border-radius: 8px;
-
-font-weight: bold;
-}
-
-.btn-cancel {
-background: #333;
-color: white;
-}
-
-.btn-create {
-background: #8f243d;
-color: white;
-}
-
-
-/* MOBILE */
-
-@media (max-width: 700px) {
-
-.stats {
-grid-template-columns: repeat(3, 1fr);
-gap: 8px;
-}
-
-.card {
-padding: 15px 5px;
-}
-
-.number {
-font-size: 28px;
-}
-
-.event-info {
-grid-template-columns: 1fr;
-}
-
-.search {
-width: 100%;
-}
-
+.error{
+color:#ff5252;
 }
 
 </style>
 
 </head>
 
-
 <body>
 
+<div class="panel">
 
-<header>
+<h1>🎹 Piano & Vino</h1>
 
-<div class="logo">
-Piano<span>&</span>Vino
+<h2>Panel Administrador</h2>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<span class="numero" id="total">0</span>
+
+Total entradas
+
 </div>
 
-<div class="manager">
-MANAGER
+
+<div class="stat">
+
+<span class="numero" id="ingresadas">0</span>
+
+Ingresadas
+
 </div>
 
-<div class="subtitle">
-CONTROL DE ENTRADAS
+
+<div class="stat">
+
+<span class="numero" id="disponibles">0</span>
+
+Disponibles
+
 </div>
 
-<div
-id="firebaseStatus"
-class="firebase-status">
+
+<div class="stat">
+
+<span class="numero" id="usadas">0</span>
+
+QR utilizados
+
+</div>
+
+</div>
+
+
+<div id="estadoConexion" class="estado cargando">
 
 🔄 Conectando con Firebase...
 
 </div>
 
-</header>
 
+<hr style="margin:30px 0;border-color:#444;">
 
-<div class="container">
 
+<h3>⚙️ Configuración del evento</h3>
 
-<!-- EVENTOS -->
 
-<div class="event-control">
-
-<label>
-EVENTO:
-</label>
-
-<select
-id="eventSelect"
-class="event-select">
-
-</select>
-
-<button
-id="newEventButton"
-class="btn-new">
-
-➕ Crear nuevo evento
-
-</button>
-
-</div>
-
-
-<!-- DATOS EVENTO -->
-
-<div class="event-info">
-
-<div class="info-box">
-
-<div class="info-label">
-📅 FECHA
-</div>
-
-<div
-id="eventoFecha"
-class="info-value">
-
-—
-
-</div>
-
-</div>
-
-
-<div class="info-box">
-
-<div class="info-label">
-🕐 HORA
-</div>
-
-<div
-id="eventoHora"
-class="info-value">
-
-—
-
-</div>
-
-</div>
-
-
-<div class="info-box">
-
-<div class="info-label">
-📍 LUGAR
-</div>
-
-<div
-id="eventoLugar"
-class="info-value">
-
-—
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ESTADISTICAS -->
-
-<div class="stats">
-
-<div class="card">
-
-<div class="card-title">
-ENTRADAS
-</div>
-
-<div
-id="total"
-class="number">
-
-0
-
-</div>
-
-<div class="line"></div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-DISPONIBLES
-</div>
-
-<div
-id="disponibles"
-class="number">
-
-0
-
-</div>
-
-<div class="line"></div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-INGRESADAS
-</div>
-
-<div
-id="ingresadas"
-class="number">
-
-0
-
-</div>
-
-<div class="line"></div>
-
-</div>
-
-</div>
-
-
-<!-- TABLA -->
-
-<div class="panel">
-
-<div class="panel-header">
-
-<div class="panel-title">
-🎟️ Entradas
-</div>
-
-<input
-id="search"
-class="search"
-type="text"
-placeholder="Buscar PV-0001...">
-
-</div>
-
-
-<div
-id="message"
-class="message">
-</div>
-
-
-<div
-id="loading"
-class="loading">
-
-🔄 Cargando entradas...
-
-</div>
-
-
-<div class="table-wrapper">
-
-<table
-id="ticketsTable"
-style="display:none">
-
-<thead>
-
-<tr>
-
-<th>
-CÓDIGO
-</th>
-
-<th>
-ESTADO
-</th>
-
-<th>
-INGRESO
-</th>
-
-<th>
-ACCIÓN
-</th>
-
-</tr>
-
-</thead>
-
-<tbody
-id="ticketsBody">
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- MODAL NUEVO EVENTO -->
-
-<div
-id="eventModal"
-class="modal">
-
-
-<div class="modal-content">
-
-<div class="modal-title">
-
-➕ Crear nuevo evento
-
-</div>
-
-<div class="modal-subtitle">
-
-Se crearán automáticamente
-150 entradas para este evento.
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Nombre del evento
+<label for="fecha">
+📅 Fecha del evento
 </label>
 
 <input
-id="newEventName"
-type="text"
-placeholder="Ej: Piano & Vino">
-
-</div>
+type="date"
+id="fecha"
+>
 
 
-<div class="form-group">
-
-<label>
-Fecha
+<label for="hora">
+⏰ Hora del evento
 </label>
 
 <input
-id="newEventDate"
-type="date">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Hora
-</label>
-
-<input
-id="newEventTime"
-type="time">
-
-</div>
+type="time"
+id="hora"
+>
 
 
-<div class="form-group">
+<button id="guardar">
 
-<label>
-📍 Lugar donde se realiza
-</label>
-
-<input
-id="newEventPlace"
-type="text"
-placeholder="Ej: Galpón Vinilo - Urquiza 77, Junín">
-
-</div>
-
-
-<div class="modal-buttons">
-
-<button
-id="cancelEvent"
-class="btn-cancel">
-
-Cancelar
+💾 Guardar cambios
 
 </button>
 
 
-<button
-id="createEvent"
-class="btn-create">
+<hr style="margin:30px 0;border-color:#444;">
 
-Crear evento
+
+<h3>🔄 Reiniciar entradas</h3>
+
+<p class="info">
+
+Esta opción vuelve todas las entradas a estado
+<strong>NO UTILIZADA</strong>.
+
+Los códigos QR no cambian.
+
+</p>
+
+
+<button
+id="reiniciar"
+class="btn-danger"
+>
+
+🔄 Blanquear todos los QR
 
 </button>
 
-</div>
 
-</div>
+<div
+id="mensaje"
+class="mensaje"
+></div>
+
+
+<p class="info">
+
+Piano & Vino Manager<br>
+Panel de administración
+
+</p>
 
 </div>
 
 
 <script type="module">
 
+/* ==========================================
+CONEXIÓN CON FIREBASE
+========================================== */
 
-/* =========================================
-FIREBASE
-========================================= */
-
-import {
-initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
+import { db } from "./firebase.js";
 
 import {
-getFirestore,
 collection,
-query,
-where,
-onSnapshot,
+getDocs,
 doc,
 updateDoc,
-getDocs,
+setDoc,
+getDoc,
 writeBatch
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-const firebaseConfig = {
+/* ==========================================
+ELEMENTOS HTML
+========================================== */
 
-apiKey:
-"AIzaSyDElU_IS5ndsR6e8H66j1GX9RTGVCs5oeU",
-
-authDomain:
-"ticketera2026-v2.firebaseapp.com",
-
-projectId:
-"ticketera2026-v2",
-
-storageBucket:
-"ticketera2026-v2.firebasestorage.app",
-
-messagingSenderId:
-"159437918344",
-
-appId:
-"1:159437918344:web:052123faa34938fc4a4f3d"
-
-};
-
-
-const app =
-initializeApp(firebaseConfig);
-
-
-const db =
-getFirestore(app);
-
-
-/* =========================================
-CONFIGURACION
-========================================= */
-
-const COLLECTION_NAME =
-"entradas";
-
-const TOTAL_ENTRADAS =
-150;
-
-const EVENTO_INICIAL =
-"Piano & Vino";
-
-
-/* =========================================
-VARIABLES
-========================================= */
-
-let tickets = [];
-
-let eventoActual =
-EVENTO_INICIAL;
-
-let unsubscribe =
-null;
-
-
-/* =========================================
-ELEMENTOS
-========================================= */
-
-const total =
+const totalElement =
 document.getElementById("total");
 
-const disponibles =
-document.getElementById("disponibles");
-
-const ingresadas =
+const ingresadasElement =
 document.getElementById("ingresadas");
 
-const body =
-document.getElementById("ticketsBody");
+const disponiblesElement =
+document.getElementById("disponibles");
 
-const table =
-document.getElementById("ticketsTable");
+const usadasElement =
+document.getElementById("usadas");
 
-const loading =
-document.getElementById("loading");
+const fechaInput =
+document.getElementById("fecha");
 
-const search =
-document.getElementById("search");
+const horaInput =
+document.getElementById("hora");
 
-const firebaseStatus =
-document.getElementById("firebaseStatus");
+const guardar =
+document.getElementById("guardar");
 
-const message =
-document.getElementById("message");
+const reiniciar =
+document.getElementById("reiniciar");
 
-const eventSelect =
-document.getElementById("eventSelect");
+const mensaje =
+document.getElementById("mensaje");
 
-const newEventButton =
-document.getElementById("newEventButton");
-
-const eventModal =
-document.getElementById("eventModal");
-
-const newEventName =
-document.getElementById("newEventName");
-
-const newEventDate =
-document.getElementById("newEventDate");
-
-const newEventTime =
-document.getElementById("newEventTime");
-
-const newEventPlace =
-document.getElementById("newEventPlace");
-
-const cancelEvent =
-document.getElementById("cancelEvent");
-
-const createEvent =
-document.getElementById("createEvent");
-
-const eventoFecha =
-document.getElementById("eventoFecha");
-
-const eventoHora =
-document.getElementById("eventoHora");
-
-const eventoLugar =
-document.getElementById("eventoLugar");
+const estadoConexion =
+document.getElementById("estadoConexion");
 
 
-/* =========================================
-INICIO
-========================================= */
+/* ==========================================
+MENSAJES
+========================================== */
 
-iniciar();
+function mostrarMensaje(texto, tipo = ""){
 
+mensaje.textContent = texto;
 
-async function iniciar() {
+mensaje.style.display = "block";
 
-try {
+mensaje.className = "mensaje " + tipo;
 
-firebaseStatus.textContent =
-"🟢 Conectado correctamente";
+setTimeout(() => {
 
-firebaseStatus.classList.add(
-"ok"
-);
+mensaje.style.display = "none";
 
-await cargarEventos();
-
-eventSelect.value =
-eventoActual;
-
-cargarEntradas();
-
-}
-
-catch (error) {
-
-console.error(error);
-
-firebaseStatus.textContent =
-"🔴 Error de Firebase";
-
-firebaseStatus.classList.add(
-"error"
-);
-
-}
+},4000);
 
 }
 
 
-/* =========================================
-CARGAR EVENTOS
-========================================= */
+/* ==========================================
+CARGAR ENTRADAS DESDE FIREBASE
+========================================== */
 
-async function cargarEventos() {
+async function cargarEntradas(){
 
-const ref =
-collection(
-db,
-COLLECTION_NAME
-);
+try{
+
+estadoConexion.textContent =
+"🔄 Cargando entradas desde Firebase...";
+
+estadoConexion.className =
+"estado cargando";
+
+
+const entradasRef =
+collection(db,"entradas");
 
 const snapshot =
-await getDocs(ref);
-
-const eventos =
-new Set();
+await getDocs(entradasRef);
 
 
-snapshot.forEach(
-snap => {
+let total = 0;
 
-const data =
-snap.data();
+let usadas = 0;
 
-if (data.evento) {
 
-eventos.add(
-data.evento
-);
+snapshot.forEach((documento) => {
 
-}
+const datos = documento.data();
 
-}
-);
+total++;
 
 
 /*
-* Siempre dejamos Piano & Vino
-* disponible.
+Firebase guarda usado como true/false.
 */
 
-eventos.add(
-EVENTO_INICIAL
-);
-
-
-eventSelect.innerHTML =
-"";
-
-
-Array.from(eventos)
-.sort()
-.forEach(
-evento => {
-
-const option =
-document.createElement(
-"option"
-);
-
-option.value =
-evento;
-
-option.textContent =
-evento;
-
-eventSelect.appendChild(
-option
-);
-
-}
-);
-
-}
-
-
-/* =========================================
-CAMBIAR EVENTO
-========================================= */
-
-eventSelect.addEventListener(
-"change",
-() => {
-
-eventoActual =
-eventSelect.value;
-
-search.value =
-"";
-
-cargarEntradas();
-
-}
-);
-
-
-/* =========================================
-CARGAR ENTRADAS
-========================================= */
-
-function cargarEntradas() {
-
-loading.style.display =
-"block";
-
-table.style.display =
-"none";
-
-
-if (unsubscribe) {
-
-unsubscribe();
-
-}
-
-
-const ref =
-collection(
-db,
-COLLECTION_NAME
-);
-
-
-const q =
-query(
-ref,
-where(
-"evento",
-"==",
-eventoActual
-)
-);
-
-
-unsubscribe =
-onSnapshot(
-
-q,
-
-snapshot => {
-
-tickets = [];
-
-
-snapshot.forEach(
-snap => {
-
-tickets.push({
-
-id:
-snap.id,
-
-...snap.data()
-
-});
-
-}
-);
-
-
-tickets.sort(
-(a,b) => {
-
-const ca =
-String(
-a.codigo ||
-a.id ||
-""
-);
-
-const cb =
-String(
-b.codigo ||
-b.id ||
-""
-);
-
-return ca.localeCompare(
-cb,
-undefined,
-{
-numeric: true
-}
-);
-
-}
-);
-
-
-firebaseStatus.textContent =
-"🟢 Conectado correctamente";
-
-
-firebaseStatus.classList.add(
-"ok"
-);
-
-
-loading.style.display =
-"none";
-
-table.style.display =
-"table";
-
-
-actualizarInformacion();
-
-actualizarEstadisticas();
-
-mostrarEntradas(
-tickets
-);
-
-},
-
-
-error => {
-
-console.error(
-"Firebase:",
-error
-);
-
-loading.textContent =
-"❌ Error al cargar las entradas.";
-
-firebaseStatus.textContent =
-"🔴 Error de Firebase";
-
-firebaseStatus.classList.remove(
-"ok"
-);
-
-firebaseStatus.classList.add(
-"error"
-);
-
-}
-
-);
-
-}
-
-
-/* =========================================
-INFORMACION EVENTO
-========================================= */
-
-function actualizarInformacion() {
-
-if (
-tickets.length === 0
-) {
-
-eventoFecha.textContent =
-"—";
-
-eventoHora.textContent =
-"—";
-
-eventoLugar.textContent =
-"—";
-
-return;
-
-}
-
-
-const entrada =
-tickets[0];
-
-
-eventoFecha.textContent =
-entrada.fecha ||
-"—";
-
-
-eventoHora.textContent =
-entrada.hora ||
-"—";
-
-
-eventoLugar.textContent =
-entrada.lugar ||
-"—";
-
-}
-
-
-/* =========================================
-ESTADISTICAS
-========================================= */
-
-function actualizarEstadisticas() {
-
-const cantidad =
-tickets.length;
-
-
-let usadas =
-0;
-
-
-tickets.forEach(
-ticket => {
-
-if (
-esUsada(ticket)
-) {
+if(datos.usado === true){
 
 usadas++;
 
 }
 
-}
-);
+});
 
 
-total.textContent =
-cantidad;
+const disponibles =
+total - usadas;
 
 
-ingresadas.textContent =
+/* Actualizar pantalla */
+
+totalElement.textContent =
+total;
+
+usadasElement.textContent =
 usadas;
 
+ingresadasElement.textContent =
+usadas;
 
-disponibles.textContent =
-Math.max(
-cantidad - usadas,
-0
+disponiblesElement.textContent =
+disponibles;
+
+
+estadoConexion.textContent =
+"🟢 Firebase conectado correctamente";
+
+estadoConexion.className =
+"estado exito";
+
+
+console.log(
+"Entradas encontradas:",
+total
 );
 
-}
-
-
-/* =========================================
-SABER SI ESTA USADA
-========================================= */
-
-function esUsada(ticket) {
-
-const estado =
-String(
-ticket.estado ||
-""
-).toLowerCase();
-
-
-return (
-
-ticket.ingreso === true ||
-
-ticket.usado === true ||
-
-estado === "ingreso" ||
-
-estado === "ingresada" ||
-
-estado === "usado" ||
-
-estado === "utilizado"
-
+console.log(
+"QR utilizados:",
+usadas
 );
 
-}
-
-
-/* =========================================
-MOSTRAR ENTRADAS
-========================================= */
-
-function mostrarEntradas(lista) {
-
-body.innerHTML =
-"";
-
-
-if (
-lista.length === 0
-) {
-
-body.innerHTML = `
-
-<tr>
-
-<td
-colspan="4"
-style="
-text-align:center;
-padding:30px;
-color:#888;
-">
-
-No hay entradas para este evento.
-
-</td>
-
-</tr>
-
-`;
-
-return;
-
-}
-
-
-lista.forEach(
-ticket => {
-
-const codigo =
-ticket.codigo ||
-ticket.id;
-
-
-const usada =
-esUsada(ticket);
-
-
-const tr =
-document.createElement(
-"tr"
+console.log(
+"Entradas disponibles:",
+disponibles
 );
 
 
-tr.innerHTML = `
+}catch(error){
 
-<td class="code">
-
-${escapeHtml(codigo)}
-
-</td>
-
-
-<td>
-
-${
-usada
-
-?
-
-`
-<span class="badge used">
-🔴 YA UTILIZADA
-</span>
-`
-
-:
-
-`
-<span class="badge available">
-🟢 DISPONIBLE
-</span>
-`
-}
-
-</td>
-
-
-<td>
-
-${
-ticket.fechaingreso
-?
-formatearFecha(
-ticket.fechaingreso
-)
-:
-"—"
-}
-
-</td>
-
-
-<td>
-
-${
-usada
-
-?
-
-`
-<button
-class="btn-reset"
-data-action="reset"
-data-id="${escapeHtml(ticket.id)}">
-
-↩ Reiniciar
-
-</button>
-`
-
-:
-
-`
-<button
-class="btn-use"
-data-action="use"
-data-id="${escapeHtml(ticket.id)}">
-
-✓ Marcar ingreso
-
-</button>
-`
-}
-
-</td>
-
-`;
-
-
-body.appendChild(
-tr
-);
-
-}
-);
-
-}
-
-
-/* =========================================
-BOTONES
-========================================= */
-
-body.addEventListener(
-"click",
-event => {
-
-const button =
-event.target.closest(
-"button"
+console.error(
+"Error conectando con Firebase:",
+error
 );
 
 
-if (!button) {
-return;
-}
+estadoConexion.textContent =
+"🔴 Error conectando con Firebase";
 
-
-const id =
-button.dataset.id;
-
-
-const action =
-button.dataset.action;
-
-
-if (
-action === "use"
-) {
-
-marcarIngreso(id);
-
-}
-
-
-if (
-action === "reset"
-) {
-
-reiniciarEntrada(id);
-
-}
-
-}
-);
-
-
-/* =========================================
-MARCAR INGRESO
-========================================= */
-
-async function marcarIngreso(id) {
-
-const ticket =
-tickets.find(
-t => t.id === id
-);
-
-
-if (!ticket) {
-return;
-}
-
-
-if (
-esUsada(ticket)
-) {
-
-alert(
-"⚠️ Esta entrada ya fue utilizada."
-);
-
-return;
-
-}
-
-
-const codigo =
-ticket.codigo ||
-ticket.id;
-
-
-const confirmar =
-confirm(
-"¿Confirmar ingreso de " +
-codigo +
-"?"
-);
-
-
-if (!confirmar) {
-return;
-}
-
-
-try {
-
-await updateDoc(
-
-doc(
-db,
-COLLECTION_NAME,
-id
-),
-
-{
-
-estado:
-"ingreso",
-
-ingreso:
-true,
-
-usado:
-true,
-
-fechaingreso:
-new Date(),
-
-horaingreso:
-new Date()
-.toLocaleTimeString(
-"es-AR"
-)
-
-}
-
-);
+estadoConexion.className =
+"estado error";
 
 
 mostrarMensaje(
-"✅ " +
-codigo +
-" ingresada correctamente.",
-"success"
-);
-
-}
-
-catch(error) {
-
-console.error(error);
-
-mostrarMensaje(
-"❌ No se pudo registrar el ingreso.",
+"❌ No se pudieron cargar las entradas.",
 "error"
 );
 
@@ -1706,599 +453,350 @@ mostrarMensaje(
 }
 
 
-/* =========================================
-REINICIAR
-========================================= */
+/* ==========================================
+CARGAR CONFIGURACIÓN DEL EVENTO
+========================================== */
 
-async function reiniciarEntrada(id) {
+async function cargarConfiguracion(){
 
-const ticket =
-tickets.find(
-t => t.id === id
-);
+try{
 
+const configRef =
+doc(db,"configuracion","evento");
 
-if (!ticket) {
-return;
-}
+const configSnap =
+await getDoc(configRef);
 
 
-const codigo =
-ticket.codigo ||
-ticket.id;
+if(configSnap.exists()){
+
+const datos =
+configSnap.data();
 
 
-if (
-!confirm(
-"¿Reiniciar " +
-codigo +
-"?"
-)
-) {
+if(datos.fecha){
 
-return;
+fechaInput.value =
+datos.fecha;
 
 }
 
 
-try {
+if(datos.hora){
 
-await updateDoc(
-
-doc(
-db,
-COLLECTION_NAME,
-id
-),
-
-{
-
-estado:
-"disponible",
-
-ingreso:
-false,
-
-usado:
-false,
-
-fechaingreso:
-null,
-
-horaingreso:
-null
+horaInput.value =
+datos.hora;
 
 }
 
-);
+}else{
+
+/*
+Si todavía no existe configuración,
+tomamos la fecha y hora de la
+primera entrada.
+*/
+
+const entradasRef =
+collection(db,"entradas");
+
+const snapshot =
+await getDocs(entradasRef);
 
 
-mostrarMensaje(
-"↩ Entrada reiniciada correctamente.",
-"success"
+if(!snapshot.empty){
+
+const primeraEntrada =
+snapshot.docs[0].data();
+
+
+if(primeraEntrada.fecha){
+
+fechaInput.value =
+convertirFechaParaInput(
+primeraEntrada.fecha
 );
 
 }
 
-catch(error) {
 
-console.error(error);
+if(primeraEntrada.hora){
 
-mostrarMensaje(
-"❌ No se pudo reiniciar.",
-"error"
-);
+horaInput.value =
+primeraEntrada.hora;
 
 }
 
 }
 
-
-/* =========================================
-BUSCADOR
-========================================= */
-
-search.addEventListener(
-"input",
-() => {
-
-const texto =
-search.value
-.trim()
-.toLowerCase();
-
-
-if (!texto) {
-
-mostrarEntradas(
-tickets
-);
-
-return;
-
 }
 
+}catch(error){
 
-const filtradas =
-tickets.filter(
-ticket => {
-
-const codigo =
-String(
-ticket.codigo ||
-ticket.id ||
-""
-).toLowerCase();
-
-
-return codigo.includes(
-texto
+console.error(
+"Error cargando configuración:",
+error
 );
-
-}
-);
-
-
-mostrarEntradas(
-filtradas
-);
-
-}
-);
-
-
-/* =========================================
-ABRIR MODAL
-========================================= */
-
-newEventButton.addEventListener(
-"click",
-() => {
-
-newEventName.value =
-"";
-
-newEventDate.value =
-"";
-
-newEventTime.value =
-"";
-
-newEventPlace.value =
-"";
-
-eventModal.style.display =
-"block";
-
-}
-);
-
-
-/* =========================================
-CERRAR MODAL
-========================================= */
-
-cancelEvent.addEventListener(
-"click",
-() => {
-
-eventModal.style.display =
-"none";
-
-}
-);
-
-
-eventModal.addEventListener(
-"click",
-event => {
-
-if (
-event.target ===
-eventModal
-) {
-
-eventModal.style.display =
-"none";
 
 }
 
 }
-);
 
 
-/* =========================================
-CREAR EVENTO
-========================================= */
+/* ==========================================
+CONVERTIR FECHA
+========================================== */
 
-createEvent.addEventListener(
-"click",
-async () => {
+function convertirFechaParaInput(fecha){
 
-const nombre =
-newEventName.value.trim();
+if(!fecha){
 
-const fecha =
-newEventDate.value;
-
-const hora =
-newEventTime.value;
-
-const lugar =
-newEventPlace.value.trim();
-
-
-if (!nombre) {
-
-alert(
-"Ingresá el nombre del evento."
-);
-
-return;
+return "";
 
 }
-
-
-if (!fecha) {
-
-alert(
-"Seleccioná la fecha."
-);
-
-return;
-
-}
-
-
-if (!hora) {
-
-alert(
-"Seleccioná la hora."
-);
-
-return;
-
-}
-
-
-if (!lugar) {
-
-alert(
-"Ingresá el lugar."
-);
-
-return;
-
-}
-
-
-const confirmar =
-confirm(
-
-"Crear evento:\n\n" +
-
-nombre +
-"\n" +
-
-fecha +
-" - " +
-hora +
-"\n" +
-
-lugar +
-"\n\n" +
-
-"Se crearán 150 entradas."
-
-);
-
-
-if (!confirmar) {
-return;
-}
-
-
-try {
-
-createEvent.disabled =
-true;
-
-createEvent.textContent =
-"Creando...";
-
-
-const batch =
-writeBatch(db);
-
-
-const ref =
-collection(
-db,
-COLLECTION_NAME
-);
 
 
 /*
-* IMPORTANTE:
-*
-* PV-0001 a PV-0150
-* para cada evento.
-*
-* El ID contiene el evento,
-* por lo tanto NO se mezclan.
+Si Firebase tiene formato:
+12/08/2026
 */
 
-const prefijo =
-crearPrefijo(nombre);
+if(fecha.includes("/")){
+
+const partes =
+fecha.split("/");
 
 
-for (
-let i = 1;
-i <= TOTAL_ENTRADAS;
-i++
-) {
+if(partes.length === 3){
 
-const codigo =
-"PV-" +
-String(i)
-.padStart(
-4,
-"0"
+return partes[2] +
+"-" +
+partes[1].padStart(2,"0") +
+"-" +
+partes[0].padStart(2,"0");
+
+}
+
+}
+
+
+/*
+Si ya está en formato:
+2026-08-12
+*/
+
+return fecha;
+
+}
+
+
+/* ==========================================
+GUARDAR CONFIGURACIÓN
+========================================== */
+
+guardar.addEventListener(
+"click",
+async function(){
+
+if(!fechaInput.value){
+
+alert(
+"Seleccioná una fecha."
 );
 
+return;
 
-const id =
-prefijo +
-"_" +
-codigo;
+}
 
 
-batch.set(
+if(!horaInput.value){
 
-doc(
-ref,
-id
-),
+alert(
+"Seleccioná una hora."
+);
 
+return;
+
+}
+
+
+try{
+
+guardar.disabled = true;
+
+guardar.textContent =
+"💾 Guardando...";
+
+
+const configRef =
+doc(db,"configuracion","evento");
+
+
+await setDoc(
+configRef,
 {
-
-codigo:
-codigo,
-
-estado:
-"disponible",
-
-evento:
-nombre,
-
-fecha:
-fecha,
-
-hora:
-hora,
-
-lugar:
-lugar,
-
-fechaingreso:
-null,
-
-horaingreso:
-null,
-
-ingreso:
-false,
-
-usado:
-false
-
+fecha: fechaInput.value,
+hora: horaInput.value
+},
+{
+merge:true
 }
-
 );
-
-}
-
-
-await batch.commit();
-
-
-await cargarEventos();
-
-
-eventoActual =
-nombre;
-
-
-eventSelect.value =
-nombre;
-
-
-eventModal.style.display =
-"none";
-
-
-search.value =
-"";
-
-
-cargarEntradas();
 
 
 mostrarMensaje(
-"✅ Evento creado correctamente con 150 entradas.",
-"success"
+"✅ Fecha y hora guardadas en Firebase.",
+"exito"
 );
 
-}
 
-catch(error) {
+}catch(error){
 
 console.error(
-"Error creando evento:",
+"Error guardando configuración:",
 error
 );
 
 
 mostrarMensaje(
-"❌ No se pudo crear el evento.",
+"❌ No se pudieron guardar los cambios.",
 "error"
 );
 
-}
 
-finally {
+}finally{
 
-createEvent.disabled =
-false;
+guardar.disabled = false;
 
-createEvent.textContent =
-"Crear evento";
+guardar.textContent =
+"💾 Guardar cambios";
 
 }
 
-}
+});
+
+
+/* ==========================================
+BLANQUEAR TODOS LOS QR
+========================================== */
+
+reiniciar.addEventListener(
+"click",
+async function(){
+
+const confirmar =
+confirm(
+"¿SEGURO QUE QUERÉS BLANQUEAR TODAS LAS ENTRADAS?\n\n" +
+"Las 150 entradas volverán a quedar disponibles.\n\n" +
+"Los códigos QR NO cambiarán."
 );
 
 
-/* =========================================
-PREFIJO
-========================================= */
+if(!confirmar){
 
-function crearPrefijo(nombre) {
+return;
 
-return String(nombre)
+}
 
-.normalize("NFD")
 
-.replace(
-/[\u0300-\u036f]/g,
-""
-)
+try{
 
-.replace(
-/[^a-zA-Z0-9]+/g,
-"-"
-)
+reiniciar.disabled = true;
 
-.replace(
-/^-+|-+$/g,
-""
-)
+reiniciar.textContent =
+"🔄 Blanqueando...";
 
-.toLowerCase()
 
-.substring(
-0,
-30
+const entradasRef =
+collection(db,"entradas");
+
+const snapshot =
+await getDocs(entradasRef);
+
+
+/*
+Firestore permite hasta 500 operaciones
+por batch.
+
+Tenemos 150 entradas, por lo tanto
+podemos hacerlo en un solo batch.
+*/
+
+const batch =
+writeBatch(db);
+
+
+snapshot.forEach((documento) => {
+
+const entradaRef =
+doc(
+db,
+"entradas",
+documento.id
 );
 
+
+batch.update(
+entradaRef,
+{
+usado:false,
+estado:"disponible",
+fechaIngreso:"",
+horaIngreso:""
 }
-
-
-/* =========================================
-FECHA
-========================================= */
-
-function formatearFecha(valor) {
-
-try {
-
-if (
-valor &&
-typeof valor.toDate ===
-"function"
-) {
-
-return valor
-.toDate()
-.toLocaleString(
-"es-AR"
 );
 
-}
+});
 
 
-return new Date(
-valor
-).toLocaleString(
-"es-AR"
+await batch.commit();
+
+
+mostrarMensaje(
+"✅ Todas las entradas fueron blanqueadas correctamente.",
+"exito"
 );
 
-}
 
-catch {
+/*
+Actualizar los números inmediatamente.
+*/
 
-return "—";
-
-}
-
-}
+await cargarEntradas();
 
 
-/* =========================================
-MENSAJE
-========================================= */
+}catch(error){
 
-function mostrarMensaje(
-texto,
-tipo
-) {
-
-message.textContent =
-texto;
-
-message.className =
-"message " +
-tipo;
-
-
-setTimeout(
-() => {
-
-message.className =
-"message";
-
-},
-5000
+console.error(
+"Error blanqueando entradas:",
+error
 );
 
-}
 
-
-/* =========================================
-SEGURIDAD
-========================================= */
-
-function escapeHtml(valor) {
-
-return String(valor)
-
-.replaceAll(
-"&",
-"&amp;"
-)
-
-.replaceAll(
-"<",
-"&lt;"
-)
-
-.replaceAll(
-">",
-"&gt;"
-)
-
-.replaceAll(
-'"',
-"&quot;"
-)
-
-.replaceAll(
-"'",
-"&#039;"
+mostrarMensaje(
+"❌ No se pudieron blanquear las entradas.",
+"error"
 );
 
+}finally{
+
+reiniciar.disabled = false;
+
+reiniciar.textContent =
+"🔄 Blanquear todos los QR";
+
 }
+
+});
+
+
+/* ==========================================
+INICIAR ADMINISTRADOR
+========================================== */
+
+cargarEntradas();
+
+cargarConfiguracion();
 
 </script>
 
