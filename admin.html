@@ -2,8 +2,11 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Piano & Vino - Administrador</title>
 
@@ -15,790 +18,1151 @@ box-sizing:border-box;
 
 body{
 margin:0;
-font-family:Arial,sans-serif;
+padding:20px;
 background:#111;
 color:white;
+font-family:Arial,Helvetica,sans-serif;
 text-align:center;
-padding:20px;
-}
-
-.panel{
-max-width:500px;
-margin:20px auto;
-background:#222;
-border-radius:20px;
-padding:25px;
-box-shadow:0 0 25px rgba(0,0,0,.6);
 }
 
 h1{
-color:#d4af37;
-margin-bottom:5px;
+margin:10px 0 5px;
+font-size:28px;
 }
 
-h2{
-margin-top:5px;
+.subtitulo{
+color:#aaa;
+margin-bottom:25px;
 }
 
-.stats{
+.panel{
+max-width:520px;
+margin:20px auto;
+padding:20px;
+background:#1c1c1c;
+border-radius:15px;
+box-shadow:0 0 15px rgba(0,0,0,.5);
+}
+
+.estado{
+padding:12px;
+border-radius:10px;
+margin-bottom:20px;
+font-weight:bold;
+}
+
+.conectando{
+background:#444;
+}
+
+.conectado{
+background:#075c20;
+}
+
+.error{
+background:#7b1111;
+}
+
+.contadores{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:12px;
-margin:25px 0;
+margin-top:15px;
 }
 
-.stat{
-background:#333;
+.contador{
+background:#292929;
 padding:18px 10px;
 border-radius:12px;
 }
 
 .numero{
-font-size:30px;
+display:block;
+font-size:32px;
 font-weight:bold;
-color:#d4af37;
-display:block;
-}
-
-label{
-display:block;
-text-align:left;
-margin-top:15px;
 margin-bottom:5px;
 }
 
-input{
+.titulo{
+color:#aaa;
+font-size:14px;
+}
+
+.barra{
 width:100%;
-padding:13px;
-border-radius:10px;
-border:none;
-font-size:17px;
+height:18px;
+background:#333;
+border-radius:20px;
+overflow:hidden;
+margin-top:20px;
+}
+
+.progreso{
+height:100%;
+width:0%;
+background:#18a84b;
+transition:.3s;
 }
 
 button{
 width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
+border:0;
 border-radius:10px;
-font-size:17px;
+padding:15px;
+margin-top:15px;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
-background:#d4af37;
-color:#111;
 }
 
-button:hover{
-opacity:.9;
-}
-
-.btn-danger{
-background:#b52b2b;
+.btn-verde{
+background:#18a84b;
 color:white;
 }
 
-.mensaje{
-margin-top:18px;
-padding:12px;
+.btn-verde:hover{
+background:#15933f;
+}
+
+.evento{
+text-align:left;
+background:#242424;
+padding:15px;
 border-radius:10px;
-display:none;
-background:#333;
+line-height:1.6;
 }
 
-.info{
-font-size:14px;
-color:#bbb;
-margin-top:20px;
-line-height:1.5;
+input{
+width:100%;
+padding:14px;
+border-radius:8px;
+border:1px solid #555;
+background:#111;
+color:white;
+margin-top:8px;
+font-size:16px;
+text-align:center;
 }
 
-.estado{
+.mensaje{
 margin-top:15px;
-font-size:14px;
-color:#bbb;
+padding:12px;
+border-radius:8px;
+display:none;
 }
 
-.cargando{
-color:#d4af37;
+.mensaje.ok{
+display:block;
+background:#075c20;
 }
 
-.exito{
-color:#4caf50;
+.mensaje.error-msg{
+display:block;
+background:#7b1111;
 }
 
-.error{
-color:#ff5252;
+#listaEntradas{
+margin-top:20px;
+text-align:left;
+}
+
+.entrada{
+background:#242424;
+border-radius:10px;
+padding:12px;
+margin-bottom:8px;
+}
+
+.entrada-ingresada{
+border-left:5px solid #18a84b;
+}
+
+.entrada-disponible{
+border-left:5px solid #777;
+}
+
+.codigo{
+font-size:17px;
+font-weight:bold;
+}
+
+.estado-entrada{
+margin-top:5px;
+color:#aaa;
+font-size:13px;
+}
+
+footer{
+margin-top:30px;
+color:#666;
+font-size:12px;
 }
 
 </style>
 
 </head>
 
+
 <body>
 
-<div class="panel">
 
 <h1>🎹 Piano & Vino</h1>
 
-<h2>Panel Administrador</h2>
-
-
-<div class="stats">
-
-<div class="stat">
-
-<span class="numero" id="total">0</span>
-
-Total entradas
-
+<div class="subtitulo">
+Administrador de entradas
 </div>
 
 
-<div class="stat">
-
-<span class="numero" id="ingresadas">0</span>
-
-Ingresadas
-
-</div>
-
-
-<div class="stat">
-
-<span class="numero" id="disponibles">0</span>
-
-Disponibles
-
-</div>
-
-
-<div class="stat">
-
-<span class="numero" id="usadas">0</span>
-
-QR utilizados
-
-</div>
-
-</div>
-
-
-<div id="estadoConexion" class="estado cargando">
+<div id="estadoFirebase"
+class="estado conectando">
 
 🔄 Conectando con Firebase...
 
 </div>
 
 
-<hr style="margin:30px 0;border-color:#444;">
+
+<!-- ==============================
+CONTROL DE ENTRADAS
+================================ -->
+
+<div class="panel">
+
+<h2>Control de Entradas</h2>
 
 
-<h3>⚙️ Configuración del evento</h3>
+<div class="contadores">
 
 
-<label for="fecha">
-📅 Fecha del evento
-</label>
+<div class="contador">
 
-<input
-type="date"
-id="fecha"
->
+<span id="total"
+class="numero">
 
+0
 
-<label for="hora">
-⏰ Hora del evento
-</label>
+</span>
 
-<input
-type="time"
-id="hora"
->
+<span class="titulo">
+
+Total
+
+</span>
+
+</div>
 
 
-<button id="guardar">
 
-💾 Guardar cambios
+<div class="contador">
+
+<span id="vendidas"
+class="numero">
+
+0
+
+</span>
+
+<span class="titulo">
+
+Vendidas
+
+</span>
+
+</div>
+
+
+
+<div class="contador">
+
+<span id="ingresadas"
+class="numero">
+
+0
+
+</span>
+
+<span class="titulo">
+
+Ingresadas
+
+</span>
+
+</div>
+
+
+
+<div class="contador">
+
+<span id="disponibles"
+class="numero">
+
+0
+
+</span>
+
+<span class="titulo">
+
+Disponibles
+
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<div class="barra">
+
+<div id="progreso"
+class="progreso">
+
+</div>
+
+</div>
+
+
+
+<button
+class="btn-verde"
+onclick="cargarEntradas()">
+
+🔄 Actualizar
 
 </button>
 
 
-<hr style="margin:30px 0;border-color:#444;">
+</div>
 
 
-<h3>🔄 Reiniciar entradas</h3>
 
-<p class="info">
 
-Esta opción vuelve todas las entradas a estado
-<strong>NO UTILIZADA</strong>.
+<!-- ==============================
+EVENTO
+================================ -->
 
-Los códigos QR no cambian.
+<div class="panel">
 
-</p>
+<h2>Evento actual</h2>
+
+
+<div class="evento">
+
+<strong>🎹 Piano & Vino</strong>
+
+<br><br>
+
+Entradas:
+
+<strong>
+PV-0001 → PV-0150
+</strong>
+
+<br>
+
+Total:
+
+<strong>
+150 entradas
+</strong>
+
+</div>
+
+</div>
+
+
+
+
+<!-- ==============================
+BUSCAR ENTRADA
+================================ -->
+
+<div class="panel">
+
+<h2>Buscar entrada</h2>
+
+
+<input
+id="buscarCodigo"
+type="text"
+placeholder="Ejemplo: PV-0001"
+autocomplete="off">
 
 
 <button
-id="reiniciar"
-class="btn-danger"
->
+class="btn-verde"
+onclick="buscarEntrada()">
 
-🔄 Blanquear todos los QR
+🔎 Buscar entrada
 
 </button>
 
 
 <div
-id="mensaje"
-class="mensaje"
-></div>
-
-
-<p class="info">
-
-Piano & Vino Manager<br>
-Panel de administración
-
-</p>
+id="mensajeBusqueda"
+class="mensaje">
 
 </div>
 
 
+</div>
+
+
+
+
+<!-- ==============================
+LISTA
+================================ -->
+
+<div class="panel">
+
+<h2>Entradas</h2>
+
+
+<div id="listaEntradas">
+
+Cargando entradas...
+
+</div>
+
+
+</div>
+
+
+
+<footer>
+
+Piano & Vino<br>
+Sistema de control de entradas
+
+</footer>
+
+
+
+
+<!-- =========================================
+FIREBASE
+========================================= -->
+
 <script type="module">
 
-/* ==========================================
-CONEXIÓN CON FIREBASE
-========================================== */
-
-import { db } from "./firebase.js";
 
 import {
+
+initializeApp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+
+getFirestore,
 collection,
 getDocs,
 doc,
-updateDoc,
-setDoc,
-getDoc,
-writeBatch
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+getDoc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-/* ==========================================
-ELEMENTOS HTML
-========================================== */
 
-const totalElement =
-document.getElementById("total");
-
-const ingresadasElement =
-document.getElementById("ingresadas");
-
-const disponiblesElement =
-document.getElementById("disponibles");
-
-const usadasElement =
-document.getElementById("usadas");
-
-const fechaInput =
-document.getElementById("fecha");
-
-const horaInput =
-document.getElementById("hora");
-
-const guardar =
-document.getElementById("guardar");
-
-const reiniciar =
-document.getElementById("reiniciar");
-
-const mensaje =
-document.getElementById("mensaje");
-
-const estadoConexion =
-document.getElementById("estadoConexion");
+/* =========================================
+CONFIGURACIÓN REAL
+Ticketera2026-V2
+========================================= */
 
 
-/* ==========================================
-MENSAJES
-========================================== */
+const firebaseConfig = {
 
-function mostrarMensaje(texto, tipo = ""){
+apiKey:
+"AIzaSyDElU_IS5ndsR6e8H66j1GX9RTGVCs5oeU",
 
-mensaje.textContent = texto;
+authDomain:
+"ticketera2026-v2.firebaseapp.com",
 
-mensaje.style.display = "block";
+projectId:
+"ticketera2026-v2",
 
-mensaje.className = "mensaje " + tipo;
+storageBucket:
+"ticketera2026-v2.firebasestorage.app",
 
-setTimeout(() => {
+messagingSenderId:
+"159437918344",
 
-mensaje.style.display = "none";
+appId:
+"1:159437918344:web:052123faa34938fc4a4f3d"
 
-},4000);
+};
+
+
+
+/* =========================================
+CONEXIÓN
+========================================= */
+
+
+let app;
+
+let db;
+
+
+try{
+
+
+app =
+initializeApp(firebaseConfig);
+
+
+db =
+getFirestore(app);
+
+
+document
+.getElementById("estadoFirebase")
+.className =
+"estado conectado";
+
+
+document
+.getElementById("estadoFirebase")
+.innerText =
+"🟢 Firebase conectado";
+
+
+cargarEntradas();
+
+
+}
+catch(error){
+
+
+console.error(error);
+
+
+document
+.getElementById("estadoFirebase")
+.className =
+"estado error";
+
+
+document
+.getElementById("estadoFirebase")
+.innerText =
+"🔴 Error conectando con Firebase";
+
 
 }
 
 
-/* ==========================================
-CARGAR ENTRADAS DESDE FIREBASE
-========================================== */
 
-async function cargarEntradas(){
+
+/* =========================================
+CARGAR ENTRADAS
+========================================= */
+
+
+window.cargarEntradas =
+async function(){
+
 
 try{
 
-estadoConexion.textContent =
-"🔄 Cargando entradas desde Firebase...";
-
-estadoConexion.className =
-"estado cargando";
-
-
-const entradasRef =
-collection(db,"entradas");
 
 const snapshot =
-await getDocs(entradasRef);
+await getDocs(
+collection(db,"entradas")
+);
 
 
 let total = 0;
 
-let usadas = 0;
+let ingresadas = 0;
+
+let vendidas = 0;
+
+let disponibles = 0;
 
 
-snapshot.forEach((documento) => {
+let entradas = [];
 
-const datos = documento.data();
+
+
+snapshot.forEach(
+(documento)=>{
+
+
+const datos =
+documento.data();
+
 
 total++;
 
 
-/*
-Firebase guarda usado como true/false.
-*/
+entradas.push({
 
-if(datos.usado === true){
+id:documento.id,
 
-usadas++;
-
-}
+...datos
 
 });
 
 
-const disponibles =
-total - usadas;
+
+const estado =
+String(
+datos.estado || ""
+)
+.toLowerCase();
 
 
-/* Actualizar pantalla */
 
-totalElement.textContent =
+/*
+ENTRADA UTILIZADA
+*/
+
+
+if(
+
+estado === "ingresada" ||
+
+estado === "utilizado" ||
+
+estado === "utilizada" ||
+
+estado === "usada"
+
+){
+
+ingresadas++;
+
+}
+
+
+
+/*
+ENTRADA VENDIDA
+*/
+
+
+if(
+
+estado === "vendida" ||
+
+estado === "vendido" ||
+
+estado === "ingresada" ||
+
+estado === "utilizado" ||
+
+estado === "utilizada" ||
+
+estado === "usada"
+
+){
+
+vendidas++;
+
+}
+
+
+});
+
+
+/*
+DISPONIBLES
+*/
+
+
+disponibles =
+total - vendidas;
+
+
+
+document
+.getElementById("total")
+.innerText =
 total;
 
-usadasElement.textContent =
-usadas;
 
-ingresadasElement.textContent =
-usadas;
+document
+.getElementById("vendidas")
+.innerText =
+vendidas;
 
-disponiblesElement.textContent =
+
+document
+.getElementById("ingresadas")
+.innerText =
+ingresadas;
+
+
+document
+.getElementById("disponibles")
+.innerText =
 disponibles;
 
 
-estadoConexion.textContent =
-"🟢 Firebase conectado correctamente";
 
-estadoConexion.className =
-"estado exito";
+/*
+BARRA
+*/
 
 
-console.log(
-"Entradas encontradas:",
-total
+let porcentaje = 0;
+
+
+if(total > 0){
+
+porcentaje =
+(ingresadas / total) * 100;
+
+}
+
+
+document
+.getElementById("progreso")
+.style.width =
+porcentaje + "%";
+
+
+
+/*
+ORDENAR
+*/
+
+
+entradas.sort(
+(a,b)=>{
+
+
+const codigoA =
+String(
+a.codigo || a.id
 );
 
-console.log(
-"QR utilizados:",
-usadas
-);
 
-console.log(
-"Entradas disponibles:",
-disponibles
+const codigoB =
+String(
+b.codigo || b.id
 );
 
 
-}catch(error){
+return codigoA.localeCompare(codigoB);
+
+}
+);
+
+
+
+/*
+MOSTRAR
+*/
+
+
+const lista =
+document
+.getElementById(
+"listaEntradas"
+);
+
+
+lista.innerHTML = "";
+
+
+
+if(entradas.length === 0){
+
+lista.innerHTML =
+"<p>No hay entradas.</p>";
+
+return;
+
+}
+
+
+
+/*
+Mostrar las primeras 30
+*/
+
+
+const mostrar =
+entradas.slice(0,30);
+
+
+
+mostrar.forEach(
+(entrada)=>{
+
+
+const codigo =
+entrada.codigo ||
+entrada.id;
+
+
+const estado =
+String(
+entrada.estado || "disponible"
+)
+.toLowerCase();
+
+
+
+const usada =
+
+estado === "ingresada" ||
+
+estado === "utilizado" ||
+
+estado === "utilizada" ||
+
+estado === "usada";
+
+
+
+const div =
+document.createElement("div");
+
+
+div.className =
+"entrada " +
+(
+usada
+?
+"entrada-ingresada"
+:
+"entrada-disponible"
+);
+
+
+
+div.innerHTML = `
+
+<div class="codigo">
+
+${codigo}
+
+</div>
+
+<div class="estado-entrada">
+
+Estado:
+
+${
+usada
+?
+"🟢 INGRESADA"
+:
+"⚪ DISPONIBLE"
+}
+
+</div>
+
+`;
+
+
+lista.appendChild(div);
+
+
+});
+
+
+}
+catch(error){
+
 
 console.error(
-"Error conectando con Firebase:",
+"Error:",
 error
 );
 
 
-estadoConexion.textContent =
-"🔴 Error conectando con Firebase";
-
-estadoConexion.className =
+document
+.getElementById(
+"estadoFirebase"
+)
+.className =
 "estado error";
 
 
-mostrarMensaje(
-"❌ No se pudieron cargar las entradas.",
-"error"
-);
+document
+.getElementById(
+"estadoFirebase"
+)
+.innerText =
+"🔴 Error leyendo entradas";
+
 
 }
 
-}
+};
 
 
-/* ==========================================
-CARGAR CONFIGURACIÓN DEL EVENTO
-========================================== */
-
-async function cargarConfiguracion(){
-
-try{
-
-const configRef =
-doc(db,"configuracion","evento");
-
-const configSnap =
-await getDoc(configRef);
 
 
-if(configSnap.exists()){
-
-const datos =
-configSnap.data();
-
-
-if(datos.fecha){
-
-fechaInput.value =
-datos.fecha;
-
-}
+/* =========================================
+BUSCAR ENTRADA
+========================================= */
 
 
-if(datos.hora){
-
-horaInput.value =
-datos.hora;
-
-}
-
-}else{
-
-/*
-Si todavía no existe configuración,
-tomamos la fecha y hora de la
-primera entrada.
-*/
-
-const entradasRef =
-collection(db,"entradas");
-
-const snapshot =
-await getDocs(entradasRef);
-
-
-if(!snapshot.empty){
-
-const primeraEntrada =
-snapshot.docs[0].data();
-
-
-if(primeraEntrada.fecha){
-
-fechaInput.value =
-convertirFechaParaInput(
-primeraEntrada.fecha
-);
-
-}
-
-
-if(primeraEntrada.hora){
-
-horaInput.value =
-primeraEntrada.hora;
-
-}
-
-}
-
-}
-
-}catch(error){
-
-console.error(
-"Error cargando configuración:",
-error
-);
-
-}
-
-}
-
-
-/* ==========================================
-CONVERTIR FECHA
-========================================== */
-
-function convertirFechaParaInput(fecha){
-
-if(!fecha){
-
-return "";
-
-}
-
-
-/*
-Si Firebase tiene formato:
-12/08/2026
-*/
-
-if(fecha.includes("/")){
-
-const partes =
-fecha.split("/");
-
-
-if(partes.length === 3){
-
-return partes[2] +
-"-" +
-partes[1].padStart(2,"0") +
-"-" +
-partes[0].padStart(2,"0");
-
-}
-
-}
-
-
-/*
-Si ya está en formato:
-2026-08-12
-*/
-
-return fecha;
-
-}
-
-
-/* ==========================================
-GUARDAR CONFIGURACIÓN
-========================================== */
-
-guardar.addEventListener(
-"click",
+window.buscarEntrada =
 async function(){
 
-if(!fechaInput.value){
 
-alert(
-"Seleccioná una fecha."
+const codigo =
+
+document
+.getElementById(
+"buscarCodigo"
+)
+.value
+.trim()
+.toUpperCase();
+
+
+
+const mensaje =
+
+document
+.getElementById(
+"mensajeBusqueda"
 );
+
+
+
+mensaje.className =
+"mensaje";
+
+
+
+if(!codigo){
+
+
+mensaje.className =
+"mensaje error-msg";
+
+
+mensaje.innerText =
+"⚠️ Ingresá un código.";
+
 
 return;
 
 }
 
-
-if(!horaInput.value){
-
-alert(
-"Seleccioná una hora."
-);
-
-return;
-
-}
 
 
 try{
-
-guardar.disabled = true;
-
-guardar.textContent =
-"💾 Guardando...";
-
-
-const configRef =
-doc(db,"configuracion","evento");
-
-
-await setDoc(
-configRef,
-{
-fecha: fechaInput.value,
-hora: horaInput.value
-},
-{
-merge:true
-}
-);
-
-
-mostrarMensaje(
-"✅ Fecha y hora guardadas en Firebase.",
-"exito"
-);
-
-
-}catch(error){
-
-console.error(
-"Error guardando configuración:",
-error
-);
-
-
-mostrarMensaje(
-"❌ No se pudieron guardar los cambios.",
-"error"
-);
-
-
-}finally{
-
-guardar.disabled = false;
-
-guardar.textContent =
-"💾 Guardar cambios";
-
-}
-
-});
-
-
-/* ==========================================
-BLANQUEAR TODOS LOS QR
-========================================== */
-
-reiniciar.addEventListener(
-"click",
-async function(){
-
-const confirmar =
-confirm(
-"¿SEGURO QUE QUERÉS BLANQUEAR TODAS LAS ENTRADAS?\n\n" +
-"Las 150 entradas volverán a quedar disponibles.\n\n" +
-"Los códigos QR NO cambiarán."
-);
-
-
-if(!confirmar){
-
-return;
-
-}
-
-
-try{
-
-reiniciar.disabled = true;
-
-reiniciar.textContent =
-"🔄 Blanqueando...";
-
-
-const entradasRef =
-collection(db,"entradas");
-
-const snapshot =
-await getDocs(entradasRef);
 
 
 /*
-Firestore permite hasta 500 operaciones
-por batch.
-
-Tenemos 150 entradas, por lo tanto
-podemos hacerlo en un solo batch.
+Buscar por ID
 */
 
-const batch =
-writeBatch(db);
 
-
-snapshot.forEach((documento) => {
-
-const entradaRef =
+let referencia =
 doc(
 db,
 "entradas",
-documento.id
+codigo
 );
 
 
-batch.update(
-entradaRef,
-{
-usado:false,
-estado:"disponible",
-fechaIngreso:"",
-horaIngreso:""
-}
+let resultado =
+await getDoc(
+referencia
 );
 
-});
-
-
-await batch.commit();
-
-
-mostrarMensaje(
-"✅ Todas las entradas fueron blanqueadas correctamente.",
-"exito"
-);
 
 
 /*
-Actualizar los números inmediatamente.
+Si no existe,
+buscar por campo codigo
 */
 
-await cargarEntradas();
+
+if(!resultado.exists()){
 
 
-}catch(error){
-
-console.error(
-"Error blanqueando entradas:",
-error
+const snapshot =
+await getDocs(
+collection(db,"entradas")
 );
 
 
-mostrarMensaje(
-"❌ No se pudieron blanquear las entradas.",
-"error"
-);
+for(
+const documento
+of snapshot.docs
+){
 
-}finally{
 
-reiniciar.disabled = false;
+const datos =
+documento.data();
 
-reiniciar.textContent =
-"🔄 Blanquear todos los QR";
+
+if(
+
+String(
+datos.codigo || ""
+)
+.toUpperCase()
+===
+codigo
+
+){
+
+
+referencia =
+documento.ref;
+
+resultado =
+documento;
+
+break;
+
+}
+
+}
+
+}
+
+
+
+/*
+No encontrada
+*/
+
+
+if(!resultado.exists()){
+
+
+mensaje.className =
+"mensaje error-msg";
+
+
+mensaje.innerText =
+"❌ Entrada no encontrada.";
+
+
+return;
+
+}
+
+
+
+const datos =
+resultado.data();
+
+
+const estado =
+String(
+datos.estado || ""
+)
+.toLowerCase();
+
+
+
+/*
+YA UTILIZADA
+*/
+
+
+if(
+
+estado === "ingresada" ||
+
+estado === "utilizado" ||
+
+estado === "utilizada" ||
+
+estado === "usada"
+
+){
+
+
+mensaje.className =
+"mensaje error-msg";
+
+
+mensaje.innerText =
+"⚠️ ESTA ENTRADA YA FUE UTILIZADA.";
+
+
+return;
+
+}
+
+
+
+/*
+DISPONIBLE
+*/
+
+
+mensaje.className =
+"mensaje ok";
+
+
+mensaje.innerText =
+"✅ Entrada encontrada. Está disponible.";
+
+
+}
+catch(error){
+
+
+console.error(error);
+
+
+mensaje.className =
+"mensaje error-msg";
+
+
+mensaje.innerText =
+"❌ Error buscando la entrada.";
+
+
+}
+
+};
+
+
+
+
+/* =========================================
+ENTER PARA BUSCAR
+========================================= */
+
+
+document
+.getElementById(
+"buscarCodigo"
+)
+.addEventListener(
+"keypress",
+function(event){
+
+
+if(event.key === "Enter"){
+
+buscarEntrada();
 
 }
 
 });
 
 
-/* ==========================================
-INICIAR ADMINISTRADOR
-========================================== */
-
-cargarEntradas();
-
-cargarConfiguracion();
-
 </script>
+
 
 </body>
 
