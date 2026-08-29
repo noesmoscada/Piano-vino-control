@@ -589,30 +589,86 @@
    * CARGAR ENTRADAS EN TIEMPO REAL
    * =====================================================
    */
+function cargarEntradas() {
 
-  function cargarEntradas() {
+const entradasRef = collection(db, COLLECTION_NAME);
 
- const entradasRef = collection(db, COLLECTION_NAME);     
+onSnapshot(
+entradasRef,
 
+(snapshot) => {
 
-    onSnapshot(
-      entradasRef,
+tickets = [];
 
-      (snapshot) => {
+snapshot.forEach((docSnap) => {
 
-        tickets = [];
+const data = docSnap.data();
 
-        snapshot.forEach((docSnap) => {
+// MOSTRAR SOLAMENTE EL EVENTO ACTUAL
+if (data.evento === "Piano & Vino") {
 
-          tickets.push({
-            id: docSnap.id,
-            ...docSnap.data()
-          });
-console.log("ENTRADA FIREBASE:", docSnap.id, docSnap.data());
-        });
+tickets.push({
+id: docSnap.id,
+...data
+});
 
+}
 
-        /*
+});
+
+// Ordenar por código
+tickets.sort((a, b) => {
+
+const codigoA =
+String(a.codigo || a.id || "");
+
+const codigoB =
+String(b.codigo || b.id || "");
+
+return codigoA.localeCompare(
+codigoB,
+undefined,
+{ numeric: true }
+);
+
+});
+
+loading.style.display = "none";
+
+table.style.display = "table";
+
+actualizarEstadisticas();
+
+mostrarEntradas(tickets);
+
+},
+
+(error) => {
+
+console.error(
+"Firebase:",
+error
+);
+
+loading.textContent =
+"❌ Error al cargar las entradas.";
+
+firebaseStatus.textContent =
+"🔴 Error de Firebase";
+
+firebaseStatus.classList.remove("ok");
+
+firebaseStatus.classList.add("error");
+
+mostrarMensaje(
+"Error leyendo la colección 'entradas'. Verificá que el nombre de la colección sea correcto.",
+"error"
+);
+
+}
+);
+
+}
          * Ordenar por código
          */
 
