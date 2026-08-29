@@ -65,8 +65,7 @@ color: #d7cec1;
 .evento-actual {
 margin: 20px auto 0;
 padding: 12px 20px;
-
-max-width: 500px;
+max-width: 600px;
 
 border: 1px solid #43232d;
 border-radius: 25px;
@@ -74,7 +73,7 @@ border-radius: 25px;
 background: rgba(0,0,0,.35);
 
 color: #e9dfd2;
-font-size: 14px;
+font-size: 15px;
 }
 
 .firebase-status {
@@ -106,6 +105,82 @@ width: 94%;
 max-width: 1200px;
 margin: 30px auto;
 }
+
+/* EVENTOS */
+
+.event-control {
+
+background: #111;
+
+border: 1px solid #2c2225;
+
+border-radius: 15px;
+
+padding: 20px;
+
+margin-bottom: 25px;
+
+display: flex;
+
+gap: 15px;
+
+align-items: center;
+
+flex-wrap: wrap;
+}
+
+.event-control label {
+
+color: #aaa;
+
+font-size: 13px;
+
+letter-spacing: 1px;
+}
+
+.event-select {
+
+flex: 1;
+
+min-width: 220px;
+
+background: #1b1b1b;
+
+color: white;
+
+border: 1px solid #443036;
+
+border-radius: 8px;
+
+padding: 12px;
+}
+
+.btn-new-event {
+
+background: #8f243d;
+
+color: white;
+
+padding: 12px 18px;
+
+border-radius: 8px;
+
+font-size: 14px;
+
+cursor: pointer;
+
+border: none;
+
+font-weight: bold;
+}
+
+.btn-new-event:hover {
+
+background: #b32d4b;
+
+}
+
+/* ESTADISTICAS */
 
 .stats {
 
@@ -167,6 +242,8 @@ background: #9d2943;
 border-radius: 3px;
 }
 
+/* PANEL */
+
 .panel {
 
 margin-top: 25px;
@@ -226,11 +303,15 @@ outline: none;
 }
 
 .search:focus {
+
 border-color: #9d2943;
+
 }
 
 .table-wrapper {
+
 overflow-x: auto;
+
 }
 
 table {
@@ -267,7 +348,9 @@ font-size: 14px;
 }
 
 tr:hover {
+
 background: #171315;
+
 }
 
 .code {
@@ -334,7 +417,9 @@ color: white;
 }
 
 .btn-use:hover {
+
 background: #b32d4b;
+
 }
 
 .btn-reset {
@@ -345,8 +430,12 @@ color: #eee;
 }
 
 .btn-reset:hover {
+
 background: #4b4b4b;
+
 }
+
+/* MENSAJE */
 
 .message {
 
@@ -386,6 +475,144 @@ text-align: center;
 color: #aaa;
 }
 
+/* MODAL */
+
+.modal {
+
+display: none;
+
+position: fixed;
+
+z-index: 9999;
+
+left: 0;
+
+top: 0;
+
+width: 100%;
+
+height: 100%;
+
+background:
+rgba(0,0,0,.82);
+
+padding: 20px;
+
+overflow-y: auto;
+}
+
+.modal-content {
+
+max-width: 500px;
+
+margin: 60px auto;
+
+background: #151515;
+
+border: 1px solid #4a2932;
+
+border-radius: 16px;
+
+padding: 25px;
+
+box-shadow:
+0 20px 60px rgba(0,0,0,.6);
+}
+
+.modal-title {
+
+font-family: Georgia, serif;
+
+font-size: 27px;
+
+margin-bottom: 8px;
+}
+
+.modal-subtitle {
+
+color: #aaa;
+
+font-size: 13px;
+
+margin-bottom: 25px;
+}
+
+.form-group {
+
+margin-bottom: 18px;
+}
+
+.form-group label {
+
+display: block;
+
+color: #cfc5b9;
+
+margin-bottom: 7px;
+
+font-size: 13px;
+}
+
+.form-group input {
+
+width: 100%;
+
+padding: 12px;
+
+background: #202020;
+
+color: white;
+
+border: 1px solid #443036;
+
+border-radius: 8px;
+
+outline: none;
+}
+
+.form-group input:focus {
+
+border-color: #9d2943;
+
+}
+
+.modal-buttons {
+
+display: flex;
+
+gap: 10px;
+
+margin-top: 25px;
+}
+
+.btn-cancel {
+
+flex: 1;
+
+background: #333;
+
+color: white;
+
+padding: 13px;
+}
+
+.btn-create {
+
+flex: 1;
+
+background: #8f243d;
+
+color: white;
+
+padding: 13px;
+}
+
+.btn-create:hover {
+
+background: #b32d4b;
+
+}
+
 footer {
 
 text-align: center;
@@ -406,12 +633,17 @@ repeat(2, 1fr);
 }
 
 .logo {
+
 font-size: 34px;
+
 }
 
 .search {
+
 width: 100%;
+
 }
+
 }
 
 @media (max-width: 480px) {
@@ -425,17 +657,24 @@ gap: 9px;
 }
 
 .card {
+
 padding: 15px 8px;
+
 }
 
 .number {
+
 font-size: 30px;
+
 }
 
 td,
 th {
+
 padding: 10px;
+
 }
+
 }
 
 </style>
@@ -454,13 +693,11 @@ Piano<span>&</span>Vino
 
 </div>
 
-
 <div class="manager">
 
 MANAGER
 
 </div>
-
 
 <div class="subtitle">
 
@@ -468,14 +705,19 @@ CONTROL DE ENTRADAS
 
 </div>
 
-
 <div class="evento-actual">
 
-🎹🍷 <strong>Evento actual:</strong>
+🎹🍷
+
+<strong>Evento actual:</strong>
+
+<span id="eventoActualTexto">
+
 Piano & Vino
 
-</div>
+</span>
 
+</div>
 
 <div
 id="firebaseStatus"
@@ -489,6 +731,39 @@ class="firebase-status">
 
 
 <div class="container">
+
+
+<!-- SELECTOR DE EVENTO -->
+
+<div class="event-control">
+
+<label>
+
+EVENTO:
+
+</label>
+
+<select
+id="eventSelect"
+class="event-select">
+
+<option value="Piano & Vino">
+
+Piano & Vino
+
+</option>
+
+</select>
+
+<button
+id="newEventButton"
+class="btn-new-event">
+
+➕ Crear nuevo evento
+
+</button>
+
+</div>
 
 
 <!-- ESTADISTICAS -->
@@ -590,10 +865,10 @@ class="number">
 
 <div class="panel-header">
 
-
 <div class="panel-title">
 
 🎟️ Entradas
+
 <span
 id="cantidadEvento"
 style="
@@ -618,7 +893,6 @@ type="text"
 placeholder="Buscar PV-0001..."
 
 >
-
 
 </div>
 
@@ -652,19 +926,27 @@ style="display:none">
 <tr>
 
 <th>
+
 CÓDIGO
+
 </th>
 
 <th>
+
 ESTADO
+
 </th>
 
 <th>
+
 INGRESO
+
 </th>
 
 <th>
+
 ACCIÓN
+
 </th>
 
 </tr>
@@ -686,6 +968,106 @@ id="ticketsBody">
 
 </div>
 
+
+</div>
+
+
+<!-- MODAL CREAR EVENTO -->
+
+<div
+id="eventModal"
+class="modal">
+
+
+<div class="modal-content">
+
+
+<div class="modal-title">
+
+➕ Crear nuevo evento
+
+</div>
+
+
+<div class="modal-subtitle">
+
+Se crearán automáticamente
+150 entradas para el nuevo evento.
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Nombre del evento
+
+</label>
+
+<input
+id="newEventName"
+type="text"
+placeholder="Ej: Piano & Vino">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Fecha
+
+</label>
+
+<input
+id="newEventDate"
+type="date">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Hora
+
+</label>
+
+<input
+id="newEventTime"
+type="time">
+
+</div>
+
+
+<div class="modal-buttons">
+
+
+<button
+id="cancelEvent"
+class="btn-cancel">
+
+Cancelar
+
+</button>
+
+
+<button
+id="createEvent"
+class="btn-create">
+
+Crear evento
+
+</button>
+
+
+</div>
+
+
+</div>
 
 </div>
 
@@ -726,7 +1108,9 @@ query,
 where,
 onSnapshot,
 doc,
-updateDoc
+updateDoc,
+getDocs,
+writeBatch
 }
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -734,7 +1118,7 @@ from
 
 /*
 * =====================================================
-* CONFIGURACION TICKETERA2026-V2
+* CONFIGURACION FIREBASE
 * =====================================================
 */
 
@@ -762,16 +1146,20 @@ appId:
 
 
 const app =
-initializeApp(firebaseConfig);
+initializeApp(
+firebaseConfig
+);
 
 
 const db =
-getFirestore(app);
+getFirestore(
+app
+);
 
 
 /*
 * =====================================================
-* CONFIGURACION DEL EVENTO
+* CONFIGURACION
 * =====================================================
 */
 
@@ -779,8 +1167,29 @@ const COLLECTION_NAME =
 "entradas";
 
 
-const EVENTO_ACTUAL =
+const EVENTO_INICIAL =
 "Piano & Vino";
+
+
+const TOTAL_ENTRADAS =
+150;
+
+
+/*
+* =====================================================
+* VARIABLES
+* =====================================================
+*/
+
+let eventoActual =
+EVENTO_INICIAL;
+
+
+let tickets = [];
+
+
+let unsubscribeEntradas =
+null;
 
 
 /*
@@ -790,74 +1199,148 @@ const EVENTO_ACTUAL =
 */
 
 const totalElement =
-document.getElementById("total");
+document.getElementById(
+"total"
+);
 
 
 const vendidasElement =
-document.getElementById("vendidas");
+document.getElementById(
+"vendidas"
+);
 
 
 const ingresadasElement =
-document.getElementById("ingresadas");
+document.getElementById(
+"ingresadas"
+);
 
 
 const disponiblesElement =
-document.getElementById("disponibles");
+document.getElementById(
+"disponibles"
+);
 
 
 const body =
-document.getElementById("ticketsBody");
+document.getElementById(
+"ticketsBody"
+);
 
 
 const table =
-document.getElementById("ticketsTable");
+document.getElementById(
+"ticketsTable"
+);
 
 
 const loading =
-document.getElementById("loading");
+document.getElementById(
+"loading"
+);
 
 
 const search =
-document.getElementById("search");
+document.getElementById(
+"search"
+);
 
 
 const firebaseStatus =
-document.getElementById("firebaseStatus");
+document.getElementById(
+"firebaseStatus"
+);
 
 
 const message =
-document.getElementById("message");
+document.getElementById(
+"message"
+);
 
 
 const cantidadEvento =
-document.getElementById("cantidadEvento");
+document.getElementById(
+"cantidadEvento"
+);
+
+
+const eventSelect =
+document.getElementById(
+"eventSelect"
+);
+
+
+const newEventButton =
+document.getElementById(
+"newEventButton"
+);
+
+
+const eventModal =
+document.getElementById(
+"eventModal"
+);
+
+
+const newEventName =
+document.getElementById(
+"newEventName"
+);
+
+
+const newEventDate =
+document.getElementById(
+"newEventDate"
+);
+
+
+const newEventTime =
+document.getElementById(
+"newEventTime"
+);
+
+
+const cancelEvent =
+document.getElementById(
+"cancelEvent"
+);
+
+
+const createEvent =
+document.getElementById(
+"createEvent"
+);
+
+
+const eventoActualTexto =
+document.getElementById(
+"eventoActualTexto"
+);
 
 
 /*
 * =====================================================
-* DATOS
+* INICIAR
 * =====================================================
 */
 
-let tickets = [];
+cargarEventos();
+
+cargarEntradas(
+eventoActual
+);
 
 
 /*
 * =====================================================
-* CONEXION
+* CARGAR EVENTOS
 * =====================================================
 */
 
-cargarEntradas();
+async function cargarEventos() {
 
 
-/*
-* =====================================================
-* CARGAR SOLAMENTE PIANO & VINO
-* =====================================================
-*/
-
-function cargarEntradas() {
+try {
 
 
 const entradasRef =
@@ -867,26 +1350,189 @@ COLLECTION_NAME
 );
 
 
-/*
-* IMPORTANTE:
-*
-* Firebase solamente trae documentos
-* cuyo campo "evento" sea exactamente:
-*
-* Piano & Vino
-*/
-
-const consulta =
-query(
-entradasRef,
-where(
-"evento",
-"==",
-EVENTO_ACTUAL
-)
+const snapshot =
+await getDocs(
+entradasRef
 );
 
 
+const nombres =
+new Set();
+
+
+snapshot.forEach(
+(docSnap) => {
+
+const data =
+docSnap.data();
+
+
+if (
+data.evento
+) {
+
+nombres.add(
+String(
+data.evento
+)
+);
+
+}
+
+}
+);
+
+
+nombres.add(
+EVENTO_INICIAL
+);
+
+
+eventSelect.innerHTML =
+"";
+
+
+Array.from(
+nombres
+)
+.sort()
+.forEach(
+(nombre) => {
+
+
+const option =
+document.createElement(
+"option"
+);
+
+
+option.value =
+nombre;
+
+
+option.textContent =
+nombre;
+
+
+eventSelect.appendChild(
+option
+);
+
+}
+);
+
+
+eventSelect.value =
+eventoActual;
+
+
+}
+
+catch (
+error
+) {
+
+console.error(
+"Error cargando eventos:",
+error
+);
+
+}
+
+}
+
+
+/*
+* =====================================================
+* CAMBIAR EVENTO
+* =====================================================
+*/
+
+eventSelect.addEventListener(
+
+"change",
+
+() => {
+
+
+eventoActual =
+eventSelect.value;
+
+
+eventoActualTexto.textContent =
+eventoActual;
+
+
+search.value =
+"";
+
+
+cargarEntradas(
+eventoActual
+);
+
+}
+
+);
+
+
+/*
+* =====================================================
+* CARGAR ENTRADAS
+* =====================================================
+*/
+
+function cargarEntradas(
+nombreEvento
+) {
+
+
+loading.style.display =
+"block";
+
+
+loading.textContent =
+"🔄 Cargando entradas...";
+
+
+table.style.display =
+"none";
+
+
+if (
+unsubscribeEntradas
+) {
+
+unsubscribeEntradas();
+
+unsubscribeEntradas =
+null;
+
+}
+
+
+const entradasRef =
+collection(
+db,
+COLLECTION_NAME
+);
+
+
+const consulta =
+query(
+
+entradasRef,
+
+where(
+"evento",
+"==",
+nombreEvento
+)
+
+);
+
+
+unsubscribeEntradas =
 onSnapshot(
 
 consulta,
@@ -915,10 +1561,6 @@ docSnap.id,
 
 );
 
-
-/*
-* ORDENAR POR CODIGO
-*/
 
 tickets.sort(
 
@@ -958,16 +1600,17 @@ numeric: true
 );
 
 
-/*
-* MOSTRAR ESTADO
-*/
-
 firebaseStatus.textContent =
 "🟢 Conectado correctamente";
 
 
 firebaseStatus.classList.add(
 "ok"
+);
+
+
+firebaseStatus.classList.remove(
+"error"
 );
 
 
@@ -980,7 +1623,9 @@ table.style.display =
 
 
 cantidadEvento.textContent =
-"(" + tickets.length + ")";
+"(" +
+tickets.length +
+")";
 
 
 actualizarEstadisticas();
@@ -1023,7 +1668,9 @@ loading.textContent =
 
 mostrarMensaje(
 
-"Error leyendo las entradas del evento Piano & Vino.",
+"Error leyendo las entradas del evento " +
+nombreEvento +
+".",
 
 "error"
 
@@ -1049,10 +1696,12 @@ const total =
 tickets.length;
 
 
-let ingresadas = 0;
+let ingresadas =
+0;
 
 
-let vendidas = 0;
+let vendidas =
+0;
 
 
 tickets.forEach(
@@ -1060,34 +1709,20 @@ tickets.forEach(
 (ticket) => {
 
 
-const estado =
-String(
-ticket.estado ||
-""
-).toLowerCase();
+const usada =
+esEntradaUsada(
+ticket
+);
 
 
-/*
-* ENTRADA INGRESADA
-*/
-
-const estaIngresada =
-
-ticket.ingreso === true ||
-
-ticket.usado === true ||
-
-estado === "ingreso" ||
-
-estado === "ingresada" ||
-
-estado === "usado" ||
-
-estado === "utilizado";
+const vendida =
+esEntradaVendida(
+ticket
+);
 
 
 if (
-estaIngresada
+usada
 ) {
 
 ingresadas++;
@@ -1095,30 +1730,9 @@ ingresadas++;
 }
 
 
-/*
-* VENDIDA
-*
-* Como tu estructura no tiene
-* un campo "vendida", tomamos:
-*
-* vendido = true
-* o estado = vendida
-* o una entrada que ya fue ingresada.
-*/
-
-const estaVendida =
-
-ticket.vendida === true ||
-
-ticket.vendido === true ||
-
-estado === "vendida" ||
-
-estaIngresada;
-
-
 if (
-estaVendida
+vendida ||
+usada
 ) {
 
 vendidas++;
@@ -1157,6 +1771,74 @@ disponibles;
 
 /*
 * =====================================================
+* ESTADO UTILIZADA
+* =====================================================
+*/
+
+function esEntradaUsada(
+ticket
+) {
+
+
+const estado =
+String(
+ticket.estado ||
+""
+).toLowerCase();
+
+
+return (
+
+ticket.ingreso === true ||
+
+ticket.usado === true ||
+
+estado === "ingreso" ||
+
+estado === "ingresada" ||
+
+estado === "usado" ||
+
+estado === "utilizado"
+
+);
+
+}
+
+
+/*
+* =====================================================
+* ESTADO VENDIDA
+* =====================================================
+*/
+
+function esEntradaVendida(
+ticket
+) {
+
+
+const estado =
+String(
+ticket.estado ||
+""
+).toLowerCase();
+
+
+return (
+
+ticket.vendida === true ||
+
+ticket.vendido === true ||
+
+estado === "vendida"
+
+);
+
+}
+
+
+/*
+* =====================================================
 * MOSTRAR ENTRADAS
 * =====================================================
 */
@@ -1188,7 +1870,7 @@ padding:30px;
 ">
 
 No hay entradas para
-Piano & Vino.
+${escapeHtml(eventoActual)}.
 
 </td>
 
@@ -1224,24 +1906,13 @@ ticket
 );
 
 
-const fecha =
-obtenerFecha(
-ticket
-);
-
-
-const row =
-document.createElement(
-"tr"
-);
-
-
 let estadoHTML;
 
 
 if (
 usado
 ) {
+
 
 estadoHTML = `
 
@@ -1254,11 +1925,13 @@ class="badge used">
 
 `;
 
+
 }
 
 else if (
 vendido
 ) {
+
 
 estadoHTML = `
 
@@ -1271,9 +1944,11 @@ class="badge sold">
 
 `;
 
+
 }
 
 else {
+
 
 estadoHTML = `
 
@@ -1289,11 +1964,25 @@ class="badge available">
 }
 
 
+const fecha =
+obtenerFecha(
+ticket
+);
+
+
+const row =
+document.createElement(
+"tr"
+);
+
+
 row.innerHTML = `
 
 <td class="code">
 
-${escapeHtml(codigo)}
+${escapeHtml(
+codigo
+)}
 
 </td>
 
@@ -1366,75 +2055,7 @@ row
 
 /*
 * =====================================================
-* ENTRADA UTILIZADA
-* =====================================================
-*/
-
-function esEntradaUsada(
-ticket
-) {
-
-
-const estado =
-String(
-ticket.estado ||
-""
-).toLowerCase();
-
-
-return (
-
-ticket.ingreso === true ||
-
-ticket.usado === true ||
-
-estado === "ingreso" ||
-
-estado === "ingresada" ||
-
-estado === "usado" ||
-
-estado === "utilizado"
-
-);
-
-}
-
-
-/*
-* =====================================================
-* ENTRADA VENDIDA
-* =====================================================
-*/
-
-function esEntradaVendida(
-ticket
-) {
-
-
-const estado =
-String(
-ticket.estado ||
-""
-).toLowerCase();
-
-
-return (
-
-ticket.vendida === true ||
-
-ticket.vendido === true ||
-
-estado === "vendida"
-
-);
-
-}
-
-
-/*
-* =====================================================
-* FECHA DE INGRESO
+* FECHA
 * =====================================================
 */
 
@@ -1530,10 +2151,15 @@ ticket
 )
 ) {
 
+
 mostrarMensaje(
+
 "🔴 Esta entrada ya fue utilizada.",
+
 "error"
+
 );
+
 
 return;
 
@@ -1547,9 +2173,11 @@ ticket.id;
 
 const confirmar =
 confirm(
+
 "¿Confirmar ingreso de " +
 codigo +
 "?"
+
 );
 
 
@@ -1588,7 +2216,8 @@ fechaingreso:
 new Date(),
 
 horaingreso:
-new Date().toLocaleTimeString(
+new Date()
+.toLocaleTimeString(
 "es-AR"
 )
 
@@ -1635,7 +2264,7 @@ mostrarMensaje(
 
 /*
 * =====================================================
-* REINICIAR ENTRADA
+* REINICIAR
 * =====================================================
 */
 
@@ -1755,7 +2384,7 @@ mostrarMensaje(
 
 /*
 * =====================================================
-* BOTONES
+* BOTONES TABLA
 * =====================================================
 */
 
@@ -1883,6 +2512,424 @@ filtradas
 
 /*
 * =====================================================
+* ABRIR MODAL
+* =====================================================
+*/
+
+newEventButton.addEventListener(
+
+"click",
+
+() => {
+
+
+newEventName.value =
+"";
+
+
+newEventDate.value =
+"";
+
+
+newEventTime.value =
+"";
+
+
+eventModal.style.display =
+"block";
+
+}
+
+);
+
+
+/*
+* =====================================================
+* CERRAR MODAL
+* =====================================================
+*/
+
+cancelEvent.addEventListener(
+
+"click",
+
+() => {
+
+eventModal.style.display =
+"none";
+
+}
+
+);
+
+
+eventModal.addEventListener(
+
+"click",
+
+(event) => {
+
+
+if (
+event.target ===
+eventModal
+) {
+
+eventModal.style.display =
+"none";
+
+}
+
+}
+
+);
+
+
+/*
+* =====================================================
+* CREAR NUEVO EVENTO
+* =====================================================
+*/
+
+createEvent.addEventListener(
+
+"click",
+
+async () => {
+
+
+const nombre =
+newEventName.value.trim();
+
+
+const fecha =
+newEventDate.value;
+
+
+const hora =
+newEventTime.value;
+
+
+if (
+!nombre
+) {
+
+
+alert(
+"Ingresá el nombre del evento."
+);
+
+
+return;
+
+}
+
+
+if (
+!fecha
+) {
+
+
+alert(
+"Seleccioná la fecha del evento."
+);
+
+
+return;
+
+}
+
+
+if (
+!hora
+) {
+
+
+alert(
+"Seleccioná la hora del evento."
+);
+
+
+return;
+
+}
+
+
+const confirmar =
+confirm(
+
+"Se crearán 150 entradas para:\n\n" +
+
+nombre +
+
+"\n" +
+
+fecha +
+
+" - " +
+
+hora +
+
+"\n\n" +
+
+"¿Continuar?"
+
+);
+
+
+if (
+!confirmar
+) {
+
+return;
+
+}
+
+
+try {
+
+
+createEvent.disabled =
+true;
+
+
+createEvent.textContent =
+"Creando...";
+
+
+/*
+* CREAR LOS 150 TICKETS
+*
+* Usamos IDs únicos para que
+* distintos eventos puedan tener
+* nuevamente PV-0001, PV-0002, etc.
+*/
+
+const batch =
+writeBatch(
+db
+);
+
+
+const entradasRef =
+collection(
+db,
+COLLECTION_NAME
+);
+
+
+for (
+let i = 1;
+i <= TOTAL_ENTRADAS;
+i++
+) {
+
+
+const codigo =
+"PV-" +
+String(i)
+.padStart(
+4,
+"0"
+);
+
+
+const documentoId =
+crearIdSeguro(
+nombre
+) +
+"_" +
+codigo;
+
+
+const entradaRef =
+doc(
+entradasRef,
+documentoId
+);
+
+
+batch.set(
+
+entradaRef,
+
+{
+
+codigo:
+codigo,
+
+estado:
+"disponible",
+
+evento:
+nombre,
+
+fecha:
+fecha,
+
+fechaingreso:
+null,
+
+hora:
+hora,
+
+horaingreso:
+null,
+
+ingreso:
+false,
+
+usado:
+false,
+
+vendida:
+false
+
+}
+
+);
+
+}
+
+
+await batch.commit();
+
+
+/*
+* CERRAR MODAL
+*/
+
+eventModal.style.display =
+"none";
+
+
+/*
+* ACTUALIZAR SELECTOR
+*/
+
+await cargarEventos();
+
+
+/*
+* SELECCIONAR NUEVO EVENTO
+*/
+
+eventoActual =
+nombre;
+
+
+eventSelect.value =
+nombre;
+
+
+eventoActualTexto.textContent =
+nombre;
+
+
+/*
+* CARGAR SUS 150 ENTRADAS
+*/
+
+cargarEntradas(
+nombre
+);
+
+
+mostrarMensaje(
+
+"✅ Evento creado correctamente con 150 entradas.",
+
+"success"
+
+);
+
+
+}
+
+catch (
+error
+) {
+
+
+console.error(
+"ERROR CREANDO EVENTO:",
+error
+);
+
+
+mostrarMensaje(
+
+"❌ No se pudo crear el evento. Revisá la consola de Firebase.",
+
+"error"
+
+);
+
+}
+
+finally {
+
+
+createEvent.disabled =
+false;
+
+
+createEvent.textContent =
+"Crear evento";
+
+}
+
+}
+
+);
+
+
+/*
+* =====================================================
+* GENERAR ID SEGURO
+* =====================================================
+*/
+
+function crearIdSeguro(
+nombre
+) {
+
+
+return String(
+nombre
+)
+
+.normalize(
+"NFD"
+)
+
+.replace(
+/[\u0300-\u036f]/g,
+""
+)
+
+.replace(
+/[^a-zA-Z0-9]+/g,
+"-"
+)
+
+.replace(
+/^-+|-+$/g,
+""
+)
+
+.toLowerCase()
+
+.substring(
+0,
+30
+);
+
+}
+
+
+/*
+* =====================================================
 * MENSAJES
 * =====================================================
 */
@@ -1911,7 +2958,7 @@ message.className =
 
 },
 
-4000
+5000
 
 );
 
