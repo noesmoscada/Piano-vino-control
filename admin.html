@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Piano & Vino - Manager</title>
+<title>Piano & Vino Manager</title>
 
 <style>
 
@@ -25,70 +25,42 @@ font-family: Arial, Helvetica, sans-serif;
 
 header {
 text-align: center;
-padding: 35px 20px 30px;
-
-background:
-radial-gradient(
-circle at center,
-#35141f 0%,
-#160b0f 45%,
-#080808 100%
-);
-
+padding: 30px 15px;
+background: #111;
 border-bottom: 2px solid #7d2037;
 }
 
 .logo {
 font-family: Georgia, serif;
-font-size: 44px;
+font-size: 42px;
 font-weight: bold;
 }
 
 .logo span {
-color: #b62c4b;
+color: #a92745;
 }
 
 .manager {
 margin-top: 8px;
-color: #b62c4b;
-font-size: 15px;
-letter-spacing: 6px;
+color: #a92745;
+font-size: 14px;
+letter-spacing: 5px;
 }
 
 .subtitle {
-margin-top: 12px;
+margin-top: 10px;
+color: #aaa;
 font-size: 13px;
-letter-spacing: 3px;
-color: #d7cec1;
-}
-
-.evento-actual {
-margin: 20px auto 0;
-padding: 12px 20px;
-max-width: 700px;
-
-border: 1px solid #43232d;
-border-radius: 25px;
-
-background: rgba(0,0,0,.35);
-
-color: #e9dfd2;
-font-size: 14px;
+letter-spacing: 2px;
 }
 
 .firebase-status {
-margin: 12px auto 0;
-
+display: inline-block;
+margin-top: 15px;
 padding: 8px 16px;
-
-max-width: 400px;
-
 border-radius: 20px;
-
-background: #151515;
-
+background: #181818;
 color: #aaa;
-
 font-size: 13px;
 }
 
@@ -103,325 +75,206 @@ color: #ff7272;
 .container {
 width: 94%;
 max-width: 1200px;
-margin: 30px auto;
+margin: 25px auto;
 }
 
 
-/* =========================
-EVENTOS
-========================= */
+/* EVENTO */
 
 .event-control {
-
 background: #111;
-
-border: 1px solid #2c2225;
-
-border-radius: 15px;
-
-padding: 20px;
-
-margin-bottom: 25px;
+border: 1px solid #302328;
+border-radius: 12px;
+padding: 18px;
+margin-bottom: 20px;
 
 display: flex;
-
-gap: 15px;
-
 align-items: center;
-
+gap: 12px;
 flex-wrap: wrap;
 }
 
 .event-control label {
-
 color: #aaa;
-
 font-size: 13px;
-
-letter-spacing: 1px;
 }
 
 .event-select {
-
 flex: 1;
-
 min-width: 220px;
 
 background: #1b1b1b;
-
 color: white;
 
 border: 1px solid #443036;
-
 border-radius: 8px;
 
-padding: 12px;
+padding: 11px;
 }
 
-.btn-new-event {
-
+.btn-new {
 background: #8f243d;
-
 color: white;
 
-padding: 12px 18px;
-
+border: none;
 border-radius: 8px;
 
-font-size: 14px;
-
-cursor: pointer;
-
-border: none;
+padding: 11px 16px;
 
 font-weight: bold;
+cursor: pointer;
 }
 
-.btn-new-event:hover {
-
+.btn-new:hover {
 background: #b32d4b;
-
 }
 
 
-/* =========================
-DATOS DEL EVENTO
-========================= */
+/* INFORMACION */
 
 .event-info {
-
 display: grid;
-
-grid-template-columns:
-repeat(3, 1fr);
-
+grid-template-columns: repeat(3, 1fr);
 gap: 12px;
-
-margin-bottom: 25px;
+margin-bottom: 20px;
 }
 
 .info-box {
-
 background: #111;
-
-border: 1px solid #2c2225;
-
-border-radius: 12px;
-
-padding: 15px;
-
+border: 1px solid #302328;
+border-radius: 10px;
+padding: 14px;
 }
 
 .info-label {
-
 color: #888;
-
 font-size: 11px;
-
+margin-bottom: 7px;
 letter-spacing: 1px;
-
-margin-bottom: 6px;
-
 }
 
 .info-value {
-
 color: #eee;
-
 font-size: 14px;
-
 }
 
 
-/* =========================
-ESTADISTICAS
-========================= */
+/* ESTADISTICAS */
 
 .stats {
-
 display: grid;
-
-grid-template-columns:
-repeat(4, 1fr);
-
+grid-template-columns: repeat(3, 1fr);
 gap: 15px;
 }
 
 .card {
-
 background: #151515;
+border: 1px solid #302328;
+border-radius: 12px;
 
-border:
-1px solid #302328;
-
-border-radius: 14px;
-
-padding: 22px;
-
+padding: 20px;
 text-align: center;
-
-box-shadow:
-0 8px 25px rgba(0,0,0,.25);
 }
 
 .card-title {
-
-color: #bdb2a6;
-
+color: #aaa;
 font-size: 12px;
-
 letter-spacing: 2px;
 }
 
 .number {
-
 margin-top: 10px;
-
 font-size: 38px;
-
 font-weight: bold;
-
-color: #f4eee4;
 }
 
-.red-line {
-
+.line {
 width: 45px;
-
 height: 3px;
-
-margin: 14px auto 0;
-
 background: #9d2943;
-
+margin: 12px auto 0;
 border-radius: 3px;
 }
 
 
-/* =========================
-PANEL
-========================= */
+/* TABLA */
 
 .panel {
-
-margin-top: 25px;
+margin-top: 22px;
 
 background: #111;
 
-border:
-1px solid #2c2225;
-
-border-radius: 15px;
+border: 1px solid #302328;
+border-radius: 12px;
 
 overflow: hidden;
 }
 
 .panel-header {
-
-padding: 20px;
-
-border-bottom:
-1px solid #2c2225;
+padding: 18px;
 
 display: flex;
-
-justify-content:
-space-between;
-
+justify-content: space-between;
 align-items: center;
 
-gap: 15px;
-
+gap: 12px;
 flex-wrap: wrap;
+
+border-bottom: 1px solid #302328;
 }
 
 .panel-title {
-
 font-family: Georgia, serif;
-
-font-size: 22px;
+font-size: 21px;
 }
 
 .search {
-
-background: #1d1d1d;
-
-border:
-1px solid #443036;
-
+background: #1b1b1b;
 color: white;
 
-padding: 11px 14px;
-
+border: 1px solid #443036;
 border-radius: 8px;
 
+padding: 10px 13px;
+
 width: 250px;
-
-outline: none;
-}
-
-.search:focus {
-
-border-color: #9d2943;
-
 }
 
 .table-wrapper {
-
 overflow-x: auto;
-
 }
 
 table {
-
 width: 100%;
-
-border-collapse:
-collapse;
+border-collapse: collapse;
 }
 
 th {
-
 text-align: left;
 
-padding: 15px;
+background: #171717;
 
-color: #a99e92;
+color: #aaa;
+
+padding: 14px;
 
 font-size: 12px;
-
 letter-spacing: 1px;
-
-background: #171717;
 }
 
 td {
+padding: 13px 14px;
 
-padding: 14px 15px;
-
-border-top:
-1px solid #242020;
+border-top: 1px solid #242020;
 
 font-size: 14px;
 }
 
-tr:hover {
-
-background: #171315;
-
-}
-
 .code {
-
 font-weight: bold;
-
-color: #f1e8dc;
-
-letter-spacing: 1px;
 }
 
 .badge {
-
 display: inline-block;
 
 padding: 6px 10px;
@@ -429,120 +282,65 @@ padding: 6px 10px;
 border-radius: 20px;
 
 font-size: 12px;
-
 font-weight: bold;
 }
 
 .available {
-
 background: #173723;
-
 color: #73d899;
 }
 
 .used {
-
 background: #422027;
-
 color: #ff8294;
 }
 
-.sold {
-
-background: #382e16;
-
-color: #e4c76b;
-}
-
-button {
-
-border: none;
-
-cursor: pointer;
-
-border-radius: 7px;
-
-padding: 8px 12px;
-
-font-weight: bold;
-}
-
 .btn-use {
-
 background: #8f243d;
-
 color: white;
 }
 
-.btn-use:hover {
-
-background: #b32d4b;
-
-}
-
 .btn-reset {
-
 background: #333;
-
-color: #eee;
+color: white;
 }
 
-.btn-reset:hover {
-
-background: #4b4b4b;
-
+button {
+cursor: pointer;
 }
 
 
-/* =========================
-MENSAJES
-========================= */
+/* MENSAJES */
+
+.loading {
+padding: 30px;
+text-align: center;
+color: #aaa;
+}
 
 .message {
-
-margin: 20px;
-
-padding: 15px;
-
+margin: 15px;
+padding: 12px;
 border-radius: 8px;
-
 display: none;
 }
 
 .message.success {
-
 display: block;
-
 background: #14351f;
-
 color: #7ce09d;
 }
 
 .message.error {
-
 display: block;
-
 background: #421b20;
-
 color: #ff8d9a;
 }
 
-.loading {
 
-padding: 35px;
-
-text-align: center;
-
-color: #aaa;
-}
-
-
-/* =========================
-MODAL
-========================= */
+/* MODAL */
 
 .modal {
-
 display: none;
 
 position: fixed;
@@ -550,15 +348,12 @@ position: fixed;
 z-index: 9999;
 
 left: 0;
-
 top: 0;
 
 width: 100%;
-
 height: 100%;
 
-background:
-rgba(0,0,0,.82);
+background: rgba(0,0,0,.82);
 
 padding: 20px;
 
@@ -566,7 +361,6 @@ overflow-y: auto;
 }
 
 .modal-content {
-
 max-width: 500px;
 
 margin: 40px auto;
@@ -575,42 +369,31 @@ background: #151515;
 
 border: 1px solid #4a2932;
 
-border-radius: 16px;
+border-radius: 15px;
 
 padding: 25px;
-
-box-shadow:
-0 20px 60px rgba(0,0,0,.6);
 }
 
 .modal-title {
-
 font-family: Georgia, serif;
-
 font-size: 27px;
-
 margin-bottom: 8px;
 }
 
 .modal-subtitle {
-
-color: #aaa;
-
+color: #999;
 font-size: 13px;
-
-margin-bottom: 25px;
+margin-bottom: 22px;
 }
 
 .form-group {
-
-margin-bottom: 18px;
+margin-bottom: 17px;
 }
 
 .form-group label {
-
 display: block;
 
-color: #cfc5b9;
+color: #ccc;
 
 margin-bottom: 7px;
 
@@ -618,7 +401,6 @@ font-size: 13px;
 }
 
 .form-group input {
-
 width: 100%;
 
 padding: 12px;
@@ -630,129 +412,61 @@ color: white;
 border: 1px solid #443036;
 
 border-radius: 8px;
-
-outline: none;
-}
-
-.form-group input:focus {
-
-border-color: #9d2943;
-
 }
 
 .modal-buttons {
-
 display: flex;
-
 gap: 10px;
+margin-top: 22px;
+}
 
-margin-top: 25px;
+.btn-cancel,
+.btn-create {
+flex: 1;
+
+padding: 12px;
+
+border: none;
+
+border-radius: 8px;
+
+font-weight: bold;
 }
 
 .btn-cancel {
-
-flex: 1;
-
 background: #333;
-
 color: white;
-
-padding: 13px;
 }
 
 .btn-create {
-
-flex: 1;
-
 background: #8f243d;
-
 color: white;
-
-padding: 13px;
-}
-
-.btn-create:hover {
-
-background: #b32d4b;
-
 }
 
 
-/* =========================
-FOOTER
-========================= */
+/* MOBILE */
 
-footer {
-
-text-align: center;
-
-padding: 35px 15px;
-
-color: #777;
-
-font-size: 12px;
-}
-
-
-/* =========================
-MOBILE
-========================= */
-
-@media (max-width: 800px) {
+@media (max-width: 700px) {
 
 .stats {
-
-grid-template-columns:
-repeat(2, 1fr);
-}
-
-.event-info {
-
-grid-template-columns:
-1fr;
-}
-
-.logo {
-
-font-size: 34px;
-
-}
-
-.search {
-
-width: 100%;
-
-}
-
-}
-
-@media (max-width: 480px) {
-
-.stats {
-
-grid-template-columns:
-repeat(2, 1fr);
-
-gap: 9px;
+grid-template-columns: repeat(3, 1fr);
+gap: 8px;
 }
 
 .card {
-
-padding: 15px 8px;
-
+padding: 15px 5px;
 }
 
 .number {
-
-font-size: 30px;
-
+font-size: 28px;
 }
 
-td,
-th {
+.event-info {
+grid-template-columns: 1fr;
+}
 
-padding: 10px;
-
+.search {
+width: 100%;
 }
 
 }
@@ -768,35 +482,15 @@ padding: 10px;
 <header>
 
 <div class="logo">
-
 Piano<span>&</span>Vino
-
 </div>
 
 <div class="manager">
-
 MANAGER
-
 </div>
 
 <div class="subtitle">
-
 CONTROL DE ENTRADAS
-
-</div>
-
-<div class="evento-actual">
-
-🎹🍷
-
-<strong>Evento actual:</strong>
-
-<span id="eventoActualTexto">
-
-Piano & Vino
-
-</span>
-
 </div>
 
 <div
@@ -813,33 +507,23 @@ class="firebase-status">
 <div class="container">
 
 
-<!-- =========================
-SELECTOR DE EVENTO
-========================== -->
+<!-- EVENTOS -->
 
 <div class="event-control">
 
 <label>
-
 EVENTO:
-
 </label>
 
 <select
 id="eventSelect"
 class="event-select">
 
-<option value="Piano & Vino">
-
-Piano & Vino
-
-</option>
-
 </select>
 
 <button
 id="newEventButton"
-class="btn-new-event">
+class="btn-new">
 
 ➕ Crear nuevo evento
 
@@ -848,19 +532,14 @@ class="btn-new-event">
 </div>
 
 
-<!-- =========================
-INFORMACION DEL EVENTO
-========================== -->
+<!-- DATOS EVENTO -->
 
 <div class="event-info">
-
 
 <div class="info-box">
 
 <div class="info-label">
-
 📅 FECHA
-
 </div>
 
 <div
@@ -877,9 +556,7 @@ class="info-value">
 <div class="info-box">
 
 <div class="info-label">
-
 🕐 HORA
-
 </div>
 
 <div
@@ -896,9 +573,7 @@ class="info-value">
 <div class="info-box">
 
 <div class="info-label">
-
 📍 LUGAR
-
 </div>
 
 <div
@@ -911,23 +586,17 @@ class="info-value">
 
 </div>
 
-
 </div>
 
 
-<!-- =========================
-ESTADISTICAS
-========================== -->
+<!-- ESTADISTICAS -->
 
 <div class="stats">
-
 
 <div class="card">
 
 <div class="card-title">
-
-TOTAL ENTRADAS
-
+ENTRADAS
 </div>
 
 <div
@@ -938,7 +607,7 @@ class="number">
 
 </div>
 
-<div class="red-line"></div>
+<div class="line"></div>
 
 </div>
 
@@ -946,51 +615,7 @@ class="number">
 <div class="card">
 
 <div class="card-title">
-
-VENDIDAS
-
-</div>
-
-<div
-id="vendidas"
-class="number">
-
-0
-
-</div>
-
-<div class="red-line"></div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-
-INGRESADAS
-
-</div>
-
-<div
-id="ingresadas"
-class="number">
-
-0
-
-</div>
-
-<div class="red-line"></div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-
 DISPONIBLES
-
 </div>
 
 <div
@@ -1001,51 +626,47 @@ class="number">
 
 </div>
 
-<div class="red-line"></div>
+<div class="line"></div>
 
 </div>
 
 
+<div class="card">
+
+<div class="card-title">
+INGRESADAS
+</div>
+
+<div
+id="ingresadas"
+class="number">
+
+0
+
+</div>
+
+<div class="line"></div>
+
+</div>
+
 </div>
 
 
-<!-- =========================
-TABLA
-========================== -->
+<!-- TABLA -->
 
 <div class="panel">
-
 
 <div class="panel-header">
 
 <div class="panel-title">
-
 🎟️ Entradas
-
-<span
-id="cantidadEvento"
-style="
-color:#9d2943;
-font-size:14px;
-margin-left:8px;
-">
-
-</span>
-
 </div>
 
-
 <input
-
 id="search"
-
 class="search"
-
 type="text"
-
-placeholder="Buscar PV-0001..."
-
->
+placeholder="Buscar PV-0001...">
 
 </div>
 
@@ -1053,7 +674,6 @@ placeholder="Buscar PV-0001..."
 <div
 id="message"
 class="message">
-
 </div>
 
 
@@ -1068,11 +688,9 @@ class="loading">
 
 <div class="table-wrapper">
 
-
 <table
 id="ticketsTable"
 style="display:none">
-
 
 <thead>
 
@@ -1098,28 +716,21 @@ ACCIÓN
 
 </thead>
 
-
 <tbody
 id="ticketsBody">
 
 </tbody>
 
-
 </table>
 
+</div>
+
+</div>
 
 </div>
 
 
-</div>
-
-
-</div>
-
-
-<!-- =========================
-MODAL NUEVO EVENTO
-========================== -->
+<!-- MODAL NUEVO EVENTO -->
 
 <div
 id="eventModal"
@@ -1128,30 +739,24 @@ class="modal">
 
 <div class="modal-content">
 
-
 <div class="modal-title">
 
 ➕ Crear nuevo evento
 
 </div>
 
-
 <div class="modal-subtitle">
 
 Se crearán automáticamente
-150 entradas para el nuevo evento.
+150 entradas para este evento.
 
 </div>
 
 
-<!-- NOMBRE -->
-
 <div class="form-group">
 
 <label>
-
 Nombre del evento
-
 </label>
 
 <input
@@ -1162,14 +767,10 @@ placeholder="Ej: Piano & Vino">
 </div>
 
 
-<!-- FECHA -->
-
 <div class="form-group">
 
 <label>
-
 Fecha
-
 </label>
 
 <input
@@ -1179,14 +780,10 @@ type="date">
 </div>
 
 
-<!-- HORA -->
-
 <div class="form-group">
 
 <label>
-
 Hora
-
 </label>
 
 <input
@@ -1196,14 +793,10 @@ type="time">
 </div>
 
 
-<!-- LUGAR -->
-
 <div class="form-group">
 
 <label>
-
 📍 Lugar donde se realiza
-
 </label>
 
 <input
@@ -1215,7 +808,6 @@ placeholder="Ej: Galpón Vinilo - Urquiza 77, Junín">
 
 
 <div class="modal-buttons">
-
 
 <button
 id="cancelEvent"
@@ -1234,34 +826,19 @@ Crear evento
 
 </button>
 
-
-</div>
-
-
 </div>
 
 </div>
 
-
-<footer>
-
-♫ &nbsp; Piano & Vino Bar &nbsp; ♫
-
-<br><br>
-
-Canciones a la carta ·
-Música que se siente,
-momentos que se recuerdan
-
-</footer>
+</div>
 
 
 <script type="module">
 
 
-/* =====================================================
+/* =========================================
 FIREBASE
-===================================================== */
+========================================= */
 
 import {
 initializeApp
@@ -1284,10 +861,6 @@ writeBatch
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-
-/* =====================================================
-CONFIGURACION FIREBASE
-===================================================== */
 
 const firebaseConfig = {
 
@@ -1313,247 +886,180 @@ appId:
 
 
 const app =
-initializeApp(
-firebaseConfig
-);
+initializeApp(firebaseConfig);
 
 
 const db =
-getFirestore(
-app
-);
+getFirestore(app);
 
 
-/* =====================================================
+/* =========================================
 CONFIGURACION
-===================================================== */
+========================================= */
 
 const COLLECTION_NAME =
 "entradas";
 
+const TOTAL_ENTRADAS =
+150;
 
 const EVENTO_INICIAL =
 "Piano & Vino";
 
 
-const TOTAL_ENTRADAS =
-150;
-
-
-/* =====================================================
+/* =========================================
 VARIABLES
-===================================================== */
+========================================= */
+
+let tickets = [];
 
 let eventoActual =
 EVENTO_INICIAL;
 
-
-let tickets = [];
-
-
-let unsubscribeEntradas =
+let unsubscribe =
 null;
 
 
-/* =====================================================
+/* =========================================
 ELEMENTOS
-===================================================== */
+========================================= */
 
-const totalElement =
-document.getElementById(
-"total"
-);
+const total =
+document.getElementById("total");
 
+const disponibles =
+document.getElementById("disponibles");
 
-const vendidasElement =
-document.getElementById(
-"vendidas"
-);
-
-
-const ingresadasElement =
-document.getElementById(
-"ingresadas"
-);
-
-
-const disponiblesElement =
-document.getElementById(
-"disponibles"
-);
-
+const ingresadas =
+document.getElementById("ingresadas");
 
 const body =
-document.getElementById(
-"ticketsBody"
-);
-
+document.getElementById("ticketsBody");
 
 const table =
-document.getElementById(
-"ticketsTable"
-);
-
+document.getElementById("ticketsTable");
 
 const loading =
-document.getElementById(
-"loading"
-);
-
+document.getElementById("loading");
 
 const search =
-document.getElementById(
-"search"
-);
-
+document.getElementById("search");
 
 const firebaseStatus =
-document.getElementById(
-"firebaseStatus"
-);
-
+document.getElementById("firebaseStatus");
 
 const message =
-document.getElementById(
-"message"
-);
-
-
-const cantidadEvento =
-document.getElementById(
-"cantidadEvento"
-);
-
+document.getElementById("message");
 
 const eventSelect =
-document.getElementById(
-"eventSelect"
-);
-
+document.getElementById("eventSelect");
 
 const newEventButton =
-document.getElementById(
-"newEventButton"
-);
-
+document.getElementById("newEventButton");
 
 const eventModal =
-document.getElementById(
-"eventModal"
-);
-
+document.getElementById("eventModal");
 
 const newEventName =
-document.getElementById(
-"newEventName"
-);
-
+document.getElementById("newEventName");
 
 const newEventDate =
-document.getElementById(
-"newEventDate"
-);
-
+document.getElementById("newEventDate");
 
 const newEventTime =
-document.getElementById(
-"newEventTime"
-);
-
+document.getElementById("newEventTime");
 
 const newEventPlace =
-document.getElementById(
-"newEventPlace"
-);
-
+document.getElementById("newEventPlace");
 
 const cancelEvent =
-document.getElementById(
-"cancelEvent"
-);
-
+document.getElementById("cancelEvent");
 
 const createEvent =
-document.getElementById(
-"createEvent"
-);
-
-
-const eventoActualTexto =
-document.getElementById(
-"eventoActualTexto"
-);
-
+document.getElementById("createEvent");
 
 const eventoFecha =
-document.getElementById(
-"eventoFecha"
-);
-
+document.getElementById("eventoFecha");
 
 const eventoHora =
-document.getElementById(
-"eventoHora"
-);
-
+document.getElementById("eventoHora");
 
 const eventoLugar =
-document.getElementById(
-"eventoLugar"
-);
+document.getElementById("eventoLugar");
 
 
-/* =====================================================
+/* =========================================
 INICIO
-===================================================== */
+========================================= */
 
-cargarEventos();
-
-cargarEntradas(
-eventoActual
-);
+iniciar();
 
 
-/* =====================================================
-CARGAR EVENTOS
-===================================================== */
-
-async function cargarEventos() {
+async function iniciar() {
 
 try {
 
-const entradasRef =
+firebaseStatus.textContent =
+"🟢 Conectado correctamente";
+
+firebaseStatus.classList.add(
+"ok"
+);
+
+await cargarEventos();
+
+eventSelect.value =
+eventoActual;
+
+cargarEntradas();
+
+}
+
+catch (error) {
+
+console.error(error);
+
+firebaseStatus.textContent =
+"🔴 Error de Firebase";
+
+firebaseStatus.classList.add(
+"error"
+);
+
+}
+
+}
+
+
+/* =========================================
+CARGAR EVENTOS
+========================================= */
+
+async function cargarEventos() {
+
+const ref =
 collection(
 db,
 COLLECTION_NAME
 );
 
-
 const snapshot =
-await getDocs(
-entradasRef
-);
+await getDocs(ref);
 
-
-const nombres =
+const eventos =
 new Set();
 
 
 snapshot.forEach(
-(docSnap) => {
+snap => {
 
 const data =
-docSnap.data();
+snap.data();
 
+if (data.evento) {
 
-if (
+eventos.add(
 data.evento
-) {
-
-nombres.add(
-String(
-data.evento
-)
 );
 
 }
@@ -1562,7 +1068,12 @@ data.evento
 );
 
 
-nombres.add(
+/*
+* Siempre dejamos Piano & Vino
+* disponible.
+*/
+
+eventos.add(
 EVENTO_INICIAL
 );
 
@@ -1571,26 +1082,21 @@ eventSelect.innerHTML =
 "";
 
 
-Array.from(
-nombres
-)
+Array.from(eventos)
 .sort()
 .forEach(
-(nombre) => {
+evento => {
 
 const option =
 document.createElement(
 "option"
 );
 
-
 option.value =
-nombre;
-
+evento;
 
 option.textContent =
-nombre;
-
+evento;
 
 eventSelect.appendChild(
 option
@@ -1599,173 +1105,119 @@ option
 }
 );
 
-
-eventSelect.value =
-eventoActual;
-
-
-}
-
-catch (
-error
-) {
-
-console.error(
-"Error cargando eventos:",
-error
-);
-
-}
-
 }
 
 
-/* =====================================================
+/* =========================================
 CAMBIAR EVENTO
-===================================================== */
+========================================= */
 
 eventSelect.addEventListener(
-
 "change",
-
 () => {
 
 eventoActual =
 eventSelect.value;
 
-
-eventoActualTexto.textContent =
-eventoActual;
-
-
 search.value =
 "";
 
-
-cargarEntradas(
-eventoActual
-);
+cargarEntradas();
 
 }
-
 );
 
 
-/* =====================================================
+/* =========================================
 CARGAR ENTRADAS
-===================================================== */
+========================================= */
 
-function cargarEntradas(
-nombreEvento
-) {
+function cargarEntradas() {
 
 loading.style.display =
 "block";
-
-
-loading.textContent =
-"🔄 Cargando entradas...";
-
 
 table.style.display =
 "none";
 
 
-if (
-unsubscribeEntradas
-) {
+if (unsubscribe) {
 
-unsubscribeEntradas();
-
-unsubscribeEntradas =
-null;
+unsubscribe();
 
 }
 
 
-const entradasRef =
+const ref =
 collection(
 db,
 COLLECTION_NAME
 );
 
 
-const consulta =
+const q =
 query(
-
-entradasRef,
-
+ref,
 where(
 "evento",
 "==",
-nombreEvento
+eventoActual
 )
-
 );
 
 
-unsubscribeEntradas =
+unsubscribe =
 onSnapshot(
 
-consulta,
+q,
 
-(snapshot) => {
+snapshot => {
 
 tickets = [];
 
 
 snapshot.forEach(
-
-(docSnap) => {
+snap => {
 
 tickets.push({
 
 id:
-docSnap.id,
+snap.id,
 
-...docSnap.data()
+...snap.data()
 
 });
 
 }
-
 );
 
 
 tickets.sort(
+(a,b) => {
 
-(a, b) => {
-
-const codigoA =
+const ca =
 String(
 a.codigo ||
 a.id ||
 ""
 );
 
-
-const codigoB =
+const cb =
 String(
 b.codigo ||
 b.id ||
 ""
 );
 
-
-return codigoA.localeCompare(
-
-codigoB,
-
+return ca.localeCompare(
+cb,
 undefined,
-
 {
 numeric: true
 }
-
 );
 
 }
-
 );
 
 
@@ -1778,30 +1230,16 @@ firebaseStatus.classList.add(
 );
 
 
-firebaseStatus.classList.remove(
-"error"
-);
-
-
 loading.style.display =
 "none";
-
 
 table.style.display =
 "table";
 
 
-cantidadEvento.textContent =
-"(" +
-tickets.length +
-")";
-
-
-actualizarInformacionEvento();
-
+actualizarInformacion();
 
 actualizarEstadisticas();
-
 
 mostrarEntradas(
 tickets
@@ -1810,40 +1248,27 @@ tickets
 },
 
 
-(error) => {
+error => {
 
 console.error(
-"ERROR FIREBASE:",
+"Firebase:",
 error
 );
 
+loading.textContent =
+"❌ Error al cargar las entradas.";
 
 firebaseStatus.textContent =
 "🔴 Error de Firebase";
-
 
 firebaseStatus.classList.remove(
 "ok"
 );
 
-
 firebaseStatus.classList.add(
 "error"
 );
 
-
-loading.textContent =
-"❌ No se pudieron cargar las entradas.";
-
-
-mostrarMensaje(
-
-"Error leyendo las entradas del evento.",
-
-"error"
-
-);
-
 }
 
 );
@@ -1851,22 +1276,14 @@ mostrarMensaje(
 }
 
 
-/* =====================================================
-INFORMACION DEL EVENTO
-===================================================== */
+/* =========================================
+INFORMACION EVENTO
+========================================= */
 
-function actualizarInformacionEvento() {
-
-eventoActualTexto.textContent =
-eventoActual;
-
-
-const primeraEntrada =
-tickets[0];
-
+function actualizarInformacion() {
 
 if (
-!primeraEntrada
+tickets.length === 0
 ) {
 
 eventoFecha.textContent =
@@ -1883,112 +1300,78 @@ return;
 }
 
 
+const entrada =
+tickets[0];
+
+
 eventoFecha.textContent =
-primeraEntrada.fecha ||
+entrada.fecha ||
 "—";
 
 
 eventoHora.textContent =
-primeraEntrada.hora ||
+entrada.hora ||
 "—";
 
 
 eventoLugar.textContent =
-primeraEntrada.lugar ||
+entrada.lugar ||
 "—";
 
 }
 
 
-/* =====================================================
+/* =========================================
 ESTADISTICAS
-===================================================== */
+========================================= */
 
 function actualizarEstadisticas() {
 
-const total =
+const cantidad =
 tickets.length;
 
 
-let ingresadas =
-0;
-
-
-let vendidas =
+let usadas =
 0;
 
 
 tickets.forEach(
-
-(ticket) => {
-
-const usada =
-esEntradaUsada(
-ticket
-);
-
-
-const vendida =
-esEntradaVendida(
-ticket
-);
-
+ticket => {
 
 if (
-usada
+esUsada(ticket)
 ) {
 
-ingresadas++;
-
-}
-
-
-if (
-vendida ||
-usada
-) {
-
-vendidas++;
+usadas++;
 
 }
 
 }
-
 );
 
 
-const disponibles =
+total.textContent =
+cantidad;
+
+
+ingresadas.textContent =
+usadas;
+
+
+disponibles.textContent =
 Math.max(
-total - vendidas,
+cantidad - usadas,
 0
 );
 
-
-totalElement.textContent =
-total;
-
-
-vendidasElement.textContent =
-vendidas;
-
-
-ingresadasElement.textContent =
-ingresadas;
-
-
-disponiblesElement.textContent =
-disponibles;
-
 }
 
 
-/* =====================================================
-UTILIZADA
-===================================================== */
+/* =========================================
+SABER SI ESTA USADA
+========================================= */
 
-function esEntradaUsada(
-ticket
-) {
+function esUsada(ticket) {
 
 const estado =
 String(
@@ -2016,41 +1399,11 @@ estado === "utilizado"
 }
 
 
-/* =====================================================
-VENDIDA
-===================================================== */
-
-function esEntradaVendida(
-ticket
-) {
-
-const estado =
-String(
-ticket.estado ||
-""
-).toLowerCase();
-
-
-return (
-
-ticket.vendida === true ||
-
-ticket.vendido === true ||
-
-estado === "vendida"
-
-);
-
-}
-
-
-/* =====================================================
+/* =========================================
 MOSTRAR ENTRADAS
-===================================================== */
+========================================= */
 
-function mostrarEntradas(
-lista
-) {
+function mostrarEntradas(lista) {
 
 body.innerHTML =
 "";
@@ -2068,12 +1421,11 @@ body.innerHTML = `
 colspan="4"
 style="
 text-align:center;
-color:#888;
 padding:30px;
+color:#888;
 ">
 
-No hay entradas para
-${escapeHtml(eventoActual)}.
+No hay entradas para este evento.
 
 </td>
 
@@ -2081,119 +1433,34 @@ ${escapeHtml(eventoActual)}.
 
 `;
 
-
 return;
 
 }
 
 
 lista.forEach(
-
-(ticket) => {
+ticket => {
 
 const codigo =
 ticket.codigo ||
 ticket.id;
 
 
-const usado =
-esEntradaUsada(
-ticket
-);
+const usada =
+esUsada(ticket);
 
 
-const vendido =
-esEntradaVendida(
-ticket
-);
-
-
-let estadoHTML;
-
-
-if (
-usado
-) {
-
-estadoHTML = `
-
-<span
-class="badge used">
-
-🔴 UTILIZADA
-
-</span>
-
-`;
-
-}
-
-else if (
-vendido
-) {
-
-estadoHTML = `
-
-<span
-class="badge sold">
-
-🟡 VENDIDA
-
-</span>
-
-`;
-
-}
-
-else {
-
-estadoHTML = `
-
-<span
-class="badge available">
-
-🟢 DISPONIBLE
-
-</span>
-
-`;
-
-}
-
-
-const fecha =
-obtenerFecha(
-ticket
-);
-
-
-const row =
+const tr =
 document.createElement(
 "tr"
 );
 
 
-row.innerHTML = `
+tr.innerHTML = `
 
 <td class="code">
 
-${escapeHtml(
-codigo
-)}
-
-</td>
-
-
-<td>
-
-${estadoHTML}
-
-</td>
-
-
-<td>
-
-${fecha}
+${escapeHtml(codigo)}
 
 </td>
 
@@ -2201,12 +1468,51 @@ ${fecha}
 <td>
 
 ${
-usado
+usada
 
 ?
 
 `
+<span class="badge used">
+🔴 YA UTILIZADA
+</span>
+`
 
+:
+
+`
+<span class="badge available">
+🟢 DISPONIBLE
+</span>
+`
+}
+
+</td>
+
+
+<td>
+
+${
+ticket.fechaingreso
+?
+formatearFecha(
+ticket.fechaingreso
+)
+:
+"—"
+}
+
+</td>
+
+
+<td>
+
+${
+usada
+
+?
+
+`
 <button
 class="btn-reset"
 data-action="reset"
@@ -2215,13 +1521,11 @@ data-id="${escapeHtml(ticket.id)}">
 ↩ Reiniciar
 
 </button>
-
 `
 
 :
 
 `
-
 <button
 class="btn-use"
 data-action="use"
@@ -2230,7 +1534,6 @@ data-id="${escapeHtml(ticket.id)}">
 ✓ Marcar ingreso
 
 </button>
-
 `
 }
 
@@ -2240,114 +1543,87 @@ data-id="${escapeHtml(ticket.id)}">
 
 
 body.appendChild(
-row
+tr
+);
+
+}
 );
 
 }
 
+
+/* =========================================
+BOTONES
+========================================= */
+
+body.addEventListener(
+"click",
+event => {
+
+const button =
+event.target.closest(
+"button"
 );
 
+
+if (!button) {
+return;
 }
 
 
-/* =====================================================
-FECHA INGRESO
-===================================================== */
+const id =
+button.dataset.id;
 
-function obtenerFecha(
-ticket
-) {
 
-const fecha =
-ticket.fechaingreso ||
-ticket.fechaIngreso;
+const action =
+button.dataset.action;
 
 
 if (
-!fecha
+action === "use"
 ) {
 
-return "—";
+marcarIngreso(id);
 
 }
 
-
-try {
 
 if (
-typeof fecha.toDate ===
-"function"
+action === "reset"
 ) {
 
-return fecha
-.toDate()
-.toLocaleString(
-"es-AR"
+reiniciarEntrada(id);
+
+}
+
+}
 );
 
-}
 
-
-return new Date(
-fecha
-).toLocaleString(
-"es-AR"
-);
-
-}
-
-catch {
-
-return "—";
-
-}
-
-}
-
-
-/* =====================================================
+/* =========================================
 MARCAR INGRESO
-===================================================== */
+========================================= */
 
-async function marcarIngreso(
-id
-) {
+async function marcarIngreso(id) {
 
 const ticket =
 tickets.find(
-item =>
-item.id === id
+t => t.id === id
 );
 
 
-if (
-!ticket
-) {
-
-mostrarMensaje(
-"No se encontró la entrada.",
-"error"
-);
-
+if (!ticket) {
 return;
-
 }
 
 
 if (
-esEntradaUsada(
-ticket
-)
+esUsada(ticket)
 ) {
 
-mostrarMensaje(
-
-"🔴 Esta entrada ya fue utilizada.",
-
-"error"
-
+alert(
+"⚠️ Esta entrada ya fue utilizada."
 );
-
 
 return;
 
@@ -2361,20 +1637,14 @@ ticket.id;
 
 const confirmar =
 confirm(
-
 "¿Confirmar ingreso de " +
 codigo +
 "?"
-
 );
 
 
-if (
-!confirmar
-) {
-
+if (!confirmar) {
 return;
-
 }
 
 
@@ -2414,32 +1684,21 @@ new Date()
 
 
 mostrarMensaje(
-
 "✅ " +
 codigo +
 " ingresada correctamente.",
-
 "success"
-
 );
 
 }
 
-catch (
-error
-) {
+catch(error) {
 
-console.error(
-error
-);
-
+console.error(error);
 
 mostrarMensaje(
-
 "❌ No se pudo registrar el ingreso.",
-
 "error"
-
 );
 
 }
@@ -2447,27 +1706,20 @@ mostrarMensaje(
 }
 
 
-/* =====================================================
+/* =========================================
 REINICIAR
-===================================================== */
+========================================= */
 
-async function reiniciarEntrada(
-id
-) {
+async function reiniciarEntrada(id) {
 
 const ticket =
 tickets.find(
-item =>
-item.id === id
+t => t.id === id
 );
 
 
-if (
-!ticket
-) {
-
+if (!ticket) {
 return;
-
 }
 
 
@@ -2476,18 +1728,12 @@ ticket.codigo ||
 ticket.id;
 
 
-const confirmar =
-confirm(
-
-"¿Querés reiniciar " +
-codigo +
-" y quitar el ingreso?"
-
-);
-
-
 if (
-!confirmar
+!confirm(
+"¿Reiniciar " +
+codigo +
+"?"
+)
 ) {
 
 return;
@@ -2528,32 +1774,19 @@ null
 
 
 mostrarMensaje(
-
-"↩ " +
-codigo +
-" fue reiniciada.",
-
+"↩ Entrada reiniciada correctamente.",
 "success"
-
 );
 
 }
 
-catch (
-error
-) {
+catch(error) {
 
-console.error(
-error
-);
-
+console.error(error);
 
 mostrarMensaje(
-
-"❌ No se pudo reiniciar la entrada.",
-
+"❌ No se pudo reiniciar.",
 "error"
-
 );
 
 }
@@ -2561,73 +1794,12 @@ mostrarMensaje(
 }
 
 
-/* =====================================================
-BOTONES
-===================================================== */
-
-body.addEventListener(
-
-"click",
-
-(event) => {
-
-const button =
-event.target.closest(
-"button"
-);
-
-
-if (
-!button
-) {
-
-return;
-
-}
-
-
-const id =
-button.dataset.id;
-
-
-const action =
-button.dataset.action;
-
-
-if (
-action === "use"
-) {
-
-marcarIngreso(
-id
-);
-
-}
-
-
-if (
-action === "reset"
-) {
-
-reiniciarEntrada(
-id
-);
-
-}
-
-}
-
-);
-
-
-/* =====================================================
+/* =========================================
 BUSCADOR
-===================================================== */
+========================================= */
 
 search.addEventListener(
-
 "input",
-
 () => {
 
 const texto =
@@ -2636,9 +1808,7 @@ search.value
 .toLowerCase();
 
 
-if (
-!texto
-) {
+if (!texto) {
 
 mostrarEntradas(
 tickets
@@ -2651,16 +1821,13 @@ return;
 
 const filtradas =
 tickets.filter(
-
-(ticket) => {
+ticket => {
 
 const codigo =
 String(
-
 ticket.codigo ||
 ticket.id ||
 ""
-
 ).toLowerCase();
 
 
@@ -2669,7 +1836,6 @@ texto
 );
 
 }
-
 );
 
 
@@ -2678,18 +1844,15 @@ filtradas
 );
 
 }
-
 );
 
 
-/* =====================================================
-ABRIR NUEVO EVENTO
-===================================================== */
+/* =========================================
+ABRIR MODAL
+========================================= */
 
 newEventButton.addEventListener(
-
 "click",
-
 () => {
 
 newEventName.value =
@@ -2708,33 +1871,27 @@ eventModal.style.display =
 "block";
 
 }
-
 );
 
 
-/* =====================================================
-CANCELAR
-===================================================== */
+/* =========================================
+CERRAR MODAL
+========================================= */
 
 cancelEvent.addEventListener(
-
 "click",
-
 () => {
 
 eventModal.style.display =
 "none";
 
 }
-
 );
 
 
 eventModal.addEventListener(
-
 "click",
-
-(event) => {
+event => {
 
 if (
 event.target ===
@@ -2747,41 +1904,31 @@ eventModal.style.display =
 }
 
 }
-
 );
 
 
-/* =====================================================
-CREAR NUEVO EVENTO
-===================================================== */
+/* =========================================
+CREAR EVENTO
+========================================= */
 
 createEvent.addEventListener(
-
 "click",
-
 async () => {
 
 const nombre =
 newEventName.value.trim();
 
-
 const fecha =
 newEventDate.value;
 
-
 const hora =
 newEventTime.value;
-
 
 const lugar =
 newEventPlace.value.trim();
 
 
-/* VALIDACIONES */
-
-if (
-!nombre
-) {
+if (!nombre) {
 
 alert(
 "Ingresá el nombre del evento."
@@ -2792,12 +1939,10 @@ return;
 }
 
 
-if (
-!fecha
-) {
+if (!fecha) {
 
 alert(
-"Seleccioná la fecha del evento."
+"Seleccioná la fecha."
 );
 
 return;
@@ -2805,12 +1950,10 @@ return;
 }
 
 
-if (
-!hora
-) {
+if (!hora) {
 
 alert(
-"Seleccioná la hora del evento."
+"Seleccioná la hora."
 );
 
 return;
@@ -2818,12 +1961,10 @@ return;
 }
 
 
-if (
-!lugar
-) {
+if (!lugar) {
 
 alert(
-"Ingresá el lugar donde se realiza el evento."
+"Ingresá el lugar."
 );
 
 return;
@@ -2834,35 +1975,26 @@ return;
 const confirmar =
 confirm(
 
-"Se crearán 150 entradas para:\n\n" +
+"Crear evento:\n\n" +
 
 nombre +
-
 "\n" +
 
 fecha +
-
 " - " +
-
 hora +
-
 "\n" +
 
 lugar +
-
 "\n\n" +
 
-"¿Continuar?"
+"Se crearán 150 entradas."
 
 );
 
 
-if (
-!confirmar
-) {
-
+if (!confirmar) {
 return;
-
 }
 
 
@@ -2871,22 +2003,15 @@ try {
 createEvent.disabled =
 true;
 
-
 createEvent.textContent =
 "Creando...";
 
 
-/*
-* BATCH FIRESTORE
-*/
-
 const batch =
-writeBatch(
-db
-);
+writeBatch(db);
 
 
-const entradasRef =
+const ref =
 collection(
 db,
 COLLECTION_NAME
@@ -2894,15 +2019,24 @@ COLLECTION_NAME
 
 
 /*
-* 150 ENTRADAS
+* IMPORTANTE:
+*
+* PV-0001 a PV-0150
+* para cada evento.
+*
+* El ID contiene el evento,
+* por lo tanto NO se mezclan.
 */
+
+const prefijo =
+crearPrefijo(nombre);
+
 
 for (
 let i = 1;
 i <= TOTAL_ENTRADAS;
 i++
 ) {
-
 
 const codigo =
 "PV-" +
@@ -2913,28 +2047,18 @@ String(i)
 );
 
 
-/*
-* ID UNICO POR EVENTO
-*/
-
-const documentoId =
-crearIdSeguro(
-nombre
-) +
+const id =
+prefijo +
 "_" +
 codigo;
 
 
-const entradaRef =
-doc(
-entradasRef,
-documentoId
-);
-
-
 batch.set(
 
-entradaRef,
+doc(
+ref,
+id
+),
 
 {
 
@@ -2966,9 +2090,6 @@ ingreso:
 false,
 
 usado:
-false,
-
-vendida:
 false
 
 }
@@ -2978,31 +2099,11 @@ false
 }
 
 
-/*
-* GUARDAR TODO
-*/
-
 await batch.commit();
 
 
-/*
-* CERRAR
-*/
-
-eventModal.style.display =
-"none";
-
-
-/*
-* ACTUALIZAR EVENTOS
-*/
-
 await cargarEventos();
 
-
-/*
-* SELECCIONAR EVENTO NUEVO
-*/
 
 eventoActual =
 nombre;
@@ -3012,45 +2113,35 @@ eventSelect.value =
 nombre;
 
 
-eventoActualTexto.textContent =
-nombre;
+eventModal.style.display =
+"none";
 
 
-/*
-* CARGAR ENTRADAS
-*/
+search.value =
+"";
 
-cargarEntradas(
-nombre
-);
+
+cargarEntradas();
 
 
 mostrarMensaje(
-
 "✅ Evento creado correctamente con 150 entradas.",
-
 "success"
-
 );
 
 }
 
-catch (
-error
-) {
+catch(error) {
 
 console.error(
-"ERROR CREANDO EVENTO:",
+"Error creando evento:",
 error
 );
 
 
 mostrarMensaje(
-
 "❌ No se pudo crear el evento.",
-
 "error"
-
 );
 
 }
@@ -3060,32 +2151,24 @@ finally {
 createEvent.disabled =
 false;
 
-
 createEvent.textContent =
 "Crear evento";
 
 }
 
 }
-
 );
 
 
-/* =====================================================
-ID SEGURO
-===================================================== */
+/* =========================================
+PREFIJO
+========================================= */
 
-function crearIdSeguro(
-nombre
-) {
+function crearPrefijo(nombre) {
 
-return String(
-nombre
-)
+return String(nombre)
 
-.normalize(
-"NFD"
-)
+.normalize("NFD")
 
 .replace(
 /[\u0300-\u036f]/g,
@@ -3112,9 +2195,49 @@ nombre
 }
 
 
-/* =====================================================
-MENSAJES
-===================================================== */
+/* =========================================
+FECHA
+========================================= */
+
+function formatearFecha(valor) {
+
+try {
+
+if (
+valor &&
+typeof valor.toDate ===
+"function"
+) {
+
+return valor
+.toDate()
+.toLocaleString(
+"es-AR"
+);
+
+}
+
+
+return new Date(
+valor
+).toLocaleString(
+"es-AR"
+);
+
+}
+
+catch {
+
+return "—";
+
+}
+
+}
+
+
+/* =========================================
+MENSAJE
+========================================= */
 
 function mostrarMensaje(
 texto,
@@ -3124,39 +2247,31 @@ tipo
 message.textContent =
 texto;
 
-
 message.className =
 "message " +
 tipo;
 
 
 setTimeout(
-
 () => {
 
 message.className =
 "message";
 
 },
-
 5000
-
 );
 
 }
 
 
-/* =====================================================
-SEGURIDAD HTML
-===================================================== */
+/* =========================================
+SEGURIDAD
+========================================= */
 
-function escapeHtml(
-valor
-) {
+function escapeHtml(valor) {
 
-return String(
-valor
-)
+return String(valor)
 
 .replaceAll(
 "&",
@@ -3186,7 +2301,6 @@ valor
 }
 
 </script>
-
 
 </body>
 
