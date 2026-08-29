@@ -601,21 +601,13 @@ tickets = [];
 
 snapshot.forEach((docSnap) => {
 
-const data = docSnap.data();
-
-// MOSTRAR SOLAMENTE EL EVENTO ACTUAL
-if (data.evento === "Piano & Vino") {
-
 tickets.push({
 id: docSnap.id,
-...data
+...docSnap.data()
 });
 
-}
-
 });
 
-// Ordenar por código
 tickets.sort((a, b) => {
 
 const codigoA =
@@ -633,21 +625,16 @@ undefined,
 });
 
 loading.style.display = "none";
-
 table.style.display = "table";
 
 actualizarEstadisticas();
-
 mostrarEntradas(tickets);
 
 },
 
 (error) => {
 
-console.error(
-"Firebase:",
-error
-);
+console.error("Firebase:", error);
 
 loading.textContent =
 "❌ Error al cargar las entradas.";
@@ -656,11 +643,10 @@ firebaseStatus.textContent =
 "🔴 Error de Firebase";
 
 firebaseStatus.classList.remove("ok");
-
 firebaseStatus.classList.add("error");
 
 mostrarMensaje(
-"Error leyendo la colección 'entradas'. Verificá que el nombre de la colección sea correcto.",
+"Error leyendo la colección 'entradas'.",
 "error"
 );
 
