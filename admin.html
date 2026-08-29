@@ -65,7 +65,7 @@ color: #d7cec1;
 .evento-actual {
 margin: 20px auto 0;
 padding: 12px 20px;
-max-width: 600px;
+max-width: 700px;
 
 border: 1px solid #43232d;
 border-radius: 25px;
@@ -73,7 +73,7 @@ border-radius: 25px;
 background: rgba(0,0,0,.35);
 
 color: #e9dfd2;
-font-size: 15px;
+font-size: 14px;
 }
 
 .firebase-status {
@@ -106,7 +106,10 @@ max-width: 1200px;
 margin: 30px auto;
 }
 
-/* EVENTOS */
+
+/* =========================
+EVENTOS
+========================= */
 
 .event-control {
 
@@ -180,7 +183,59 @@ background: #b32d4b;
 
 }
 
-/* ESTADISTICAS */
+
+/* =========================
+DATOS DEL EVENTO
+========================= */
+
+.event-info {
+
+display: grid;
+
+grid-template-columns:
+repeat(3, 1fr);
+
+gap: 12px;
+
+margin-bottom: 25px;
+}
+
+.info-box {
+
+background: #111;
+
+border: 1px solid #2c2225;
+
+border-radius: 12px;
+
+padding: 15px;
+
+}
+
+.info-label {
+
+color: #888;
+
+font-size: 11px;
+
+letter-spacing: 1px;
+
+margin-bottom: 6px;
+
+}
+
+.info-value {
+
+color: #eee;
+
+font-size: 14px;
+
+}
+
+
+/* =========================
+ESTADISTICAS
+========================= */
 
 .stats {
 
@@ -242,7 +297,10 @@ background: #9d2943;
 border-radius: 3px;
 }
 
-/* PANEL */
+
+/* =========================
+PANEL
+========================= */
 
 .panel {
 
@@ -435,7 +493,10 @@ background: #4b4b4b;
 
 }
 
-/* MENSAJE */
+
+/* =========================
+MENSAJES
+========================= */
 
 .message {
 
@@ -475,7 +536,10 @@ text-align: center;
 color: #aaa;
 }
 
-/* MODAL */
+
+/* =========================
+MODAL
+========================= */
 
 .modal {
 
@@ -505,7 +569,7 @@ overflow-y: auto;
 
 max-width: 500px;
 
-margin: 60px auto;
+margin: 40px auto;
 
 background: #151515;
 
@@ -613,6 +677,11 @@ background: #b32d4b;
 
 }
 
+
+/* =========================
+FOOTER
+========================= */
+
 footer {
 
 text-align: center;
@@ -624,12 +693,23 @@ color: #777;
 font-size: 12px;
 }
 
+
+/* =========================
+MOBILE
+========================= */
+
 @media (max-width: 800px) {
 
 .stats {
 
 grid-template-columns:
 repeat(2, 1fr);
+}
+
+.event-info {
+
+grid-template-columns:
+1fr;
 }
 
 .logo {
@@ -733,7 +813,9 @@ class="firebase-status">
 <div class="container">
 
 
-<!-- SELECTOR DE EVENTO -->
+<!-- =========================
+SELECTOR DE EVENTO
+========================== -->
 
 <div class="event-control">
 
@@ -766,7 +848,76 @@ class="btn-new-event">
 </div>
 
 
-<!-- ESTADISTICAS -->
+<!-- =========================
+INFORMACION DEL EVENTO
+========================== -->
+
+<div class="event-info">
+
+
+<div class="info-box">
+
+<div class="info-label">
+
+📅 FECHA
+
+</div>
+
+<div
+id="eventoFecha"
+class="info-value">
+
+—
+
+</div>
+
+</div>
+
+
+<div class="info-box">
+
+<div class="info-label">
+
+🕐 HORA
+
+</div>
+
+<div
+id="eventoHora"
+class="info-value">
+
+—
+
+</div>
+
+</div>
+
+
+<div class="info-box">
+
+<div class="info-label">
+
+📍 LUGAR
+
+</div>
+
+<div
+id="eventoLugar"
+class="info-value">
+
+—
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- =========================
+ESTADISTICAS
+========================== -->
 
 <div class="stats">
 
@@ -858,7 +1009,9 @@ class="number">
 </div>
 
 
-<!-- TABLA -->
+<!-- =========================
+TABLA
+========================== -->
 
 <div class="panel">
 
@@ -926,27 +1079,19 @@ style="display:none">
 <tr>
 
 <th>
-
 CÓDIGO
-
 </th>
 
 <th>
-
 ESTADO
-
 </th>
 
 <th>
-
 INGRESO
-
 </th>
 
 <th>
-
 ACCIÓN
-
 </th>
 
 </tr>
@@ -972,7 +1117,9 @@ id="ticketsBody">
 </div>
 
 
-<!-- MODAL CREAR EVENTO -->
+<!-- =========================
+MODAL NUEVO EVENTO
+========================== -->
 
 <div
 id="eventModal"
@@ -997,6 +1144,8 @@ Se crearán automáticamente
 </div>
 
 
+<!-- NOMBRE -->
+
 <div class="form-group">
 
 <label>
@@ -1013,6 +1162,8 @@ placeholder="Ej: Piano & Vino">
 </div>
 
 
+<!-- FECHA -->
+
 <div class="form-group">
 
 <label>
@@ -1028,6 +1179,8 @@ type="date">
 </div>
 
 
+<!-- HORA -->
+
 <div class="form-group">
 
 <label>
@@ -1039,6 +1192,24 @@ Hora
 <input
 id="newEventTime"
 type="time">
+
+</div>
+
+
+<!-- LUGAR -->
+
+<div class="form-group">
+
+<label>
+
+📍 Lugar donde se realiza
+
+</label>
+
+<input
+id="newEventPlace"
+type="text"
+placeholder="Ej: Galpón Vinilo - Urquiza 77, Junín">
 
 </div>
 
@@ -1088,11 +1259,9 @@ momentos que se recuerdan
 <script type="module">
 
 
-/*
-* =====================================================
-* FIREBASE
-* =====================================================
-*/
+/* =====================================================
+FIREBASE
+===================================================== */
 
 import {
 initializeApp
@@ -1116,11 +1285,9 @@ from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-/*
-* =====================================================
-* CONFIGURACION FIREBASE
-* =====================================================
-*/
+/* =====================================================
+CONFIGURACION FIREBASE
+===================================================== */
 
 const firebaseConfig = {
 
@@ -1157,11 +1324,9 @@ app
 );
 
 
-/*
-* =====================================================
-* CONFIGURACION
-* =====================================================
-*/
+/* =====================================================
+CONFIGURACION
+===================================================== */
 
 const COLLECTION_NAME =
 "entradas";
@@ -1175,11 +1340,9 @@ const TOTAL_ENTRADAS =
 150;
 
 
-/*
-* =====================================================
-* VARIABLES
-* =====================================================
-*/
+/* =====================================================
+VARIABLES
+===================================================== */
 
 let eventoActual =
 EVENTO_INICIAL;
@@ -1192,11 +1355,9 @@ let unsubscribeEntradas =
 null;
 
 
-/*
-* =====================================================
-* ELEMENTOS
-* =====================================================
-*/
+/* =====================================================
+ELEMENTOS
+===================================================== */
 
 const totalElement =
 document.getElementById(
@@ -1300,6 +1461,12 @@ document.getElementById(
 );
 
 
+const newEventPlace =
+document.getElementById(
+"newEventPlace"
+);
+
+
 const cancelEvent =
 document.getElementById(
 "cancelEvent"
@@ -1318,11 +1485,27 @@ document.getElementById(
 );
 
 
-/*
-* =====================================================
-* INICIAR
-* =====================================================
-*/
+const eventoFecha =
+document.getElementById(
+"eventoFecha"
+);
+
+
+const eventoHora =
+document.getElementById(
+"eventoHora"
+);
+
+
+const eventoLugar =
+document.getElementById(
+"eventoLugar"
+);
+
+
+/* =====================================================
+INICIO
+===================================================== */
 
 cargarEventos();
 
@@ -1331,17 +1514,13 @@ eventoActual
 );
 
 
-/*
-* =====================================================
-* CARGAR EVENTOS
-* =====================================================
-*/
+/* =====================================================
+CARGAR EVENTOS
+===================================================== */
 
 async function cargarEventos() {
 
-
 try {
-
 
 const entradasRef =
 collection(
@@ -1399,7 +1578,6 @@ nombres
 .forEach(
 (nombre) => {
 
-
 const option =
 document.createElement(
 "option"
@@ -1442,18 +1620,15 @@ error
 }
 
 
-/*
-* =====================================================
-* CAMBIAR EVENTO
-* =====================================================
-*/
+/* =====================================================
+CAMBIAR EVENTO
+===================================================== */
 
 eventSelect.addEventListener(
 
 "change",
 
 () => {
-
 
 eventoActual =
 eventSelect.value;
@@ -1476,16 +1651,13 @@ eventoActual
 );
 
 
-/*
-* =====================================================
-* CARGAR ENTRADAS
-* =====================================================
-*/
+/* =====================================================
+CARGAR ENTRADAS
+===================================================== */
 
 function cargarEntradas(
 nombreEvento
 ) {
-
 
 loading.style.display =
 "block";
@@ -1539,14 +1711,12 @@ consulta,
 
 (snapshot) => {
 
-
 tickets = [];
 
 
 snapshot.forEach(
 
 (docSnap) => {
-
 
 tickets.push({
 
@@ -1565,7 +1735,6 @@ docSnap.id,
 tickets.sort(
 
 (a, b) => {
-
 
 const codigoA =
 String(
@@ -1628,6 +1797,9 @@ tickets.length +
 ")";
 
 
+actualizarInformacionEvento();
+
+
 actualizarEstadisticas();
 
 
@@ -1635,12 +1807,10 @@ mostrarEntradas(
 tickets
 );
 
-
 },
 
 
 (error) => {
-
 
 console.error(
 "ERROR FIREBASE:",
@@ -1668,9 +1838,7 @@ loading.textContent =
 
 mostrarMensaje(
 
-"Error leyendo las entradas del evento " +
-nombreEvento +
-".",
+"Error leyendo las entradas del evento.",
 
 "error"
 
@@ -1683,14 +1851,60 @@ nombreEvento +
 }
 
 
-/*
-* =====================================================
-* ESTADISTICAS
-* =====================================================
-*/
+/* =====================================================
+INFORMACION DEL EVENTO
+===================================================== */
+
+function actualizarInformacionEvento() {
+
+eventoActualTexto.textContent =
+eventoActual;
+
+
+const primeraEntrada =
+tickets[0];
+
+
+if (
+!primeraEntrada
+) {
+
+eventoFecha.textContent =
+"—";
+
+eventoHora.textContent =
+"—";
+
+eventoLugar.textContent =
+"—";
+
+return;
+
+}
+
+
+eventoFecha.textContent =
+primeraEntrada.fecha ||
+"—";
+
+
+eventoHora.textContent =
+primeraEntrada.hora ||
+"—";
+
+
+eventoLugar.textContent =
+primeraEntrada.lugar ||
+"—";
+
+}
+
+
+/* =====================================================
+ESTADISTICAS
+===================================================== */
 
 function actualizarEstadisticas() {
-
 
 const total =
 tickets.length;
@@ -1707,7 +1921,6 @@ let vendidas =
 tickets.forEach(
 
 (ticket) => {
-
 
 const usada =
 esEntradaUsada(
@@ -1769,16 +1982,13 @@ disponibles;
 }
 
 
-/*
-* =====================================================
-* ESTADO UTILIZADA
-* =====================================================
-*/
+/* =====================================================
+UTILIZADA
+===================================================== */
 
 function esEntradaUsada(
 ticket
 ) {
-
 
 const estado =
 String(
@@ -1806,16 +2016,13 @@ estado === "utilizado"
 }
 
 
-/*
-* =====================================================
-* ESTADO VENDIDA
-* =====================================================
-*/
+/* =====================================================
+VENDIDA
+===================================================== */
 
 function esEntradaVendida(
 ticket
 ) {
-
 
 const estado =
 String(
@@ -1837,16 +2044,13 @@ estado === "vendida"
 }
 
 
-/*
-* =====================================================
-* MOSTRAR ENTRADAS
-* =====================================================
-*/
+/* =====================================================
+MOSTRAR ENTRADAS
+===================================================== */
 
 function mostrarEntradas(
 lista
 ) {
-
 
 body.innerHTML =
 "";
@@ -1855,7 +2059,6 @@ body.innerHTML =
 if (
 lista.length === 0
 ) {
-
 
 body.innerHTML = `
 
@@ -1888,7 +2091,6 @@ lista.forEach(
 
 (ticket) => {
 
-
 const codigo =
 ticket.codigo ||
 ticket.id;
@@ -1913,7 +2115,6 @@ if (
 usado
 ) {
 
-
 estadoHTML = `
 
 <span
@@ -1925,13 +2126,11 @@ class="badge used">
 
 `;
 
-
 }
 
 else if (
 vendido
 ) {
-
 
 estadoHTML = `
 
@@ -1944,11 +2143,9 @@ class="badge sold">
 
 `;
 
-
 }
 
 else {
-
 
 estadoHTML = `
 
@@ -2053,16 +2250,13 @@ row
 }
 
 
-/*
-* =====================================================
-* FECHA
-* =====================================================
-*/
+/* =====================================================
+FECHA INGRESO
+===================================================== */
 
 function obtenerFecha(
 ticket
 ) {
-
 
 const fecha =
 ticket.fechaingreso ||
@@ -2079,7 +2273,6 @@ return "—";
 
 
 try {
-
 
 if (
 typeof fecha.toDate ===
@@ -2101,7 +2294,6 @@ fecha
 "es-AR"
 );
 
-
 }
 
 catch {
@@ -2113,16 +2305,13 @@ return "—";
 }
 
 
-/*
-* =====================================================
-* MARCAR INGRESO
-* =====================================================
-*/
+/* =====================================================
+MARCAR INGRESO
+===================================================== */
 
 async function marcarIngreso(
 id
 ) {
-
 
 const ticket =
 tickets.find(
@@ -2150,7 +2339,6 @@ esEntradaUsada(
 ticket
 )
 ) {
-
 
 mostrarMensaje(
 
@@ -2191,7 +2379,6 @@ return;
 
 
 try {
-
 
 await updateDoc(
 
@@ -2236,13 +2423,11 @@ codigo +
 
 );
 
-
 }
 
 catch (
 error
 ) {
-
 
 console.error(
 error
@@ -2262,16 +2447,13 @@ mostrarMensaje(
 }
 
 
-/*
-* =====================================================
-* REINICIAR
-* =====================================================
-*/
+/* =====================================================
+REINICIAR
+===================================================== */
 
 async function reiniciarEntrada(
 id
 ) {
-
 
 const ticket =
 tickets.find(
@@ -2315,7 +2497,6 @@ return;
 
 try {
 
-
 await updateDoc(
 
 doc(
@@ -2356,13 +2537,11 @@ codigo +
 
 );
 
-
 }
 
 catch (
 error
 ) {
-
 
 console.error(
 error
@@ -2382,18 +2561,15 @@ mostrarMensaje(
 }
 
 
-/*
-* =====================================================
-* BOTONES TABLA
-* =====================================================
-*/
+/* =====================================================
+BOTONES
+===================================================== */
 
 body.addEventListener(
 
 "click",
 
 (event) => {
-
 
 const button =
 event.target.closest(
@@ -2444,18 +2620,15 @@ id
 );
 
 
-/*
-* =====================================================
-* BUSCADOR
-* =====================================================
-*/
+/* =====================================================
+BUSCADOR
+===================================================== */
 
 search.addEventListener(
 
 "input",
 
 () => {
-
 
 const texto =
 search.value
@@ -2480,7 +2653,6 @@ const filtradas =
 tickets.filter(
 
 (ticket) => {
-
 
 const codigo =
 String(
@@ -2510,11 +2682,9 @@ filtradas
 );
 
 
-/*
-* =====================================================
-* ABRIR MODAL
-* =====================================================
-*/
+/* =====================================================
+ABRIR NUEVO EVENTO
+===================================================== */
 
 newEventButton.addEventListener(
 
@@ -2522,18 +2692,17 @@ newEventButton.addEventListener(
 
 () => {
 
-
 newEventName.value =
 "";
-
 
 newEventDate.value =
 "";
 
-
 newEventTime.value =
 "";
 
+newEventPlace.value =
+"";
 
 eventModal.style.display =
 "block";
@@ -2543,11 +2712,9 @@ eventModal.style.display =
 );
 
 
-/*
-* =====================================================
-* CERRAR MODAL
-* =====================================================
-*/
+/* =====================================================
+CANCELAR
+===================================================== */
 
 cancelEvent.addEventListener(
 
@@ -2569,7 +2736,6 @@ eventModal.addEventListener(
 
 (event) => {
 
-
 if (
 event.target ===
 eventModal
@@ -2585,18 +2751,15 @@ eventModal.style.display =
 );
 
 
-/*
-* =====================================================
-* CREAR NUEVO EVENTO
-* =====================================================
-*/
+/* =====================================================
+CREAR NUEVO EVENTO
+===================================================== */
 
 createEvent.addEventListener(
 
 "click",
 
 async () => {
-
 
 const nombre =
 newEventName.value.trim();
@@ -2610,15 +2773,19 @@ const hora =
 newEventTime.value;
 
 
+const lugar =
+newEventPlace.value.trim();
+
+
+/* VALIDACIONES */
+
 if (
 !nombre
 ) {
 
-
 alert(
 "Ingresá el nombre del evento."
 );
-
 
 return;
 
@@ -2629,11 +2796,9 @@ if (
 !fecha
 ) {
 
-
 alert(
 "Seleccioná la fecha del evento."
 );
-
 
 return;
 
@@ -2644,11 +2809,22 @@ if (
 !hora
 ) {
 
-
 alert(
 "Seleccioná la hora del evento."
 );
 
+return;
+
+}
+
+
+if (
+!lugar
+) {
+
+alert(
+"Ingresá el lugar donde se realiza el evento."
+);
 
 return;
 
@@ -2670,6 +2846,10 @@ fecha +
 
 hora +
 
+"\n" +
+
+lugar +
+
 "\n\n" +
 
 "¿Continuar?"
@@ -2688,7 +2868,6 @@ return;
 
 try {
 
-
 createEvent.disabled =
 true;
 
@@ -2698,11 +2877,7 @@ createEvent.textContent =
 
 
 /*
-* CREAR LOS 150 TICKETS
-*
-* Usamos IDs únicos para que
-* distintos eventos puedan tener
-* nuevamente PV-0001, PV-0002, etc.
+* BATCH FIRESTORE
 */
 
 const batch =
@@ -2717,6 +2892,10 @@ db,
 COLLECTION_NAME
 );
 
+
+/*
+* 150 ENTRADAS
+*/
 
 for (
 let i = 1;
@@ -2733,6 +2912,10 @@ String(i)
 "0"
 );
 
+
+/*
+* ID UNICO POR EVENTO
+*/
 
 const documentoId =
 crearIdSeguro(
@@ -2767,11 +2950,14 @@ nombre,
 fecha:
 fecha,
 
-fechaingreso:
-null,
-
 hora:
 hora,
+
+lugar:
+lugar,
+
+fechaingreso:
+null,
 
 horaingreso:
 null,
@@ -2792,11 +2978,15 @@ false
 }
 
 
+/*
+* GUARDAR TODO
+*/
+
 await batch.commit();
 
 
 /*
-* CERRAR MODAL
+* CERRAR
 */
 
 eventModal.style.display =
@@ -2804,14 +2994,14 @@ eventModal.style.display =
 
 
 /*
-* ACTUALIZAR SELECTOR
+* ACTUALIZAR EVENTOS
 */
 
 await cargarEventos();
 
 
 /*
-* SELECCIONAR NUEVO EVENTO
+* SELECCIONAR EVENTO NUEVO
 */
 
 eventoActual =
@@ -2827,7 +3017,7 @@ nombre;
 
 
 /*
-* CARGAR SUS 150 ENTRADAS
+* CARGAR ENTRADAS
 */
 
 cargarEntradas(
@@ -2843,13 +3033,11 @@ mostrarMensaje(
 
 );
 
-
 }
 
 catch (
 error
 ) {
-
 
 console.error(
 "ERROR CREANDO EVENTO:",
@@ -2859,7 +3047,7 @@ error
 
 mostrarMensaje(
 
-"❌ No se pudo crear el evento. Revisá la consola de Firebase.",
+"❌ No se pudo crear el evento.",
 
 "error"
 
@@ -2868,7 +3056,6 @@ mostrarMensaje(
 }
 
 finally {
-
 
 createEvent.disabled =
 false;
@@ -2884,16 +3071,13 @@ createEvent.textContent =
 );
 
 
-/*
-* =====================================================
-* GENERAR ID SEGURO
-* =====================================================
-*/
+/* =====================================================
+ID SEGURO
+===================================================== */
 
 function crearIdSeguro(
 nombre
 ) {
-
 
 return String(
 nombre
@@ -2928,17 +3112,14 @@ nombre
 }
 
 
-/*
-* =====================================================
-* MENSAJES
-* =====================================================
-*/
+/* =====================================================
+MENSAJES
+===================================================== */
 
 function mostrarMensaje(
 texto,
 tipo
 ) {
-
 
 message.textContent =
 texto;
@@ -2965,16 +3146,13 @@ message.className =
 }
 
 
-/*
-* =====================================================
-* SEGURIDAD HTML
-* =====================================================
-*/
+/* =====================================================
+SEGURIDAD HTML
+===================================================== */
 
 function escapeHtml(
 valor
 ) {
-
 
 return String(
 valor
@@ -3006,7 +3184,6 @@ valor
 );
 
 }
-
 
 </script>
 
