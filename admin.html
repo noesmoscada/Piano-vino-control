@@ -1,1301 +1,1969 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 
-  <title>Piano & Vino - Manager</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<title>Piano & Vino - Manager</title>
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #090909;
-      color: #f5f0e6;
-    }
+<style>
 
-    header {
-      padding: 35px 20px 30px;
-      text-align: center;
-      background:
-        radial-gradient(circle at center, #35141f 0%, #130b0e 45%, #080808 100%);
-      border-bottom: 2px solid #741d32;
-    }
+* {
+box-sizing: border-box;
+}
 
-    .logo {
-      font-family: Georgia, serif;
-      font-size: 42px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
+body {
+margin: 0;
+background: #090909;
+color: #f5eee4;
+font-family: Arial, Helvetica, sans-serif;
+}
 
-    .logo span {
-      color: #b52b4b;
-    }
+header {
+text-align: center;
+padding: 35px 20px 30px;
 
-    .manager {
-      margin-top: 8px;
-      color: #b52b4b;
-      font-size: 16px;
-      letter-spacing: 6px;
-    }
+background:
+radial-gradient(
+circle at center,
+#35141f 0%,
+#160b0f 45%,
+#080808 100%
+);
 
-    .subtitle {
-      margin-top: 12px;
-      font-size: 13px;
-      letter-spacing: 3px;
-      color: #ddd3c4;
-    }
+border-bottom: 2px solid #7d2037;
+}
 
-    .firebase-status {
-      margin: 18px auto 0;
-      padding: 9px 16px;
-      max-width: 420px;
-      border-radius: 20px;
-      font-size: 13px;
-      background: #151515;
-      color: #aaa;
-    }
+.logo {
+font-family: Georgia, serif;
+font-size: 44px;
+font-weight: bold;
+}
 
-    .firebase-status.ok {
-      color: #72d69a;
-    }
+.logo span {
+color: #b62c4b;
+}
 
-    .firebase-status.error {
-      color: #ff7272;
-    }
+.manager {
+margin-top: 8px;
+color: #b62c4b;
+font-size: 15px;
+letter-spacing: 6px;
+}
 
-    .container {
-      width: 94%;
-      max-width: 1200px;
-      margin: 30px auto;
-    }
+.subtitle {
+margin-top: 12px;
+font-size: 13px;
+letter-spacing: 3px;
+color: #d7cec1;
+}
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-    }
+.evento-actual {
+margin: 20px auto 0;
+padding: 12px 20px;
 
-    .card {
-      background: #151515;
-      border: 1px solid #302327;
-      border-radius: 14px;
-      padding: 22px;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(0,0,0,.25);
-    }
+max-width: 500px;
 
-    .card-title {
-      color: #bcb2a5;
-      font-size: 12px;
-      letter-spacing: 2px;
-    }
+border: 1px solid #43232d;
+border-radius: 25px;
 
-    .number {
-      font-size: 38px;
-      margin-top: 10px;
-      font-weight: bold;
-      color: #f4eee4;
-    }
+background: rgba(0,0,0,.35);
 
-    .red-line {
-      width: 45px;
-      height: 3px;
-      margin: 14px auto 0;
-      background: #9d2943;
-      border-radius: 3px;
-    }
+color: #e9dfd2;
+font-size: 14px;
+}
 
-    .panel {
-      margin-top: 25px;
-      background: #111111;
-      border: 1px solid #2c2225;
-      border-radius: 15px;
-      overflow: hidden;
-    }
+.firebase-status {
+margin: 12px auto 0;
 
-    .panel-header {
-      padding: 20px;
-      border-bottom: 1px solid #2c2225;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+padding: 8px 16px;
 
-    .panel-title {
-      font-family: Georgia, serif;
-      font-size: 22px;
-    }
+max-width: 400px;
 
-    .search {
-      background: #1d1d1d;
-      border: 1px solid #443036;
-      color: white;
-      padding: 11px 14px;
-      border-radius: 8px;
-      width: 250px;
-      outline: none;
-    }
+border-radius: 20px;
 
-    .search:focus {
-      border-color: #9d2943;
-    }
+background: #151515;
 
-    .table-wrapper {
-      overflow-x: auto;
-    }
+color: #aaa;
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+font-size: 13px;
+}
 
-    th {
-      text-align: left;
-      padding: 15px;
-      color: #a99e92;
-      font-size: 12px;
-      letter-spacing: 1px;
-      background: #171717;
-    }
+.firebase-status.ok {
+color: #72d79a;
+}
 
-    td {
-      padding: 14px 15px;
-      border-top: 1px solid #242020;
-      font-size: 14px;
-    }
+.firebase-status.error {
+color: #ff7272;
+}
 
-    tr:hover {
-      background: #171315;
-    }
+.container {
+width: 94%;
+max-width: 1200px;
+margin: 30px auto;
+}
 
-    .code {
-      font-weight: bold;
-      color: #f1e8dc;
-      letter-spacing: 1px;
-    }
+.stats {
 
-    .badge {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-    }
+display: grid;
 
-    .available {
-      background: #173723;
-      color: #73d899;
-    }
+grid-template-columns:
+repeat(4, 1fr);
 
-    .used {
-      background: #422027;
-      color: #ff8294;
-    }
+gap: 15px;
+}
 
-    .unknown {
-      background: #353535;
-      color: #ddd;
-    }
+.card {
 
-    button {
-      border: none;
-      cursor: pointer;
-      border-radius: 7px;
-      padding: 8px 12px;
-      font-weight: bold;
-    }
+background: #151515;
 
-    .btn-use {
-      background: #8f243d;
-      color: white;
-    }
+border:
+1px solid #302328;
 
-    .btn-use:hover {
-      background: #b32d4b;
-    }
+border-radius: 14px;
 
-    .btn-reset {
-      background: #333;
-      color: #eee;
-    }
+padding: 22px;
 
-    .btn-reset:hover {
-      background: #4b4b4b;
-    }
+text-align: center;
 
-    .btn-disabled {
-      background: #292929;
-      color: #777;
-      cursor: not-allowed;
-    }
+box-shadow:
+0 8px 25px rgba(0,0,0,.25);
+}
 
-    .message {
-      margin: 20px;
-      padding: 15px;
-      border-radius: 8px;
-      display: none;
-    }
+.card-title {
 
-    .message.success {
-      display: block;
-      background: #14351f;
-      color: #7ce09d;
-    }
+color: #bdb2a6;
 
-    .message.error {
-      display: block;
-      background: #421b20;
-      color: #ff8d9a;
-    }
+font-size: 12px;
 
-    .loading {
-      padding: 35px;
-      text-align: center;
-      color: #aaa;
-    }
+letter-spacing: 2px;
+}
 
-    footer {
-      text-align: center;
-      padding: 35px 15px;
-      color: #777;
-      font-size: 12px;
-    }
+.number {
 
-    @media (max-width: 800px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
+margin-top: 10px;
 
-      .logo {
-        font-size: 32px;
-      }
+font-size: 38px;
 
-      .search {
-        width: 100%;
-      }
-    }
+font-weight: bold;
 
-    @media (max-width: 480px) {
-      .stats {
-        grid-template-columns: 1fr 1fr;
-        gap: 9px;
-      }
+color: #f4eee4;
+}
 
-      .card {
-        padding: 15px 8px;
-      }
+.red-line {
 
-      .number {
-        font-size: 30px;
-      }
+width: 45px;
 
-      td, th {
-        padding: 10px;
-      }
-    }
-  </style>
+height: 3px;
+
+margin: 14px auto 0;
+
+background: #9d2943;
+
+border-radius: 3px;
+}
+
+.panel {
+
+margin-top: 25px;
+
+background: #111;
+
+border:
+1px solid #2c2225;
+
+border-radius: 15px;
+
+overflow: hidden;
+}
+
+.panel-header {
+
+padding: 20px;
+
+border-bottom:
+1px solid #2c2225;
+
+display: flex;
+
+justify-content:
+space-between;
+
+align-items: center;
+
+gap: 15px;
+
+flex-wrap: wrap;
+}
+
+.panel-title {
+
+font-family: Georgia, serif;
+
+font-size: 22px;
+}
+
+.search {
+
+background: #1d1d1d;
+
+border:
+1px solid #443036;
+
+color: white;
+
+padding: 11px 14px;
+
+border-radius: 8px;
+
+width: 250px;
+
+outline: none;
+}
+
+.search:focus {
+border-color: #9d2943;
+}
+
+.table-wrapper {
+overflow-x: auto;
+}
+
+table {
+
+width: 100%;
+
+border-collapse:
+collapse;
+}
+
+th {
+
+text-align: left;
+
+padding: 15px;
+
+color: #a99e92;
+
+font-size: 12px;
+
+letter-spacing: 1px;
+
+background: #171717;
+}
+
+td {
+
+padding: 14px 15px;
+
+border-top:
+1px solid #242020;
+
+font-size: 14px;
+}
+
+tr:hover {
+background: #171315;
+}
+
+.code {
+
+font-weight: bold;
+
+color: #f1e8dc;
+
+letter-spacing: 1px;
+}
+
+.badge {
+
+display: inline-block;
+
+padding: 6px 10px;
+
+border-radius: 20px;
+
+font-size: 12px;
+
+font-weight: bold;
+}
+
+.available {
+
+background: #173723;
+
+color: #73d899;
+}
+
+.used {
+
+background: #422027;
+
+color: #ff8294;
+}
+
+.sold {
+
+background: #382e16;
+
+color: #e4c76b;
+}
+
+button {
+
+border: none;
+
+cursor: pointer;
+
+border-radius: 7px;
+
+padding: 8px 12px;
+
+font-weight: bold;
+}
+
+.btn-use {
+
+background: #8f243d;
+
+color: white;
+}
+
+.btn-use:hover {
+background: #b32d4b;
+}
+
+.btn-reset {
+
+background: #333;
+
+color: #eee;
+}
+
+.btn-reset:hover {
+background: #4b4b4b;
+}
+
+.message {
+
+margin: 20px;
+
+padding: 15px;
+
+border-radius: 8px;
+
+display: none;
+}
+
+.message.success {
+
+display: block;
+
+background: #14351f;
+
+color: #7ce09d;
+}
+
+.message.error {
+
+display: block;
+
+background: #421b20;
+
+color: #ff8d9a;
+}
+
+.loading {
+
+padding: 35px;
+
+text-align: center;
+
+color: #aaa;
+}
+
+footer {
+
+text-align: center;
+
+padding: 35px 15px;
+
+color: #777;
+
+font-size: 12px;
+}
+
+@media (max-width: 800px) {
+
+.stats {
+
+grid-template-columns:
+repeat(2, 1fr);
+}
+
+.logo {
+font-size: 34px;
+}
+
+.search {
+width: 100%;
+}
+}
+
+@media (max-width: 480px) {
+
+.stats {
+
+grid-template-columns:
+repeat(2, 1fr);
+
+gap: 9px;
+}
+
+.card {
+padding: 15px 8px;
+}
+
+.number {
+font-size: 30px;
+}
+
+td,
+th {
+padding: 10px;
+}
+}
+
+</style>
+
 </head>
+
 
 <body>
 
+
 <header>
 
-  <div class="logo">
-    Piano<span>&</span>Vino
-  </div>
+<div class="logo">
 
-  <div class="manager">
-    MANAGER
-  </div>
+Piano<span>&</span>Vino
 
-  <div class="subtitle">
-    CONTROL DE ENTRADAS
-  </div>
+</div>
 
-  <div id="firebaseStatus"
-       class="firebase-status">
-    🔄 Conectando con Firebase...
-  </div>
+
+<div class="manager">
+
+MANAGER
+
+</div>
+
+
+<div class="subtitle">
+
+CONTROL DE ENTRADAS
+
+</div>
+
+
+<div class="evento-actual">
+
+🎹🍷 <strong>Evento actual:</strong>
+Piano & Vino
+
+</div>
+
+
+<div
+id="firebaseStatus"
+class="firebase-status">
+
+🔄 Conectando con Firebase...
+
+</div>
 
 </header>
 
 
 <div class="container">
 
-  <!-- ESTADÍSTICAS -->
 
-  <div class="stats">
+<!-- ESTADISTICAS -->
 
-    <div class="card">
-      <div class="card-title">
-        TOTAL ENTRADAS
-      </div>
-
-      <div id="total"
-           class="number">
-        150
-      </div>
-
-      <div class="red-line"></div>
-    </div>
+<div class="stats">
 
 
-    <div class="card">
-      <div class="card-title">
-        VENDIDAS
-      </div>
+<div class="card">
 
-      <div id="vendidas"
-           class="number">
-        0
-      </div>
+<div class="card-title">
 
-      <div class="red-line"></div>
-    </div>
+TOTAL ENTRADAS
 
+</div>
 
-    <div class="card">
-      <div class="card-title">
-        INGRESADAS
-      </div>
+<div
+id="total"
+class="number">
 
-      <div id="ingresadas"
-           class="number">
-        0
-      </div>
+0
 
-      <div class="red-line"></div>
-    </div>
+</div>
+
+<div class="red-line"></div>
+
+</div>
 
 
-    <div class="card">
-      <div class="card-title">
-        DISPONIBLES
-      </div>
+<div class="card">
 
-      <div id="disponibles"
-           class="number">
-        150
-      </div>
+<div class="card-title">
 
-      <div class="red-line"></div>
-    </div>
+VENDIDAS
 
-  </div>
+</div>
 
+<div
+id="vendidas"
+class="number">
 
-  <!-- ENTRADAS -->
+0
 
-  <div class="panel">
+</div>
 
-    <div class="panel-header">
+<div class="red-line"></div>
 
-      <div class="panel-title">
-        🎟️ Entradas
-      </div>
-
-      <input
-        id="search"
-        class="search"
-        type="text"
-        placeholder="Buscar PV-0001..."
-      >
-
-    </div>
+</div>
 
 
-    <div id="message"
-         class="message">
-    </div>
+<div class="card">
+
+<div class="card-title">
+
+INGRESADAS
+
+</div>
+
+<div
+id="ingresadas"
+class="number">
+
+0
+
+</div>
+
+<div class="red-line"></div>
+
+</div>
 
 
-    <div id="loading"
-         class="loading">
+<div class="card">
 
-      🔄 Cargando entradas...
+<div class="card-title">
 
-    </div>
+DISPONIBLES
+
+</div>
+
+<div
+id="disponibles"
+class="number">
+
+0
+
+</div>
+
+<div class="red-line"></div>
+
+</div>
 
 
-    <div class="table-wrapper">
+</div>
 
-      <table id="ticketsTable"
-             style="display:none">
 
-        <thead>
+<!-- TABLA -->
 
-          <tr>
+<div class="panel">
 
-            <th>
-              CÓDIGO
-            </th>
 
-            <th>
-              ESTADO
-            </th>
+<div class="panel-header">
 
-            <th>
-              INGRESO
-            </th>
 
-            <th>
-              ACCIÓN
-            </th>
+<div class="panel-title">
 
-          </tr>
+🎟️ Entradas
+<span
+id="cantidadEvento"
+style="
+color:#9d2943;
+font-size:14px;
+margin-left:8px;
+">
 
-        </thead>
+</span>
 
-        <tbody id="ticketsBody">
-        </tbody>
+</div>
 
-      </table>
 
-    </div>
+<input
 
-  </div>
+id="search"
+
+class="search"
+
+type="text"
+
+placeholder="Buscar PV-0001..."
+
+>
+
+
+</div>
+
+
+<div
+id="message"
+class="message">
+
+</div>
+
+
+<div
+id="loading"
+class="loading">
+
+🔄 Cargando entradas...
+
+</div>
+
+
+<div class="table-wrapper">
+
+
+<table
+id="ticketsTable"
+style="display:none">
+
+
+<thead>
+
+<tr>
+
+<th>
+CÓDIGO
+</th>
+
+<th>
+ESTADO
+</th>
+
+<th>
+INGRESO
+</th>
+
+<th>
+ACCIÓN
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody
+id="ticketsBody">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
 
 </div>
 
 
 <footer>
 
-  ♫ &nbsp; Piano & Vino Bar &nbsp; ♫
+♫ &nbsp; Piano & Vino Bar &nbsp; ♫
 
-  <br><br>
+<br><br>
 
-  Canciones a la carta · Música que se siente,
-  momentos que se recuerdan
+Canciones a la carta ·
+Música que se siente,
+momentos que se recuerdan
 
 </footer>
 
 
 <script type="module">
 
-  import {
-    collection,
-    getDocs,
-    doc,
-    updateDoc,
-    onSnapshot,
-    query,
-    orderBy
-  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-  import { db } from "./firebase.js";
+/*
+* =====================================================
+* FIREBASE
+* =====================================================
+*/
 
-
-  /*
-   * =====================================================
-   * CONFIGURACIÓN
-   * =====================================================
-   */
-
-  const COLLECTION_NAME = "entradas";
-
-  const TOTAL_ENTRADAS = 150;
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
-  /*
-   * =====================================================
-   * ELEMENTOS
-   * =====================================================
-   */
-
-  const totalElement =
-    document.getElementById("total");
-
-  const vendidasElement =
-    document.getElementById("vendidas");
-
-  const ingresadasElement =
-    document.getElementById("ingresadas");
-
-  const disponiblesElement =
-    document.getElementById("disponibles");
-
-  const body =
-    document.getElementById("ticketsBody");
-
-  const table =
-    document.getElementById("ticketsTable");
-
-  const loading =
-    document.getElementById("loading");
-
-  const search =
-    document.getElementById("search");
-
-  const firebaseStatus =
-    document.getElementById("firebaseStatus");
-
-  const message =
-    document.getElementById("message");
+import {
+getFirestore,
+collection,
+query,
+where,
+onSnapshot,
+doc,
+updateDoc
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-  /*
-   * =====================================================
-   * DATOS
-   * =====================================================
-   */
+/*
+* =====================================================
+* CONFIGURACION TICKETERA2026-V2
+* =====================================================
+*/
 
-  let tickets = [];
+const firebaseConfig = {
 
+apiKey:
+"AIzaSyDElU_IS5ndsR6e8H66j1GX9RTGVCs5oeU",
 
-  /*
-   * =====================================================
-   * FIREBASE
-   * =====================================================
-   */
+authDomain:
+"ticketera2026-v2.firebaseapp.com",
 
-  try {
+projectId:
+"ticketera2026-v2",
 
-    firebaseStatus.textContent =
-      "🟢 Firebase conectado";
+storageBucket:
+"ticketera2026-v2.firebasestorage.app",
 
-    firebaseStatus.classList.add("ok");
+messagingSenderId:
+"159437918344",
 
-    cargarEntradas();
+appId:
+"1:159437918344:web:052123faa34938fc4a4f3d"
 
-  } catch (error) {
-
-    console.error(error);
-
-    firebaseStatus.textContent =
-      "🔴 Error de conexión con Firebase";
-
-    firebaseStatus.classList.add("error");
-
-    mostrarMensaje(
-      "No se pudo conectar con Firebase.",
-      "error"
-    );
-
-  }
+};
 
 
-  /*
-   * =====================================================
-   * CARGAR ENTRADAS EN TIEMPO REAL
-   * =====================================================
+const app =
+initializeApp(firebaseConfig);
+
+
+const db =
+getFirestore(app);
+
+
+/*
+* =====================================================
+* CONFIGURACION DEL EVENTO
+* =====================================================
+*/
+
+const COLLECTION_NAME =
+"entradas";
+
+
+const EVENTO_ACTUAL =
+"Piano & Vino";
+
+
+/*
+* =====================================================
+* ELEMENTOS
+* =====================================================
+*/
+
+const totalElement =
+document.getElementById("total");
+
+
+const vendidasElement =
+document.getElementById("vendidas");
+
+
+const ingresadasElement =
+document.getElementById("ingresadas");
+
+
+const disponiblesElement =
+document.getElementById("disponibles");
+
+
+const body =
+document.getElementById("ticketsBody");
+
+
+const table =
+document.getElementById("ticketsTable");
+
+
+const loading =
+document.getElementById("loading");
+
+
+const search =
+document.getElementById("search");
+
+
+const firebaseStatus =
+document.getElementById("firebaseStatus");
+
+
+const message =
+document.getElementById("message");
+
+
+const cantidadEvento =
+document.getElementById("cantidadEvento");
+
+
+/*
+* =====================================================
+* DATOS
+* =====================================================
+*/
+
+let tickets = [];
+
+
+/*
+* =====================================================
+* CONEXION
+* =====================================================
+*/
+
+cargarEntradas();
+
+
+/*
+* =====================================================
+* CARGAR SOLAMENTE PIANO & VINO
+* =====================================================
+*/
+
 function cargarEntradas() {
 
-const entradasRef = collection(db, COLLECTION_NAME);
+
+const entradasRef =
+collection(
+db,
+COLLECTION_NAME
+);
+
+
+/*
+* IMPORTANTE:
+*
+* Firebase solamente trae documentos
+* cuyo campo "evento" sea exactamente:
+*
+* Piano & Vino
+*/
+
+const consulta =
+query(
+entradasRef,
+where(
+"evento",
+"==",
+EVENTO_ACTUAL
+)
+);
+
 
 onSnapshot(
-entradasRef,
+
+consulta,
 
 (snapshot) => {
 
+
 tickets = [];
 
-snapshot.forEach((docSnap) => {
+
+snapshot.forEach(
+
+(docSnap) => {
+
 
 tickets.push({
-id: docSnap.id,
+
+id:
+docSnap.id,
+
 ...docSnap.data()
-});
 
 });
 
-tickets.sort((a, b) => {
+}
 
-const codigoA =
-String(a.codigo || a.id || "");
-
-const codigoB =
-String(b.codigo || b.id || "");
-
-return codigoA.localeCompare(
-codigoB,
-undefined,
-{ numeric: true }
 );
 
-});
 
-loading.style.display = "none";
-table.style.display = "table";
+/*
+* ORDENAR POR CODIGO
+*/
+
+tickets.sort(
+
+(a, b) => {
+
+
+const codigoA =
+String(
+a.codigo ||
+a.id ||
+""
+);
+
+
+const codigoB =
+String(
+b.codigo ||
+b.id ||
+""
+);
+
+
+return codigoA.localeCompare(
+
+codigoB,
+
+undefined,
+
+{
+numeric: true
+}
+
+);
+
+}
+
+);
+
+
+/*
+* MOSTRAR ESTADO
+*/
+
+firebaseStatus.textContent =
+"🟢 Conectado correctamente";
+
+
+firebaseStatus.classList.add(
+"ok"
+);
+
+
+loading.style.display =
+"none";
+
+
+table.style.display =
+"table";
+
+
+cantidadEvento.textContent =
+"(" + tickets.length + ")";
+
 
 actualizarEstadisticas();
-mostrarEntradas(tickets);
+
+
+mostrarEntradas(
+tickets
+);
+
 
 },
 
+
 (error) => {
 
-console.error("Firebase:", error);
 
-loading.textContent =
-"❌ Error al cargar las entradas.";
+console.error(
+"ERROR FIREBASE:",
+error
+);
+
 
 firebaseStatus.textContent =
 "🔴 Error de Firebase";
 
-firebaseStatus.classList.remove("ok");
-firebaseStatus.classList.add("error");
 
-mostrarMensaje(
-"Error leyendo la colección 'entradas'.",
+firebaseStatus.classList.remove(
+"ok"
+);
+
+
+firebaseStatus.classList.add(
 "error"
 );
 
-}
+
+loading.textContent =
+"❌ No se pudieron cargar las entradas.";
+
+
+mostrarMensaje(
+
+"Error leyendo las entradas del evento Piano & Vino.",
+
+"error"
+
 );
 
 }
-         * Ordenar por código
-         */
 
-        tickets.sort((a, b) => {
+);
 
-          const codigoA =
-            String(a.codigo || a.id || "");
+}
 
-          const codigoB =
-            String(b.codigo || b.id || "");
 
-          return codigoA.localeCompare(
-            codigoB,
-            undefined,
-            { numeric: true }
-          );
+/*
+* =====================================================
+* ESTADISTICAS
+* =====================================================
+*/
 
-        });
+function actualizarEstadisticas() {
 
 
-        loading.style.display = "none";
+const total =
+tickets.length;
 
-        table.style.display = "table";
 
-        actualizarEstadisticas();
+let ingresadas = 0;
 
-        mostrarEntradas(tickets);
 
-      },
+let vendidas = 0;
 
-      (error) => {
 
-        console.error(
-          "Firebase:",
-          error
-        );
+tickets.forEach(
 
-        loading.textContent =
-          "❌ Error al cargar las entradas.";
+(ticket) => {
 
-        firebaseStatus.textContent =
-          "🔴 Error de Firebase";
 
-        firebaseStatus.classList.remove("ok");
+const estado =
+String(
+ticket.estado ||
+""
+).toLowerCase();
 
-        firebaseStatus.classList.add("error");
 
-        mostrarMensaje(
-          "Error leyendo la colección 'entradas'. Verificá que el nombre de la colección sea correcto.",
-          "error"
-        );
+/*
+* ENTRADA INGRESADA
+*/
 
-      }
-    );
+const estaIngresada =
 
-  }
+ticket.ingreso === true ||
 
+ticket.usado === true ||
 
-  /*
-   * =====================================================
-   * ESTADÍSTICAS
-   * =====================================================
-   */
+estado === "ingreso" ||
 
-  function actualizarEstadisticas() {
+estado === "ingresada" ||
 
-    const total =
-      tickets.length || TOTAL_ENTRADAS;
+estado === "usado" ||
 
+estado === "utilizado";
 
-    let ingresadas = 0;
 
-    let vendidas = 0;
+if (
+estaIngresada
+) {
 
+ingresadas++;
 
-    tickets.forEach(ticket => {
+}
 
-      const estado =
-        String(ticket.estado || "")
-        .toLowerCase();
 
+/*
+* VENDIDA
+*
+* Como tu estructura no tiene
+* un campo "vendida", tomamos:
+*
+* vendido = true
+* o estado = vendida
+* o una entrada que ya fue ingresada.
+*/
 
-      /*
-       * Consideramos usada/incrementada
-       */
+const estaVendida =
 
-      if (
-        estado === "ingreso" ||
-        estado === "ingresada" ||
-        estado === "usado" ||
-        estado === "utilizado" ||
-        ticket.ingreso === true
-      ) {
+ticket.vendida === true ||
 
-        ingresadas++;
+ticket.vendido === true ||
 
-      }
+estado === "vendida" ||
 
+estaIngresada;
 
-      /*
-       * Vendida:
-       *
-       * Si existe un campo vendido=true
-       * o si tiene comprador/venta.
-       */
 
-      if (
-        ticket.vendido === true ||
-        ticket.estado === "vendida" ||
-        ticket.estado === "usado" ||
-        ticket.estado === "utilizado" ||
-        ticket.ingreso === true
-      ) {
+if (
+estaVendida
+) {
 
-        vendidas++;
+vendidas++;
 
-      }
+}
 
-    });
+}
 
+);
 
-    const disponibles =
-      Math.max(
-        total - vendidas,
-        0
-      );
 
+const disponibles =
+Math.max(
+total - vendidas,
+0
+);
 
-    totalElement.textContent =
-      total;
 
-    vendidasElement.textContent =
-      vendidas;
+totalElement.textContent =
+total;
 
-    ingresadasElement.textContent =
-      ingresadas;
 
-    disponiblesElement.textContent =
-      disponibles;
+vendidasElement.textContent =
+vendidas;
 
-  }
 
+ingresadasElement.textContent =
+ingresadas;
 
-  /*
-   * =====================================================
-   * MOSTRAR ENTRADAS
-   * =====================================================
-   */
 
-  function mostrarEntradas(lista) {
+disponiblesElement.textContent =
+disponibles;
 
-    body.innerHTML = "";
+}
 
 
-    if (lista.length === 0) {
+/*
+* =====================================================
+* MOSTRAR ENTRADAS
+* =====================================================
+*/
 
-      body.innerHTML = `
-        <tr>
-          <td colspan="4"
-              style="text-align:center;color:#888;padding:30px">
-            No se encontraron entradas.
-          </td>
-        </tr>
-      `;
+function mostrarEntradas(
+lista
+) {
 
-      return;
 
-    }
+body.innerHTML =
+"";
 
 
-    lista.forEach(ticket => {
+if (
+lista.length === 0
+) {
 
-      const codigo =
-        ticket.codigo || ticket.id;
 
+body.innerHTML = `
 
-      const usado =
-        esEntradaUsada(ticket);
+<tr>
 
+<td
+colspan="4"
+style="
+text-align:center;
+color:#888;
+padding:30px;
+">
 
-      const fecha =
-        obtenerFecha(ticket);
+No hay entradas para
+Piano & Vino.
 
+</td>
 
-      const row =
-        document.createElement("tr");
+</tr>
 
+`;
 
-      row.innerHTML = `
 
-        <td class="code">
-          ${escapeHtml(codigo)}
-        </td>
+return;
 
-        <td>
+}
 
-          ${
-            usado
 
-            ?
+lista.forEach(
 
-            `<span class="badge used">
-              🔴 UTILIZADA
-            </span>`
+(ticket) => {
 
-            :
 
-            `<span class="badge available">
-              🟢 DISPONIBLE
-            </span>`
-          }
+const codigo =
+ticket.codigo ||
+ticket.id;
 
-        </td>
 
-        <td>
-          ${fecha}
-        </td>
+const usado =
+esEntradaUsada(
+ticket
+);
 
-        <td>
 
-          ${
-            usado
+const vendido =
+esEntradaVendida(
+ticket
+);
 
-            ?
 
-            `<button
-                class="btn-reset"
-                data-action="reset"
-                data-id="${escapeHtml(ticket.id)}">
-                ↩ Reiniciar
-             </button>`
+const fecha =
+obtenerFecha(
+ticket
+);
 
-            :
 
-            `<button
-                class="btn-use"
-                data-action="use"
-                data-id="${escapeHtml(ticket.id)}">
-                ✓ Marcar ingreso
-             </button>`
-          }
+const row =
+document.createElement(
+"tr"
+);
 
-        </td>
 
-      `;
+let estadoHTML;
 
 
-      body.appendChild(row);
+if (
+usado
+) {
 
-    });
+estadoHTML = `
 
-  }
+<span
+class="badge used">
 
+🔴 UTILIZADA
 
-  /*
-   * =====================================================
-   * DETERMINAR SI FUE UTILIZADA
-   * =====================================================
-   */
+</span>
 
-  function esEntradaUsada(ticket) {
+`;
 
-    const estado =
-      String(ticket.estado || "")
-      .toLowerCase();
+}
 
+else if (
+vendido
+) {
 
-    return (
+estadoHTML = `
 
-      estado === "ingreso" ||
+<span
+class="badge sold">
 
-      estado === "ingresada" ||
+🟡 VENDIDA
 
-      estado === "usado" ||
+</span>
 
-      estado === "utilizado" ||
+`;
 
-      ticket.ingreso === true
+}
 
-    );
+else {
 
-  }
+estadoHTML = `
 
+<span
+class="badge available">
 
-  /*
-   * =====================================================
-   * FECHA
-   * =====================================================
-   */
+🟢 DISPONIBLE
 
-  function obtenerFecha(ticket) {
+</span>
 
-    if (!ticket.fechaIngreso) {
+`;
 
-      return "—";
+}
 
-    }
 
+row.innerHTML = `
 
-    try {
+<td class="code">
 
-      if (
-        ticket.fechaIngreso.toDate
-      ) {
+${escapeHtml(codigo)}
 
-        return ticket.fechaIngreso
-          .toDate()
-          .toLocaleString(
-            "es-AR"
-          );
+</td>
 
-      }
 
+<td>
 
-      return new Date(
-        ticket.fechaIngreso
-      ).toLocaleString(
-        "es-AR"
-      );
+${estadoHTML}
 
-    } catch {
+</td>
 
-      return "—";
 
-    }
+<td>
 
-  }
+${fecha}
 
+</td>
 
-  /*
-   * =====================================================
-   * MARCAR INGRESO
-   * =====================================================
-   */
 
-  async function marcarIngreso(id) {
+<td>
 
-    const ticket =
-      tickets.find(
-        item => item.id === id
-      );
+${
+usado
 
+?
 
-    if (!ticket) {
+`
 
-      mostrarMensaje(
-        "No se encontró la entrada.",
-        "error"
-      );
+<button
+class="btn-reset"
+data-action="reset"
+data-id="${escapeHtml(ticket.id)}">
 
-      return;
+↩ Reiniciar
 
-    }
+</button>
 
+`
 
-    if (esEntradaUsada(ticket)) {
+:
 
-      mostrarMensaje(
-        "⚠️ Esta entrada ya fue utilizada.",
-        "error"
-      );
+`
 
-      return;
+<button
+class="btn-use"
+data-action="use"
+data-id="${escapeHtml(ticket.id)}">
 
-    }
+✓ Marcar ingreso
 
+</button>
 
-    const confirmar =
-      confirm(
-        `¿Confirmar ingreso de ${ticket.codigo || ticket.id}?`
-      );
+`
+}
 
+</td>
 
-    if (!confirmar) {
+`;
 
-      return;
 
-    }
+body.appendChild(
+row
+);
 
+}
 
-    try {
+);
 
-      await updateDoc(
-        doc(
-          db,
-          COLLECTION_NAME,
-          id
-        ),
-        {
+}
 
-          estado: "ingreso",
 
-          ingreso: true,
+/*
+* =====================================================
+* ENTRADA UTILIZADA
+* =====================================================
+*/
 
-          fechaIngreso: new Date()
+function esEntradaUsada(
+ticket
+) {
 
-        }
-      );
 
+const estado =
+String(
+ticket.estado ||
+""
+).toLowerCase();
 
-      mostrarMensaje(
-        `✅ ${ticket.codigo || ticket.id} ingresada correctamente.`,
-        "success"
-      );
 
+return (
 
-    } catch (error) {
+ticket.ingreso === true ||
 
-      console.error(error);
+ticket.usado === true ||
 
-      mostrarMensaje(
-        "❌ No se pudo actualizar la entrada.",
-        "error"
-      );
+estado === "ingreso" ||
 
-    }
+estado === "ingresada" ||
 
-  }
+estado === "usado" ||
 
+estado === "utilizado"
 
-  /*
-   * =====================================================
-   * REINICIAR ENTRADA
-   * =====================================================
-   */
+);
 
-  async function reiniciarEntrada(id) {
+}
 
-    const ticket =
-      tickets.find(
-        item => item.id === id
-      );
 
+/*
+* =====================================================
+* ENTRADA VENDIDA
+* =====================================================
+*/
 
-    if (!ticket) {
+function esEntradaVendida(
+ticket
+) {
 
-      return;
 
-    }
+const estado =
+String(
+ticket.estado ||
+""
+).toLowerCase();
 
 
-    const confirmar =
-      confirm(
-        `¿Querés reiniciar ${ticket.codigo || ticket.id} y volverla a disponible?`
-      );
+return (
 
+ticket.vendida === true ||
 
-    if (!confirmar) {
+ticket.vendido === true ||
 
-      return;
+estado === "vendida"
 
-    }
+);
 
+}
 
-    try {
 
-      await updateDoc(
-        doc(
-          db,
-          COLLECTION_NAME,
-          id
-        ),
-        {
+/*
+* =====================================================
+* FECHA DE INGRESO
+* =====================================================
+*/
 
-          estado: "disponible",
+function obtenerFecha(
+ticket
+) {
 
-          ingreso: false,
 
-          fechaIngreso: null
+const fecha =
+ticket.fechaingreso ||
+ticket.fechaIngreso;
 
-        }
-      );
 
+if (
+!fecha
+) {
 
-      mostrarMensaje(
-        `↩ ${ticket.codigo || ticket.id} fue reiniciada.`,
-        "success"
-      );
+return "—";
 
+}
 
-    } catch (error) {
 
-      console.error(error);
+try {
 
-      mostrarMensaje(
-        "❌ No se pudo reiniciar la entrada.",
-        "error"
-      );
 
-    }
+if (
+typeof fecha.toDate ===
+"function"
+) {
 
-  }
+return fecha
+.toDate()
+.toLocaleString(
+"es-AR"
+);
 
+}
 
-  /*
-   * =====================================================
-   * BOTONES
-   * =====================================================
-   */
 
-  body.addEventListener(
-    "click",
-    (event) => {
+return new Date(
+fecha
+).toLocaleString(
+"es-AR"
+);
 
-      const button =
-        event.target.closest("button");
 
+}
 
-      if (!button) {
+catch {
 
-        return;
+return "—";
 
-      }
+}
 
+}
 
-      const id =
-        button.dataset.id;
 
-      const action =
-        button.dataset.action;
+/*
+* =====================================================
+* MARCAR INGRESO
+* =====================================================
+*/
 
+async function marcarIngreso(
+id
+) {
 
-      if (action === "use") {
 
-        marcarIngreso(id);
+const ticket =
+tickets.find(
+item =>
+item.id === id
+);
 
-      }
 
+if (
+!ticket
+) {
 
-      if (action === "reset") {
+mostrarMensaje(
+"No se encontró la entrada.",
+"error"
+);
 
-        reiniciarEntrada(id);
+return;
 
-      }
+}
 
-    }
-  );
 
+if (
+esEntradaUsada(
+ticket
+)
+) {
 
-  /*
-   * =====================================================
-   * BUSCADOR
-   * =====================================================
-   */
+mostrarMensaje(
+"🔴 Esta entrada ya fue utilizada.",
+"error"
+);
 
-  search.addEventListener(
-    "input",
-    () => {
+return;
 
-      const texto =
-        search.value
-        .trim()
-        .toLowerCase();
+}
 
 
-      if (!texto) {
+const codigo =
+ticket.codigo ||
+ticket.id;
 
-        mostrarEntradas(tickets);
 
-        return;
+const confirmar =
+confirm(
+"¿Confirmar ingreso de " +
+codigo +
+"?"
+);
 
-      }
 
+if (
+!confirmar
+) {
 
-      const filtradas =
-        tickets.filter(ticket => {
+return;
 
-          const codigo =
-            String(
-              ticket.codigo ||
-              ticket.id ||
-              ""
-            ).toLowerCase();
+}
 
 
-          return codigo.includes(texto);
+try {
 
-        });
 
+await updateDoc(
 
-      mostrarEntradas(
-        filtradas
-      );
+doc(
+db,
+COLLECTION_NAME,
+id
+),
 
-    }
-  );
+{
 
+estado:
+"ingreso",
 
-  /*
-   * =====================================================
-   * MENSAJES
-   * =====================================================
-   */
+ingreso:
+true,
 
-  function mostrarMensaje(
-    texto,
-    tipo
-  ) {
+usado:
+true,
 
-    message.textContent =
-      texto;
+fechaingreso:
+new Date(),
 
-    message.className =
-      "message " + tipo;
+horaingreso:
+new Date().toLocaleTimeString(
+"es-AR"
+)
 
+}
 
-    setTimeout(
-      () => {
+);
 
-        message.className =
-          "message";
 
-      },
-      4000
-    );
+mostrarMensaje(
 
-  }
+"✅ " +
+codigo +
+" ingresada correctamente.",
 
+"success"
 
-  /*
-   * =====================================================
-   * SEGURIDAD HTML
-   * =====================================================
-   */
+);
 
-  function escapeHtml(valor) {
 
-    return String(valor)
+}
 
-      .replaceAll("&", "&amp;")
+catch (
+error
+) {
 
-      .replaceAll("<", "&lt;")
 
-      .replaceAll(">", "&gt;")
+console.error(
+error
+);
 
-      .replaceAll('"', "&quot;")
 
-      .replaceAll("'", "&#039;");
+mostrarMensaje(
 
-  }
+"❌ No se pudo registrar el ingreso.",
+
+"error"
+
+);
+
+}
+
+}
+
+
+/*
+* =====================================================
+* REINICIAR ENTRADA
+* =====================================================
+*/
+
+async function reiniciarEntrada(
+id
+) {
+
+
+const ticket =
+tickets.find(
+item =>
+item.id === id
+);
+
+
+if (
+!ticket
+) {
+
+return;
+
+}
+
+
+const codigo =
+ticket.codigo ||
+ticket.id;
+
+
+const confirmar =
+confirm(
+
+"¿Querés reiniciar " +
+codigo +
+" y quitar el ingreso?"
+
+);
+
+
+if (
+!confirmar
+) {
+
+return;
+
+}
+
+
+try {
+
+
+await updateDoc(
+
+doc(
+db,
+COLLECTION_NAME,
+id
+),
+
+{
+
+estado:
+"disponible",
+
+ingreso:
+false,
+
+usado:
+false,
+
+fechaingreso:
+null,
+
+horaingreso:
+null
+
+}
+
+);
+
+
+mostrarMensaje(
+
+"↩ " +
+codigo +
+" fue reiniciada.",
+
+"success"
+
+);
+
+
+}
+
+catch (
+error
+) {
+
+
+console.error(
+error
+);
+
+
+mostrarMensaje(
+
+"❌ No se pudo reiniciar la entrada.",
+
+"error"
+
+);
+
+}
+
+}
+
+
+/*
+* =====================================================
+* BOTONES
+* =====================================================
+*/
+
+body.addEventListener(
+
+"click",
+
+(event) => {
+
+
+const button =
+event.target.closest(
+"button"
+);
+
+
+if (
+!button
+) {
+
+return;
+
+}
+
+
+const id =
+button.dataset.id;
+
+
+const action =
+button.dataset.action;
+
+
+if (
+action === "use"
+) {
+
+marcarIngreso(
+id
+);
+
+}
+
+
+if (
+action === "reset"
+) {
+
+reiniciarEntrada(
+id
+);
+
+}
+
+}
+
+);
+
+
+/*
+* =====================================================
+* BUSCADOR
+* =====================================================
+*/
+
+search.addEventListener(
+
+"input",
+
+() => {
+
+
+const texto =
+search.value
+.trim()
+.toLowerCase();
+
+
+if (
+!texto
+) {
+
+mostrarEntradas(
+tickets
+);
+
+return;
+
+}
+
+
+const filtradas =
+tickets.filter(
+
+(ticket) => {
+
+
+const codigo =
+String(
+
+ticket.codigo ||
+ticket.id ||
+""
+
+).toLowerCase();
+
+
+return codigo.includes(
+texto
+);
+
+}
+
+);
+
+
+mostrarEntradas(
+filtradas
+);
+
+}
+
+);
+
+
+/*
+* =====================================================
+* MENSAJES
+* =====================================================
+*/
+
+function mostrarMensaje(
+texto,
+tipo
+) {
+
+
+message.textContent =
+texto;
+
+
+message.className =
+"message " +
+tipo;
+
+
+setTimeout(
+
+() => {
+
+message.className =
+"message";
+
+},
+
+4000
+
+);
+
+}
+
+
+/*
+* =====================================================
+* SEGURIDAD HTML
+* =====================================================
+*/
+
+function escapeHtml(
+valor
+) {
+
+
+return String(
+valor
+)
+
+.replaceAll(
+"&",
+"&amp;"
+)
+
+.replaceAll(
+"<",
+"&lt;"
+)
+
+.replaceAll(
+">",
+"&gt;"
+)
+
+.replaceAll(
+'"',
+"&quot;"
+)
+
+.replaceAll(
+"'",
+"&#039;"
+);
+
+}
+
 
 </script>
 
+
 </body>
+
 </html>
