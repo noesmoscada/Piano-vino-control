@@ -20,83 +20,145 @@ margin:0;
 font-family:Arial,sans-serif;
 background:#111;
 color:white;
-text-align:center;
 padding:20px;
 }
 
-.panel{
-max-width:520px;
-margin:20px auto;
-background:#222;
-border-radius:20px;
-padding:25px;
-box-shadow:0 0 25px rgba(0,0,0,.6);
+.container{
+max-width:900px;
+margin:auto;
 }
 
 h1{
-color:#d4af37;
+text-align:center;
 margin-bottom:5px;
 }
 
-h2{
-margin-top:5px;
+.subtitulo{
+text-align:center;
+color:#aaa;
+margin-bottom:25px;
 }
 
-h3{
-margin-top:25px;
+.card{
+background:#1d1d1d;
+border-radius:14px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 4px 15px rgba(0,0,0,.35);
+}
+
+.card h2{
+margin-top:0;
+}
+
+.estado{
+text-align:center;
+padding:12px;
+border-radius:10px;
+margin-bottom:20px;
+background:#333;
+}
+
+.estado.ok{
+background:#123d22;
+color:#70ff9a;
+}
+
+.estado.error{
+background:#4b1717;
+color:#ff8c8c;
+}
+
+.evento-actual{
+text-align:center;
+}
+
+.evento-nombre{
+font-size:28px;
+font-weight:bold;
+margin:10px 0;
+}
+
+.evento-info{
+color:#ccc;
+font-size:17px;
+line-height:1.8;
 }
 
 .stats{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:repeat(4,1fr);
 gap:12px;
-margin:25px 0;
+margin-top:20px;
 }
 
 .stat{
-background:#333;
+background:#292929;
 padding:18px 10px;
 border-radius:12px;
+text-align:center;
 }
 
-.numero{
-font-size:30px;
+.stat-numero{
+font-size:28px;
 font-weight:bold;
-color:#d4af37;
-display:block;
+}
+
+.stat-titulo{
+font-size:13px;
+color:#aaa;
+margin-top:5px;
+}
+
+select,
+input{
+width:100%;
+padding:13px;
+border-radius:8px;
+border:1px solid #555;
+background:#292929;
+color:white;
+font-size:16px;
+margin-top:7px;
 }
 
 label{
 display:block;
-text-align:left;
-margin-top:15px;
-margin-bottom:5px;
-}
-
-input,
-select{
-width:100%;
-padding:13px;
-border-radius:10px;
-border:none;
-font-size:17px;
+margin-top:14px;
+font-weight:bold;
 }
 
 button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:10px;
-font-size:17px;
+border:0;
+border-radius:9px;
+padding:13px 18px;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
-background:#d4af37;
-color:#111;
+margin-top:15px;
 }
 
-button:hover{
-opacity:.9;
+.btn-principal{
+background:#19a85b;
+color:white;
+width:100%;
+}
+
+.btn-secundario{
+background:#333;
+color:white;
+}
+
+.btn-rojo{
+background:#a52222;
+color:white;
+width:100%;
+}
+
+.btn-azul{
+background:#2468c9;
+color:white;
+width:100%;
 }
 
 button:disabled{
@@ -104,176 +166,218 @@ opacity:.5;
 cursor:not-allowed;
 }
 
-.btn-nuevo{
-background:#4caf50;
-color:white;
+.formulario{
+display:none;
 }
 
-.btn-danger{
-background:#b52b2b;
-color:white;
-}
-
-.btn-secundario{
-background:#444;
-color:white;
+.formulario.visible{
+display:block;
 }
 
 .mensaje{
-margin-top:18px;
-padding:12px;
-border-radius:10px;
+padding:14px;
+border-radius:9px;
+margin-top:15px;
 display:none;
-background:#333;
-}
-
-.info{
-font-size:14px;
-color:#bbb;
-margin-top:20px;
 line-height:1.5;
 }
 
-.estado{
-margin-top:15px;
+.mensaje.ok{
+display:block;
+background:#123d22;
+color:#7cff9e;
+}
+
+.mensaje.error{
+display:block;
+background:#4b1717;
+color:#ff9b9b;
+}
+
+.tabla-container{
+overflow-x:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,
+td{
+padding:10px;
+border-bottom:1px solid #333;
+text-align:center;
+}
+
+th{
+color:#aaa;
 font-size:14px;
-color:#bbb;
 }
 
-.cargando{
-color:#d4af37;
+.disponible{
+color:#6dff92;
+font-weight:bold;
 }
 
-.exito{
-color:#4caf50;
+.ingresado{
+color:#ff7777;
+font-weight:bold;
 }
 
-.error{
-color:#ff5252;
+.btn-ingreso{
+background:#198754;
+color:white;
+padding:7px 10px;
+font-size:13px;
+margin:0;
 }
 
-.evento-card{
-background:#333;
-border-radius:15px;
-padding:18px;
-margin-top:20px;
-text-align:left;
+.btn-reset{
+background:#555;
+color:white;
+padding:7px 10px;
+font-size:13px;
+margin:0;
 }
 
-.evento-card strong{
-color:#d4af37;
+.vacio{
+text-align:center;
+color:#999;
+padding:25px;
 }
 
-.separador{
-margin:30px 0;
-border:none;
-border-top:1px solid #444;
+@media(max-width:700px){
+
+body{
+padding:12px;
 }
 
-.oculto{
-display:none;
+.stats{
+grid-template-columns:repeat(2,1fr);
+}
+
+.evento-nombre{
+font-size:23px;
+}
+
+.card{
+padding:15px;
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
 
-<div class="panel">
+<div class="container">
 
 <h1>🎹 Piano & Vino</h1>
 
-<h2>Panel Administrador</h2>
-
-<div
-id="estadoConexion"
-class="estado cargando"
->
-
-🔄 Conectando con Firebase...
-
+<div class="subtitulo">
+Panel Administrador
 </div>
+
+
+<div id="estadoConexion" class="estado">
+🔄 Conectando con Firebase...
+</div>
+
 
 <!-- EVENTO ACTUAL -->
 
-<div class="evento-card">
+<div class="card">
 
-<h3>🎟️ Evento actual</h3>
+<h2>🎟️ Evento actual</h2>
 
-<p>
-<strong id="eventoNombre">
+<div class="evento-actual">
+
+<div id="eventoNombre" class="evento-nombre">
 Sin evento seleccionado
-</strong>
-</p>
+</div>
 
-<p>
-📅 <span id="eventoFecha">-</span>
-</p>
+<div class="evento-info">
 
-<p>
-⏰ <span id="eventoHora">-</span>
-</p>
+<div>📅 <span id="eventoFecha">-</span></div>
 
-<p>
-📍 <span id="eventoLugar">-</span>
-</p>
+<div>🕐 <span id="eventoHora">-</span></div>
+
+<div>📍 <span id="eventoLugar">-</span></div>
 
 </div>
 
-<!-- ESTADÍSTICAS -->
+</div>
+
 
 <div class="stats">
 
 <div class="stat">
 
-<span class="numero" id="total">
+<div id="totalEntradas" class="stat-numero">
 0
-</span>
+</div>
 
+<div class="stat-titulo">
 Total entradas
+</div>
 
 </div>
 
+
 <div class="stat">
 
-<span class="numero" id="ingresadas">
+<div id="ingresadas" class="stat-numero">
 0
-</span>
+</div>
 
+<div class="stat-titulo">
 Ingresadas
+</div>
 
 </div>
 
+
 <div class="stat">
 
-<span class="numero" id="disponibles">
+<div id="disponibles" class="stat-numero">
 0
-</span>
+</div>
 
+<div class="stat-titulo">
 Disponibles
+</div>
 
 </div>
+
 
 <div class="stat">
 
-<span class="numero" id="usadas">
+<div id="qrUtilizados" class="stat-numero">
 0
-</span>
+</div>
 
+<div class="stat-titulo">
 QR utilizados
+</div>
+
+</div>
 
 </div>
 
 </div>
 
-<hr class="separador">
+
 
 <!-- SELECCIONAR EVENTO -->
 
-<h3>
-📂 Seleccionar evento
-</h3>
+<div class="card">
+
+<h2>📋 Seleccionar evento</h2>
 
 <select id="selectorEvento">
 
@@ -283,236 +387,163 @@ Cargando eventos...
 
 </select>
 
-<!-- NUEVO EVENTO -->
-
 <button
-id="btnNuevoEvento"
-class="btn-nuevo"
->
+class="btn-principal"
+onclick="mostrarFormulario()">
 
 ➕ Crear nuevo evento
 
 </button>
 
-<div
-id="formularioEvento"
-class="oculto"
->
+</div>
 
-<h3>
-⚙️ Nuevo evento
-</h3>
 
-<label for="nombreEvento">
-🎹 Nombre del evento
+
+<!-- CREAR EVENTO -->
+
+<div id="formularioEvento" class="card formulario">
+
+<h2>➕ Crear nuevo evento</h2>
+
+<label>
+Nombre del evento
 </label>
 
 <input
+id="nuevoNombre"
 type="text"
-id="nombreEvento"
-placeholder="Ej: Piano & Vino"
->
+placeholder="Ej: Piano & Vino">
 
-<label for="fecha">
-📅 Fecha del evento
+<label>
+Fecha
 </label>
 
 <input
-type="date"
-id="fecha"
->
+id="nuevaFecha"
+type="date">
 
-<label for="hora">
-⏰ Hora del evento
+<label>
+Hora
 </label>
 
 <input
-type="time"
-id="hora"
->
+id="nuevaHora"
+type="time">
 
-<label for="lugar">
-📍 Lugar
+<label>
+Lugar
 </label>
 
 <input
+id="nuevoLugar"
 type="text"
-id="lugar"
-placeholder="Ej: Galpón Vinilo"
->
+placeholder="Ej: Galpón Vinilo">
 
-<label for="cantidad">
-🎟️ Cantidad de entradas
+<label>
+Cantidad de entradas
 </label>
 
 <input
+id="nuevaCantidad"
 type="number"
-id="cantidad"
 value="150"
-min="150"
-max="150"
-readonly
->
+min="1">
 
-<p class="info">
-
-🔒 Cada evento tendrá exactamente
-<strong>150 entradas</strong>.
-
-</p>
-
-<button id="guardarEvento">
+<button
+id="btnCrear"
+class="btn-principal"
+onclick="guardarEvento()">
 
 💾 Crear evento
 
 </button>
 
 <button
-id="cancelarEvento"
 class="btn-secundario"
->
+onclick="cerrarFormulario()">
 
 Cancelar
 
 </button>
 
+<div id="mensaje" class="mensaje"></div>
+
 </div>
 
-<hr class="separador">
 
-<!-- GENERAR ENTRADAS -->
 
-<h3>
-🎟️ Entradas del evento
-</h3>
+<!-- ENTRADAS -->
 
-<p class="info">
+<div class="card">
 
-Cada evento puede tener como máximo
-<strong>150 entradas</strong>.
+<h2>🎫 Entradas del evento</h2>
 
-</p>
+<div id="tablaEntradas">
 
-<button id="generarEntradas">
+<div class="vacio">
+Seleccioná un evento para ver las entradas.
+</div>
+
+</div>
+
+<button
+id="btnGenerar"
+class="btn-azul"
+onclick="generarEntradas()">
 
 🎟️ Generar entradas del evento
 
 </button>
 
-<hr class="separador">
-
-<!-- REINICIAR -->
-
-<h3>
-🔄 Reiniciar entradas
-</h3>
-
-<p class="info">
-
-Reinicia solamente las entradas
-del evento seleccionado.
-
-</p>
-
 <button
-id="reiniciar"
-class="btn-danger"
->
+id="btnReiniciar"
+class="btn-rojo"
+onclick="reiniciarEntradas()">
 
 🔄 Reiniciar entradas del evento
 
 </button>
 
-<div
-id="mensaje"
-class="mensaje"
->
 </div>
 
-<p class="info">
-
-Piano & Vino Manager<br>
-Panel de administración
-
-</p>
-
 </div>
+
+
 
 <script type="module">
 
-import { db } from "./firebase.js";
-
 import {
-
 collection,
-getDocs,
 doc,
 getDoc,
+getDocs,
 setDoc,
-writeBatch,
 query,
-where
-
+where,
+writeBatch,
+serverTimestamp
 }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-from
+import { db } from "./firebase.js";
 
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-/* ==========================================
-ELEMENTOS
-========================================== */
+// ========================================
+// VARIABLES
+// ========================================
 
-const totalElement =
-document.getElementById("total");
+let eventoActual = null;
 
-const ingresadasElement =
-document.getElementById("ingresadas");
 
-const disponiblesElement =
-document.getElementById("disponibles");
-
-const usadasElement =
-document.getElementById("usadas");
+// ========================================
+// ELEMENTOS
+// ========================================
 
 const estadoConexion =
 document.getElementById("estadoConexion");
 
 const selectorEvento =
 document.getElementById("selectorEvento");
-
-const btnNuevoEvento =
-document.getElementById("btnNuevoEvento");
-
-const formularioEvento =
-document.getElementById("formularioEvento");
-
-const guardarEvento =
-document.getElementById("guardarEvento");
-
-const cancelarEvento =
-document.getElementById("cancelarEvento");
-
-const generarEntradas =
-document.getElementById("generarEntradas");
-
-const reiniciar =
-document.getElementById("reiniciar");
-
-const mensaje =
-document.getElementById("mensaje");
-
-const nombreEvento =
-document.getElementById("nombreEvento");
-
-const fechaInput =
-document.getElementById("fecha");
-
-const horaInput =
-document.getElementById("hora");
-
-const lugarInput =
-document.getElementById("lugar");
 
 const eventoNombre =
 document.getElementById("eventoNombre");
@@ -526,71 +557,106 @@ document.getElementById("eventoHora");
 const eventoLugar =
 document.getElementById("eventoLugar");
 
-let eventoActual = null;
+const totalEntradas =
+document.getElementById("totalEntradas");
 
-/* ==========================================
-MENSAJES
-========================================== */
+const ingresadas =
+document.getElementById("ingresadas");
 
-function mostrarMensaje(texto,tipo=""){
+const disponibles =
+document.getElementById("disponibles");
 
-mensaje.textContent = texto;
+const qrUtilizados =
+document.getElementById("qrUtilizados");
 
-mensaje.style.display = "block";
 
-mensaje.className =
-"mensaje " + tipo;
+// ========================================
+// INICIO
+// ========================================
 
-setTimeout(()=>{
+window.addEventListener("load", iniciar);
 
-mensaje.style.display = "none";
 
-},5000);
+async function iniciar(){
+
+try{
+
+estadoConexion.textContent =
+"🔄 Conectando con Firebase...";
+
+const prueba =
+await getDocs(collection(db,"eventos"));
+
+console.log(
+"Firebase conectado. Eventos encontrados:",
+prueba.size
+);
+
+estadoConexion.textContent =
+"🟢 Conectado correctamente";
+
+estadoConexion.className =
+"estado ok";
+
+await cargarEventos();
+
+}
+catch(error){
+
+console.error(
+"ERROR FIREBASE:",
+error
+);
+
+estadoConexion.textContent =
+"🔴 Error conectando con Firebase";
+
+estadoConexion.className =
+"estado error";
+
+selectorEvento.innerHTML = `
+<option value="">
+❌ No se pudieron cargar los eventos
+</option>
+`;
+
+mostrarMensaje(
+"❌ Error de Firebase:<br><br>" +
+"<strong>" +
+(error.code || "sin código") +
+"</strong><br>" +
+(error.message || error),
+"error"
+);
 
 }
 
-/* ==========================================
-FECHA
-========================================== */
-
-function formatearFecha(fecha){
-
-if(!fecha){
-return "-";
 }
 
-if(fecha.includes("-")){
 
-const partes =
-fecha.split("-");
-
-if(partes.length === 3){
-
-return `${partes[2]}/${partes[1]}/${partes[0]}`;
-
-}
-
-}
-
-return fecha;
-
-}
-
-/* ==========================================
-CARGAR EVENTOS
-========================================== */
+// ========================================
+// CARGAR EVENTOS
+// ========================================
 
 async function cargarEventos(){
 
 try{
 
-const eventosRef =
-collection(db,"eventos");
+selectorEvento.innerHTML = `
+<option value="">
+Seleccioná un evento
+</option>
+`;
 
 const snapshot =
-await getDocs(eventosRef);
+await getDocs(
+collection(db,"eventos")
+);
 
-selectorEvento.innerHTML = "";
+console.log(
+"Cantidad de eventos:",
+snapshot.size
+);
 
 if(snapshot.empty){
 
@@ -600,175 +666,161 @@ No hay eventos creados
 </option>
 `;
 
-eventoActual = null;
-
-actualizarPantalla();
-
 return;
 
 }
 
-snapshot.forEach(documento=>{
+
+let eventos = [];
+
+snapshot.forEach((documento)=>{
 
 const datos =
 documento.data();
+
+eventos.push({
+
+id: documento.id,
+
+...datos
+
+});
+
+});
+
+
+// Ordenar por fecha de creación si existe
+
+eventos.sort((a,b)=>{
+
+const fechaA =
+a.creadoEn?.seconds || 0;
+
+const fechaB =
+b.creadoEn?.seconds || 0;
+
+return fechaB - fechaA;
+
+});
+
+
+eventos.forEach(evento=>{
 
 const option =
 document.createElement("option");
 
 option.value =
-documento.id;
+evento.id;
 
 option.textContent =
-`${datos.nombre || "Evento"} - ${formatearFecha(datos.fecha)}`;
+`${evento.nombre || "Sin nombre"} — ${evento.fecha || ""}`;
 
 selectorEvento.appendChild(option);
 
 });
 
-selectorEvento.selectedIndex = 0;
+
+selectorEvento.onchange =
+async function(){
+
+if(this.value){
 
 await seleccionarEvento(
-selectorEvento.value
+this.value
 );
 
-}catch(error){
+}
 
-console.error(error);
+};
+
+
+// Seleccionar el primero
+
+if(eventos.length > 0){
+
+selectorEvento.value =
+eventos[0].id;
+
+await seleccionarEvento(
+eventos[0].id
+);
+
+}
+
+}
+catch(error){
+
+console.error(
+"Error cargando eventos:",
+error
+);
+
+selectorEvento.innerHTML = `
+<option value="">
+❌ Error cargando eventos
+</option>
+`;
 
 mostrarMensaje(
-"❌ No se pudieron cargar los eventos.",
+"❌ No se pudieron cargar los eventos.<br><br>" +
+"<strong>" +
+(error.code || "") +
+"</strong><br>" +
+(error.message || ""),
 "error"
 );
 
-}
+throw error;
 
 }
 
-/* ==========================================
-SELECCIONAR EVENTO
-========================================== */
-
-async function seleccionarEvento(eventoId){
-
-if(!eventoId){
-
-eventoActual = null;
-
-actualizarPantalla();
-
-return;
-
 }
+
+
+// ========================================
+// SELECCIONAR EVENTO
+// ========================================
+
+async function seleccionarEvento(id){
 
 try{
 
 const referencia =
-doc(db,"eventos",eventoId);
+doc(db,"eventos",id);
 
-const documento =
+const snapshot =
 await getDoc(referencia);
 
-if(!documento.exists()){
+if(!snapshot.exists()){
 
-mostrarMensaje(
-"❌ El evento no existe.",
-"error"
+throw new Error(
+"El evento no existe."
 );
-
-return;
 
 }
 
 eventoActual = {
 
-id:eventoId,
+id: snapshot.id,
 
-...documento.data()
+...snapshot.data()
 
 };
 
-/* ==========================================
-GUARDAR EVENTO ACTIVO
-========================================== */
 
-await setDoc(
-
-doc(
-db,
-"configuracion",
-"evento"
-),
-
-{
-
-eventoId:eventoId,
-
-nombre:eventoActual.nombre || "",
-
-fecha:eventoActual.fecha || "",
-
-hora:eventoActual.hora || "",
-
-lugar:eventoActual.lugar || ""
-
-},
-
-{merge:true}
-
+console.log(
+"Evento seleccionado:",
+eventoActual
 );
 
-actualizarPantalla();
 
-await cargarEntradas();
-
-}catch(error){
-
-console.error(error);
-
-mostrarMensaje(
-"❌ Error seleccionando el evento.",
-"error"
-);
-
-}
-
-}
-
-/* ==========================================
-PANTALLA
-========================================== */
-
-function actualizarPantalla(){
-
-if(!eventoActual){
-
-eventoNombre.textContent =
-"Sin evento seleccionado";
-
-eventoFecha.textContent = "-";
-
-eventoHora.textContent = "-";
-
-eventoLugar.textContent = "-";
-
-totalElement.textContent = "0";
-
-ingresadasElement.textContent = "0";
-
-disponiblesElement.textContent = "0";
-
-usadasElement.textContent = "0";
-
-return;
-
-}
+// Actualizar pantalla
 
 eventoNombre.textContent =
 eventoActual.nombre || "-";
 
 eventoFecha.textContent =
-formatearFecha(eventoActual.fecha);
+eventoActual.fecha || "-";
 
 eventoHora.textContent =
 eventoActual.hora || "-";
@@ -776,45 +828,145 @@ eventoActual.hora || "-";
 eventoLugar.textContent =
 eventoActual.lugar || "-";
 
+
+// Guardar evento activo
+
+await setDoc(
+doc(db,"configuracion","evento"),
+{
+
+eventId: eventoActual.id,
+
+nombre: eventoActual.nombre || "",
+
+fecha: eventoActual.fecha || "",
+
+hora: eventoActual.hora || "",
+
+lugar: eventoActual.lugar || ""
+
+},
+{
+merge:true
+}
+);
+
+
+await cargarEntradas();
+
+}
+catch(error){
+
+console.error(
+"Error seleccionando evento:",
+error
+);
+
+mostrarMensaje(
+"❌ No se pudo seleccionar el evento.<br><br>" +
+(error.code || "") +
+"<br>" +
+(error.message || ""),
+"error"
+);
+
 }
 
-/* ==========================================
-CARGAR ENTRADAS DEL EVENTO
-========================================== */
+}
+
+
+// ========================================
+// CARGAR ENTRADAS
+// ========================================
 
 async function cargarEntradas(){
 
 if(!eventoActual){
+
 return;
+
 }
 
 try{
 
-const consulta =
+const q =
 query(
-
 collection(db,"entradas"),
-
 where(
 "eventoId",
 "==",
 eventoActual.id
 )
-
 );
 
 const snapshot =
-await getDocs(consulta);
+await getDocs(q);
+
 
 let total = 0;
 
 let usadas = 0;
 
-snapshot.forEach(documento=>{
+let html = "";
 
-total++;
 
-if(documento.data().usado === true){
+if(snapshot.empty){
+
+tablaEntradas.innerHTML = `
+<div class="vacio">
+Este evento todavía no tiene entradas generadas.
+</div>
+`;
+
+totalEntradas.textContent =
+"0";
+
+ingresadas.textContent =
+"0";
+
+disponibles.textContent =
+"0";
+
+qrUtilizados.textContent =
+"0";
+
+return;
+
+}
+
+
+let entradas = [];
+
+
+snapshot.forEach((documento)=>{
+
+entradas.push({
+
+id: documento.id,
+
+...documento.data()
+
+});
+
+});
+
+
+entradas.sort((a,b)=>
+(a.codigo || "").localeCompare(
+(b.codigo || "")
+));
+
+
+total =
+entradas.length;
+
+
+entradas.forEach(entrada=>{
+
+if(
+entrada.usado === true ||
+entrada.estado === "ingresado"
+){
 
 usadas++;
 
@@ -822,24 +974,141 @@ usadas++;
 
 });
 
-totalElement.textContent =
+
+entradas.forEach(entrada=>{
+
+const usado =
+entrada.usado === true ||
+entrada.estado === "ingresado";
+
+
+html += `
+
+<tr>
+
+<td>
+${entrada.codigo || "-"}
+</td>
+
+<td class="${
+usado
+? "ingresado"
+: "disponible"
+}">
+
+${
+usado
+? "INGRESADO"
+: "DISPONIBLE"
+}
+
+</td>
+
+<td>
+
+${
+entrada.fechaIngreso || "-"
+}
+
+<br>
+
+${
+entrada.horaIngreso || ""
+}
+
+</td>
+
+<td>
+
+${
+usado
+?
+
+`<button
+class="btn-reset"
+onclick="reiniciarEntrada('${entrada.id}')">
+Reiniciar
+</button>`
+
+:
+
+`<button
+class="btn-ingreso"
+onclick="marcarIngreso('${entrada.id}')">
+Ingreso
+</button>`
+
+}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+tablaEntradas.innerHTML = `
+
+<div class="tabla-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Código</th>
+
+<th>Estado</th>
+
+<th>Ingreso</th>
+
+<th>Acción</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${html}
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+
+totalEntradas.textContent =
 total;
 
-ingresadasElement.textContent =
+ingresadas.textContent =
 usadas;
 
-usadasElement.textContent =
-usadas;
-
-disponiblesElement.textContent =
+disponibles.textContent =
 total - usadas;
 
-}catch(error){
+qrUtilizados.textContent =
+usadas;
 
-console.error(error);
+}
+catch(error){
+
+console.error(
+"Error cargando entradas:",
+error
+);
 
 mostrarMensaje(
-"❌ Error cargando las entradas.",
+"❌ Error cargando entradas:<br>" +
+(error.code || "") +
+"<br>" +
+(error.message || ""),
 "error"
 );
 
@@ -847,347 +1116,395 @@ mostrarMensaje(
 
 }
 
-/* ==========================================
-NUEVO EVENTO
-========================================== */
 
-btnNuevoEvento.addEventListener(
-"click",
-()=>{
+// ========================================
+// CREAR NUEVO EVENTO
+// ========================================
 
-formularioEvento.classList.remove(
-"oculto"
-);
+window.mostrarFormulario =
+function(){
 
-nombreEvento.focus();
+document
+.getElementById("formularioEvento")
+.classList.add("visible");
 
-}
-);
+window.scrollTo({
+top: document.body.scrollHeight,
+behavior:"smooth"
+});
 
-/* ==========================================
-CANCELAR
-========================================== */
+};
 
-cancelarEvento.addEventListener(
-"click",
-()=>{
 
-formularioEvento.classList.add(
-"oculto"
-);
+window.cerrarFormulario =
+function(){
 
-}
-);
+document
+.getElementById("formularioEvento")
+.classList.remove("visible");
 
-/* ==========================================
-CREAR EVENTO
-========================================== */
+};
 
-guardarEvento.addEventListener(
-"click",
-async()=>{
+
+// ========================================
+// GUARDAR EVENTO
+// ========================================
+
+window.guardarEvento =
+async function(){
 
 const nombre =
-nombreEvento.value.trim();
+document.getElementById("nuevoNombre")
+.value.trim();
 
 const fecha =
-fechaInput.value;
+document.getElementById("nuevaFecha")
+.value;
 
 const hora =
-horaInput.value;
+document.getElementById("nuevaHora")
+.value;
 
 const lugar =
-lugarInput.value.trim();
+document.getElementById("nuevoLugar")
+.value.trim();
+
+const cantidad =
+parseInt(
+document.getElementById("nuevaCantidad")
+.value
+);
+
 
 if(!nombre){
 
-alert("Escribí el nombre del evento.");
-
-return;
-
-}
-
-if(!fecha){
-
-alert("Seleccioná la fecha.");
-
-return;
-
-}
-
-if(!hora){
-
-alert("Seleccioná la hora.");
-
-return;
-
-}
-
-try{
-
-guardarEvento.disabled = true;
-
-guardarEvento.textContent =
-"💾 Creando...";
-
-const eventosRef =
-collection(db,"eventos");
-
-const nuevoEventoRef =
-doc(eventosRef);
-
-await setDoc(
-
-nuevoEventoRef,
-
-{
-
-nombre:nombre,
-
-fecha:fecha,
-
-hora:hora,
-
-lugar:lugar,
-
-cantidad:150,
-
-creadoEn:
-new Date().toISOString(),
-
-estado:"activo"
-
-}
-
-);
-
 mostrarMensaje(
-"✅ Evento creado con 150 entradas disponibles para generar.",
-"exito"
-);
-
-formularioEvento.classList.add(
-"oculto"
-);
-
-nombreEvento.value = "";
-
-fechaInput.value = "";
-
-horaInput.value = "";
-
-lugarInput.value = "";
-
-await cargarEventos();
-
-selectorEvento.value =
-nuevoEventoRef.id;
-
-await seleccionarEvento(
-nuevoEventoRef.id
-);
-
-}catch(error){
-
-console.error(error);
-
-mostrarMensaje(
-"❌ No se pudo crear el evento.",
+"⚠️ Ingresá el nombre del evento.",
 "error"
 );
 
-}finally{
+return;
 
-guardarEvento.disabled = false;
+}
 
-guardarEvento.textContent =
+
+if(!fecha){
+
+mostrarMensaje(
+"⚠️ Seleccioná la fecha.",
+"error"
+);
+
+return;
+
+}
+
+
+if(!hora){
+
+mostrarMensaje(
+"⚠️ Seleccioná la hora.",
+"error"
+);
+
+return;
+
+}
+
+
+if(!lugar){
+
+mostrarMensaje(
+"⚠️ Ingresá el lugar.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+!cantidad ||
+cantidad < 1
+){
+
+mostrarMensaje(
+"⚠️ La cantidad de entradas debe ser mayor a 0.",
+"error"
+);
+
+return;
+
+}
+
+
+const boton =
+document.getElementById("btnCrear");
+
+boton.disabled = true;
+
+boton.textContent =
+"⏳ Creando evento...";
+
+
+try{
+
+const referencia =
+doc(collection(db,"eventos"));
+
+const nuevoEvento = {
+
+nombre: nombre,
+
+fecha: fecha,
+
+hora: hora,
+
+lugar: lugar,
+
+cantidad: cantidad,
+
+estado: "activo",
+
+creadoEn: serverTimestamp()
+
+};
+
+
+await setDoc(
+referencia,
+nuevoEvento
+);
+
+
+console.log(
+"Evento creado:",
+referencia.id
+);
+
+
+mostrarMensaje(
+"🟢 Evento creado correctamente.",
+"ok"
+);
+
+
+// Limpiar formulario
+
+document.getElementById(
+"nuevoNombre"
+).value = "";
+
+document.getElementById(
+"nuevaFecha"
+).value = "";
+
+document.getElementById(
+"nuevaHora"
+).value = "";
+
+document.getElementById(
+"nuevoLugar"
+).value = "";
+
+
+// Recargar eventos
+
+await cargarEventos();
+
+
+// Seleccionar el nuevo evento
+
+selectorEvento.value =
+referencia.id;
+
+await seleccionarEvento(
+referencia.id
+);
+
+
+setTimeout(()=>{
+
+cerrarFormulario();
+
+},1200);
+
+
+}
+catch(error){
+
+console.error(
+"Error creando evento:",
+error
+);
+
+mostrarMensaje(
+"❌ NO SE PUDO CREAR EL EVENTO.<br><br>" +
+"<strong>" +
+(error.code || "Error") +
+"</strong><br>" +
+(error.message || ""),
+"error"
+);
+
+}
+finally{
+
+boton.disabled = false;
+
+boton.textContent =
 "💾 Crear evento";
 
 }
 
-}
-);
+};
 
-/* ==========================================
-CAMBIAR EVENTO
-========================================== */
 
-selectorEvento.addEventListener(
-"change",
-async()=>{
+// ========================================
+// GENERAR ENTRADAS
+// ========================================
 
-await seleccionarEvento(
-selectorEvento.value
-);
-
-}
-);
-
-/* ==========================================
-GENERAR ENTRADAS
-========================================== */
-
-generarEntradas.addEventListener(
-"click",
-async()=>{
+window.generarEntradas =
+async function(){
 
 if(!eventoActual){
 
-alert(
-"Primero seleccioná un evento."
+mostrarMensaje(
+"⚠️ Primero seleccioná un evento.",
+"error"
 );
 
 return;
 
 }
 
+
+const cantidad =
+parseInt(
+eventoActual.cantidad || 150
+);
+
+
+const boton =
+document.getElementById("btnGenerar");
+
+boton.disabled = true;
+
+boton.textContent =
+"⏳ Generando entradas...";
+
+
 try{
 
-generarEntradas.disabled = true;
-
-generarEntradas.textContent =
-"🔎 Comprobando...";
-
-const consulta =
+const q =
 query(
-
 collection(db,"entradas"),
-
 where(
 "eventoId",
 "==",
 eventoActual.id
 )
-
 );
+
+const snapshot =
+await getDocs(q);
+
 
 const existentes =
-await getDocs(consulta);
-
-const cantidadExistente =
-existentes.size;
-
-/* ==========================================
-YA TIENE 150
-========================================== */
-
-if(cantidadExistente >= 150){
-
-mostrarMensaje(
-
-`⚠️ Este evento ya tiene ${cantidadExistente} entradas. No se generarán más.`,
-
-"error"
-
-);
-
-return;
-
-}
-
-/* ==========================================
-SI TIENE MENOS DE 150
-GENERAMOS SOLO LAS QUE FALTAN
-========================================== */
-
-const cantidadFaltante =
-150 - cantidadExistente;
-
-const confirmar =
-confirm(
-
-`Este evento tiene ${cantidadExistente} entradas.
-
-Se generarán ${cantidadFaltante} para completar 150.
-
-¿Continuar?`
-
-);
-
-if(!confirmar){
-
-return;
-
-}
-
-generarEntradas.textContent =
-"🎟️ Generando...";
-
-let batch =
-writeBatch(db);
-
-let operaciones = 0;
-
-/*
-Buscamos qué códigos ya existen.
-*/
-
-const codigosExistentes =
 new Set();
 
-existentes.forEach(documento=>{
 
-const codigo =
-documento.data().codigo;
+snapshot.forEach(
+(documento)=>{
 
-if(codigo){
+const datos =
+documento.data();
 
-codigosExistentes.add(codigo);
+if(datos.codigo){
+
+existentes.add(
+datos.codigo
+);
 
 }
 
 });
 
-let creadas = 0;
 
-/*
-Siempre completamos hasta PV-0150.
-*/
+let faltantes = [];
 
-for(let i=1;i<=150;i++){
+
+for(
+let i = 1;
+i <= cantidad;
+i++
+){
 
 const codigo =
 "PV-" +
 String(i).padStart(4,"0");
 
-if(codigosExistentes.has(codigo)){
 
-continue;
+if(
+!existentes.has(codigo)
+){
+
+faltantes.push(codigo);
 
 }
 
-const entradaRef =
-doc(
+}
 
-db,
 
-"entradas",
+if(faltantes.length === 0){
 
-eventoActual.id +
-"_" +
-codigo
-
+mostrarMensaje(
+"ℹ️ Las entradas de este evento ya están generadas.",
+"ok"
 );
 
+return;
+
+}
+
+
+let batch =
+writeBatch(db);
+
+let contador =
+0;
+
+
+for(
+const codigo of faltantes
+){
+
+const referencia =
+doc(
+db,
+"entradas",
+`${eventoActual.id}_${codigo}`
+);
+
+
 batch.set(
-
-entradaRef,
-
+referencia,
 {
 
-codigo:codigo,
+codigo: codigo,
 
 eventoId:
 eventoActual.id,
 
 evento:
-eventoActual.nombre,
+eventoActual.nombre || "",
 
 fecha:
-eventoActual.fecha,
+eventoActual.fecha || "",
 
 hora:
-eventoActual.hora,
+eventoActual.hora || "",
 
 lugar:
 eventoActual.lugar || "",
@@ -1201,141 +1518,282 @@ fechaIngreso:"",
 horaIngreso:""
 
 }
-
 );
 
-operaciones++;
 
-creadas++;
+contador++;
 
-/*
-Máximo 450 operaciones.
-*/
 
-if(operaciones >= 450){
+if(contador === 450){
 
 await batch.commit();
 
 batch =
 writeBatch(db);
 
-operaciones = 0;
+contador = 0;
 
 }
 
 }
 
-if(operaciones > 0){
+
+if(contador > 0){
 
 await batch.commit();
 
 }
 
+
 mostrarMensaje(
-
-`✅ Se agregaron ${creadas} entradas. El evento ahora tiene 150.`,
-
-"exito"
-
+`🟢 Se generaron ${faltantes.length} entradas correctamente.`,
+"ok"
 );
+
 
 await cargarEntradas();
 
-}catch(error){
+}
+catch(error){
 
-console.error(error);
+console.error(
+"Error generando entradas:",
+error
+);
 
 mostrarMensaje(
-"❌ Error generando las entradas.",
+"❌ Error generando entradas:<br><br>" +
+(error.code || "") +
+"<br>" +
+(error.message || ""),
 "error"
 );
 
-}finally{
+}
+finally{
 
-generarEntradas.disabled = false;
+boton.disabled = false;
 
-generarEntradas.textContent =
+boton.textContent =
 "🎟️ Generar entradas del evento";
 
 }
 
-}
-);
+};
 
-/* ==========================================
-REINICIAR EVENTO
-========================================== */
 
-reiniciar.addEventListener(
-"click",
-async()=>{
+// ========================================
+// MARCAR INGRESO
+// ========================================
 
-if(!eventoActual){
-
-alert(
-"Primero seleccioná un evento."
-);
-
-return;
-
-}
-
-const confirmar =
-confirm(
-
-`⚠️ Vas a reiniciar las entradas de:
-
-${eventoActual.nombre}
-
-Fecha:
-${formatearFecha(eventoActual.fecha)}
-
-Todas quedarán disponibles nuevamente.
-
-¿Continuar?`
-
-);
-
-if(!confirmar){
-
-return;
-
-}
+window.marcarIngreso =
+async function(id){
 
 try{
 
-reiniciar.disabled = true;
+const referencia =
+doc(db,"entradas",id);
 
-reiniciar.textContent =
-"🔄 Reiniciando...";
 
-const consulta =
+const ahora =
+new Date();
+
+
+const fecha =
+ahora.toLocaleDateString(
+"es-AR"
+);
+
+const hora =
+ahora.toLocaleTimeString(
+"es-AR",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+
+await setDoc(
+referencia,
+{
+
+usado:true,
+
+estado:"ingresado",
+
+fechaIngreso:fecha,
+
+horaIngreso:hora
+
+},
+{
+merge:true
+}
+);
+
+
+await cargarEntradas();
+
+}
+catch(error){
+
+console.error(
+error
+);
+
+mostrarMensaje(
+"❌ No se pudo registrar el ingreso.<br>" +
+(error.message || ""),
+"error"
+);
+
+}
+
+};
+
+
+// ========================================
+// REINICIAR UNA ENTRADA
+// ========================================
+
+window.reiniciarEntrada =
+async function(id){
+
+if(
+!confirm(
+"¿Querés reiniciar esta entrada?"
+)
+){
+
+return;
+
+}
+
+
+try{
+
+await setDoc(
+doc(db,"entradas",id),
+{
+
+usado:false,
+
+estado:"disponible",
+
+fechaIngreso:"",
+
+horaIngreso:""
+
+},
+{
+merge:true
+}
+);
+
+
+await cargarEntradas();
+
+}
+catch(error){
+
+console.error(
+error
+);
+
+mostrarMensaje(
+"❌ No se pudo reiniciar la entrada.<br>" +
+(error.message || ""),
+"error"
+);
+
+}
+
+};
+
+
+// ========================================
+// REINICIAR TODAS LAS ENTRADAS
+// ========================================
+
+window.reiniciarEntradas =
+async function(){
+
+if(!eventoActual){
+
+mostrarMensaje(
+"⚠️ Primero seleccioná un evento.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+!confirm(
+"⚠️ ATENCIÓN\n\n" +
+"Esto va a marcar TODAS las entradas de este evento como disponibles.\n\n" +
+"¿Continuar?"
+)
+){
+
+return;
+
+}
+
+
+const boton =
+document.getElementById("btnReiniciar");
+
+boton.disabled = true;
+
+boton.textContent =
+"⏳ Reiniciando...";
+
+
+try{
+
+const q =
 query(
-
 collection(db,"entradas"),
-
 where(
 "eventoId",
 "==",
 eventoActual.id
 )
-
 );
 
 const snapshot =
-await getDocs(consulta);
+await getDocs(q);
+
+
+if(snapshot.empty){
+
+mostrarMensaje(
+"ℹ️ Este evento no tiene entradas generadas.",
+"ok"
+);
+
+return;
+
+}
+
 
 let batch =
 writeBatch(db);
 
-let operaciones = 0;
+let contador =
+0;
 
-for(const documento of snapshot.docs){
+
+for(
+const documento of snapshot.docs
+){
 
 batch.update(
-
 documento.ref,
-
 {
 
 usado:false,
@@ -1347,95 +1805,106 @@ fechaIngreso:"",
 horaIngreso:""
 
 }
-
 );
 
-operaciones++;
 
-if(operaciones >= 450){
+contador++;
+
+
+if(contador === 450){
 
 await batch.commit();
 
 batch =
 writeBatch(db);
 
-operaciones = 0;
+contador = 0;
 
 }
 
 }
 
-if(operaciones > 0){
+
+if(contador > 0){
 
 await batch.commit();
 
 }
 
+
 mostrarMensaje(
-"✅ Las entradas del evento fueron reiniciadas.",
-"exito"
+"🟢 Entradas reiniciadas correctamente.",
+"ok"
 );
+
 
 await cargarEntradas();
 
-}catch(error){
+}
+catch(error){
 
-console.error(error);
+console.error(
+"Error reiniciando:",
+error
+);
 
 mostrarMensaje(
-"❌ No se pudieron reiniciar las entradas.",
+"❌ Error reiniciando entradas:<br><br>" +
+(error.code || "") +
+"<br>" +
+(error.message || ""),
 "error"
 );
 
-}finally{
+}
+finally{
 
-reiniciar.disabled = false;
+boton.disabled = false;
 
-reiniciar.textContent =
+boton.textContent =
 "🔄 Reiniciar entradas del evento";
 
 }
 
-}
-);
+};
 
-/* ==========================================
-INICIAR
-========================================== */
 
-async function iniciar(){
+// ========================================
+// MENSAJES
+// ========================================
 
-try{
+function mostrarMensaje(
+texto,
+tipo
+){
 
-estadoConexion.textContent =
-"🔄 Conectando con Firebase...";
+const mensaje =
+document.getElementById("mensaje");
 
-await cargarEventos();
+mensaje.innerHTML =
+texto;
 
-estadoConexion.textContent =
-"🟢 Firebase conectado correctamente";
+mensaje.className =
+"mensaje " + tipo;
 
-estadoConexion.className =
-"estado exito";
-
-}catch(error){
-
-console.error(error);
-
-estadoConexion.textContent =
-"🔴 Error conectando con Firebase";
-
-estadoConexion.className =
-"estado error";
+mensaje.style.display =
+"block";
 
 }
 
-}
 
-iniciar();
+// ========================================
+// HACER DISPONIBLE PARA HTML
+// ========================================
+
+window.cargarEventos =
+cargarEventos;
+
+window.cargarEntradas =
+cargarEntradas;
 
 </script>
 
 </body>
 
-</htm
+</html>
